@@ -1,0 +1,1918 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "User 1",
+      "email": "user1@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=1",
+      "phone": "+51 900 000 001",
+      "city": "Lima, Perú",
+      "description": "Host description for user 1",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-01-20T00:00:00",
+      "updatedAt": "2025-03-03T00:00:00"
+    },
+    {
+      "id": "2",
+      "name": "User 2",
+      "email": "user2@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=2",
+      "phone": "+51 900 000 002",
+      "city": "Lima, Perú",
+      "description": "Host description for user 2",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-12-21T00:00:00",
+      "updatedAt": "2025-04-28T00:00:00"
+    },
+    {
+      "id": "3",
+      "name": "User 3",
+      "email": "user3@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=3",
+      "phone": "+51 900 000 003",
+      "city": "Lima, Perú",
+      "description": "Host description for user 3",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-06-05T00:00:00",
+      "updatedAt": "2024-10-10T00:00:00"
+    },
+    {
+      "id": "4",
+      "name": "User 4",
+      "email": "user4@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=4",
+      "phone": "+51 900 000 004",
+      "city": "Lima, Perú",
+      "description": "Host description for user 4",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-05-25T00:00:00",
+      "updatedAt": "2025-01-24T00:00:00"
+    },
+    {
+      "id": "5",
+      "name": "User 5",
+      "email": "user5@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=5",
+      "phone": "+51 900 000 005",
+      "city": "Lima, Perú",
+      "description": "Host description for user 5",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-03-11T00:00:00",
+      "updatedAt": "2024-07-19T00:00:00"
+    },
+    {
+      "id": "6",
+      "name": "User 6",
+      "email": "user6@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=6",
+      "phone": "+51 900 000 006",
+      "city": "Lima, Perú",
+      "description": "Host description for user 6",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-12-04T00:00:00",
+      "updatedAt": "2025-10-30T00:00:00"
+    },
+    {
+      "id": "7",
+      "name": "User 7",
+      "email": "user7@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=7",
+      "phone": "+51 900 000 007",
+      "city": "Lima, Perú",
+      "description": "Host description for user 7",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-11-01T00:00:00",
+      "updatedAt": "2025-02-06T00:00:00"
+    },
+    {
+      "id": "8",
+      "name": "User 8",
+      "email": "user8@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=8",
+      "phone": "+51 900 000 008",
+      "city": "Lima, Perú",
+      "description": "Host description for user 8",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-11-08T00:00:00",
+      "updatedAt": "2025-07-17T00:00:00"
+    },
+    {
+      "id": "9",
+      "name": "User 9",
+      "email": "user9@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=9",
+      "phone": "+51 900 000 009",
+      "city": "Lima, Perú",
+      "description": "Host description for user 9",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-01-06T00:00:00",
+      "updatedAt": "2025-01-16T00:00:00"
+    },
+    {
+      "id": "10",
+      "name": "User 10",
+      "email": "user10@example.com",
+      "password": "Eventify123!",
+      "role": "host",
+      "profileImage": "https://i.pravatar.cc/150?img=10",
+      "phone": "+51 900 000 010",
+      "city": "Lima, Perú",
+      "description": "Host description for user 10",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-07-30T00:00:00",
+      "updatedAt": "2025-07-14T00:00:00"
+    },
+    {
+      "id": "11",
+      "name": "User 11",
+      "email": "user11@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=11",
+      "phone": "+51 900 000 011",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 11",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-11-19T00:00:00",
+      "updatedAt": "2025-10-03T00:00:00"
+    },
+    {
+      "id": "12",
+      "name": "User 12",
+      "email": "user12@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=12",
+      "phone": "+51 900 000 012",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 12",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-01-01T00:00:00",
+      "updatedAt": "2024-09-08T00:00:00"
+    },
+    {
+      "id": "13",
+      "name": "User 13",
+      "email": "user13@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=13",
+      "phone": "+51 900 000 013",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 13",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-09-03T00:00:00",
+      "updatedAt": "2024-12-14T00:00:00"
+    },
+    {
+      "id": "14",
+      "name": "User 14",
+      "email": "user14@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=14",
+      "phone": "+51 900 000 014",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 14",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-04-26T00:00:00",
+      "updatedAt": "2025-06-28T00:00:00"
+    },
+    {
+      "id": "15",
+      "name": "User 15",
+      "email": "user15@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=15",
+      "phone": "+51 900 000 015",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 15",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-01-28T00:00:00",
+      "updatedAt": "2024-01-13T00:00:00"
+    },
+    {
+      "id": "16",
+      "name": "User 16",
+      "email": "user16@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=16",
+      "phone": "+51 900 000 016",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 16",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-12-13T00:00:00",
+      "updatedAt": "2025-12-23T00:00:00"
+    },
+    {
+      "id": "17",
+      "name": "User 17",
+      "email": "user17@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=17",
+      "phone": "+51 900 000 017",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 17",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-10-23T00:00:00",
+      "updatedAt": "2024-05-01T00:00:00"
+    },
+    {
+      "id": "18",
+      "name": "User 18",
+      "email": "user18@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=18",
+      "phone": "+51 900 000 018",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 18",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-04-20T00:00:00",
+      "updatedAt": "2024-08-15T00:00:00"
+    },
+    {
+      "id": "19",
+      "name": "User 19",
+      "email": "user19@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=19",
+      "phone": "+51 900 000 019",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 19",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2024-04-19T00:00:00",
+      "updatedAt": "2025-01-11T00:00:00"
+    },
+    {
+      "id": "20",
+      "name": "User 20",
+      "email": "user20@example.com",
+      "password": "Eventify123!",
+      "role": "organizer",
+      "profileImage": "https://i.pravatar.cc/150?img=20",
+      "phone": "+51 900 000 020",
+      "city": "Lima, Perú",
+      "description": "Organizer description for user 20",
+      "status": "active",
+      "emailVerified": true,
+      "createdAt": "2025-07-31T00:00:00",
+      "updatedAt": "2024-06-04T00:00:00"
+    },
+    {
+      "name": "Deybbi Crisanto",
+      "email": "dacc7056@gmail.com",
+      "password": "Dacc2003!",
+      "role": "host",
+      "id": "21"
+    },
+    {
+      "name": "Jhon Doe",
+      "email": "admin@eventify.com",
+      "password": "Admin123!",
+      "role": "organizer",
+      "id": "22"
+    },
+    {
+      "id": "fd34",
+      "name": "July Paico",
+      "email": "cuentasjuly16@gmail.com",
+      "password": "12345678",
+      "role": "organizer"
+    },
+    {
+      "id": "e254",
+      "name": "July Paico",
+      "email": "july16@gmail.com",
+      "password": "123456789",
+      "role": "organizer"
+    },
+    {
+      "id": "1b29",
+      "name": "JulyAnfitrion",
+      "email": "july.anfi@gmail.com",
+      "password": "123456789",
+      "role": "host"
+    },
+    {
+      "id": "10b4",
+      "name": "JulyOrganizador",
+      "email": "cuentasjuly162@gmail.com",
+      "password": "12345678",
+      "role": "organizer"
+    },
+    {
+      "name": "July Paico",
+      "email": "july26@gmail.com",
+      "password": "july123!",
+      "role": "organizer",
+      "id": "8wtMfJa"
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "title": "Event 1",
+      "customerName": "Customer 1",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2024-08-23T00:00:00",
+      "type": "Cumpleaños",
+      "guests": 193,
+      "budget": 7754,
+      "createdAt": "2025-10-28T00:00:00",
+      "updatedAt": "2025-11-30T00:00:00",
+      "ownerId": 13
+    },
+    {
+      "id": "2",
+      "title": "Event 2",
+      "customerName": "Customer 2",
+      "location": "Lima - Perú",
+      "status": "Activo",
+      "date": "2024-05-11T00:00:00",
+      "type": "Cumpleaños",
+      "guests": 61,
+      "budget": 46209,
+      "createdAt": "2024-04-07T00:00:00",
+      "updatedAt": "2024-11-24T00:00:00",
+      "ownerId": 13
+    },
+    {
+      "id": "3",
+      "title": "Event 3",
+      "customerName": "Customer 3",
+      "location": "Lima - Perú",
+      "status": "Pendiente",
+      "date": "2025-03-10T00:00:00",
+      "type": "Social",
+      "guests": 57,
+      "budget": 39539,
+      "createdAt": "2025-08-29T00:00:00",
+      "updatedAt": "2024-01-06T00:00:00",
+      "ownerId": 12
+    },
+    {
+      "id": "4",
+      "title": "Event 4",
+      "customerName": "Customer 4",
+      "location": "Lima - Perú",
+      "status": "Pendiente",
+      "date": "2024-05-27T00:00:00",
+      "type": "Social",
+      "guests": 228,
+      "budget": 3342,
+      "createdAt": "2025-10-17T00:00:00",
+      "updatedAt": "2025-08-26T00:00:00",
+      "ownerId": 7
+    },
+    {
+      "id": "5",
+      "title": "Event 5",
+      "customerName": "Customer 5",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-09-12T00:00:00",
+      "type": "Cumpleaños",
+      "guests": 163,
+      "budget": 41251,
+      "createdAt": "2025-07-30T00:00:00",
+      "updatedAt": "2024-03-10T00:00:00",
+      "ownerId": 13
+    },
+    {
+      "id": "6",
+      "title": "Event 6",
+      "customerName": "Customer 6",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2024-03-23T00:00:00",
+      "type": "Cumpleaños",
+      "guests": 190,
+      "budget": 41509,
+      "createdAt": "2024-12-30T00:00:00",
+      "updatedAt": "2025-02-05T00:00:00",
+      "ownerId": 2
+    },
+    {
+      "id": "7",
+      "title": "Event 7",
+      "customerName": "Customer 7",
+      "location": "Lima - Perú",
+      "status": "Pendiente",
+      "date": "2025-03-10T00:00:00",
+      "type": "Boda",
+      "guests": 289,
+      "budget": 8596,
+      "createdAt": "2025-08-26T00:00:00",
+      "updatedAt": "2025-10-04T00:00:00",
+      "ownerId": 6
+    },
+    {
+      "id": "8",
+      "title": "Event 8",
+      "customerName": "Customer 8",
+      "place": "Lima - Perú",
+      "status": "Pending",
+      "date": "2025-01-05",
+      "type": "Cumpleaños",
+      "guests": 49,
+      "budget": 39460,
+      "createdAt": "2024-05-31T00:00:00",
+      "updatedAt": "2025-05-28T00:00:00",
+      "ownerId": 17
+    },
+    {
+      "id": "9",
+      "title": "Event 9",
+      "customerName": "Customer 9",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-01-06T00:00:00",
+      "type": "Social",
+      "guests": 22,
+      "budget": 35182,
+      "createdAt": "2025-11-18T00:00:00",
+      "updatedAt": "2025-10-27T00:00:00",
+      "ownerId": 8
+    },
+    {
+      "id": "10",
+      "title": "Event 10",
+      "customerName": "Customer 10",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-10-25T00:00:00",
+      "type": "Corporativo",
+      "guests": 115,
+      "budget": 33992,
+      "createdAt": "2025-04-26T00:00:00",
+      "updatedAt": "2024-05-29T00:00:00",
+      "ownerId": 3
+    },
+    {
+      "id": "11",
+      "title": "Event 11",
+      "customerName": "Customer 11",
+      "location": "Lima - Perú",
+      "status": "Pendiente",
+      "date": "2025-07-30T00:00:00",
+      "type": "Cumpleaños",
+      "guests": 120,
+      "budget": 5474,
+      "createdAt": "2025-02-27T00:00:00",
+      "updatedAt": "2024-04-03T00:00:00",
+      "ownerId": 4
+    },
+    {
+      "id": "12",
+      "title": "Event 12",
+      "customerName": "Customer 12",
+      "location": "Lima - Perú",
+      "status": "Pendiente",
+      "date": "2025-11-01T00:00:00",
+      "type": "Boda",
+      "guests": 100,
+      "budget": 31849,
+      "createdAt": "2024-11-16T00:00:00",
+      "updatedAt": "2024-01-01T00:00:00",
+      "ownerId": 16
+    },
+    {
+      "id": "13",
+      "title": "Event 13",
+      "customerName": "Customer 13",
+      "location": "Lima - Perú",
+      "status": "Activo",
+      "date": "2025-07-13T00:00:00",
+      "type": "Cumpleaños",
+      "guests": 172,
+      "budget": 31845,
+      "createdAt": "2025-05-31T00:00:00",
+      "updatedAt": "2025-01-16T00:00:00",
+      "ownerId": 1
+    },
+    {
+      "id": "14",
+      "title": "Event 14",
+      "customerName": "Customer 14",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-07-11T00:00:00",
+      "type": "Corporativo",
+      "guests": 157,
+      "budget": 26158,
+      "createdAt": "2025-06-27T00:00:00",
+      "updatedAt": "2025-10-03T00:00:00",
+      "ownerId": 4
+    },
+    {
+      "id": "15",
+      "title": "Event 15",
+      "customerName": "Customer 15",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-12-13T00:00:00",
+      "type": "Corporativo",
+      "guests": 114,
+      "budget": 9059,
+      "createdAt": "2025-04-24T00:00:00",
+      "updatedAt": "2025-09-11T00:00:00",
+      "ownerId": 17
+    },
+    {
+      "id": "16",
+      "title": "Event 16",
+      "customerName": "Customer 16",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-11-02T00:00:00",
+      "type": "Boda",
+      "guests": 262,
+      "budget": 4655,
+      "createdAt": "2024-06-07T00:00:00",
+      "updatedAt": "2025-06-13T00:00:00",
+      "ownerId": 13
+    },
+    {
+      "id": "17",
+      "title": "Event 17",
+      "customerName": "Customer 17",
+      "location": "Lima - Perú",
+      "status": "Pendiente",
+      "date": "2025-06-16T00:00:00",
+      "type": "Corporativo",
+      "guests": 21,
+      "budget": 27285,
+      "createdAt": "2025-03-31T00:00:00",
+      "updatedAt": "2024-02-13T00:00:00",
+      "ownerId": 4
+    },
+    {
+      "id": "18",
+      "title": "Event 18",
+      "customerName": "Customer 18",
+      "location": "Lima - Perú",
+      "status": "Pendiente",
+      "date": "2025-11-02T00:00:00",
+      "type": "Boda",
+      "guests": 78,
+      "budget": 33982,
+      "createdAt": "2025-03-31T00:00:00",
+      "updatedAt": "2025-04-15T00:00:00",
+      "ownerId": 3
+    },
+    {
+      "id": "19",
+      "title": "Event 19",
+      "customerName": "Customer 19",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-11-25T00:00:00",
+      "type": "Social",
+      "guests": 20,
+      "budget": 22940,
+      "createdAt": "2024-02-07T00:00:00",
+      "updatedAt": "2024-03-18T00:00:00",
+      "ownerId": 11
+    },
+    {
+      "id": "20",
+      "title": "Event 20",
+      "customerName": "Customer 20",
+      "location": "Lima - Perú",
+      "status": "Cancelado",
+      "date": "2025-07-27T00:00:00",
+      "type": "Cumpleaños",
+      "guests": 86,
+      "budget": 30616,
+      "createdAt": "2024-01-31T00:00:00",
+      "updatedAt": "2024-08-23T00:00:00",
+      "ownerId": 4
+    },
+    {
+      "id": "a039",
+      "title": "Cumpleaños de Magaly",
+      "date": "2025-12-26",
+      "customerName": "Magaly",
+      "location": "Piura",
+      "status": "Active",
+      "userId": "10b4"
+    },
+    {
+      "id": "8e60",
+      "title": "Año nuevo",
+      "date": "2025-12-31",
+      "customerName": "July Paico",
+      "location": "Center Lima",
+      "status": "Pending",
+      "userId": "10b4"
+    },
+    {
+      "id": "227f",
+      "title": "event 1",
+      "date": "2025-11-16",
+      "customerName": "July Paico",
+      "location": "ddwd",
+      "status": "Cancelled",
+      "userId": "10b4"
+    },
+    {
+      "id": "b368",
+      "title": "Bautizo",
+      "date": "2025-11-18",
+      "customerName": "Ana Maria",
+      "location": "Convention Center",
+      "status": "Active",
+      "userId": "10b4"
+    },
+    {
+      "id": "0943",
+      "title": "Presentacion ",
+      "date": "2025-11-16",
+      "customerName": "Eventify",
+      "location": "UPC",
+      "status": "Active",
+      "userId": "10b4"
+    },
+    {
+      "id": "adc2",
+      "title": "Event 5",
+      "date": "2025-11-25",
+      "customerName": "Luisa",
+      "location": "Center locale Lima",
+      "status": "Cancelled",
+      "userId": "10b4"
+    }
+  ],
+  "organizers": [
+    {
+      "id": "org_1",
+      "name": "Organizer 1",
+      "specialty": "Event Specialist",
+      "rating": 4.9,
+      "completedEvents": 123,
+      "avatar": "https://i.pravatar.cc/150?img=21",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 1",
+      "priceRange": "$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_2",
+      "name": "Organizer 2",
+      "specialty": "Event Specialist",
+      "rating": 4.5,
+      "completedEvents": 51,
+      "avatar": "https://i.pravatar.cc/150?img=22",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 2",
+      "priceRange": "$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_3",
+      "name": "Organizer 3",
+      "specialty": "Event Specialist",
+      "rating": 4.4,
+      "completedEvents": 118,
+      "avatar": "https://i.pravatar.cc/150?img=23",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 3",
+      "priceRange": "$$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_4",
+      "name": "Organizer 4",
+      "specialty": "Event Specialist",
+      "rating": 4.1,
+      "completedEvents": 69,
+      "avatar": "https://i.pravatar.cc/150?img=24",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 4",
+      "priceRange": "$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_5",
+      "name": "Organizer 5",
+      "specialty": "Event Specialist",
+      "rating": 4.5,
+      "completedEvents": 20,
+      "avatar": "https://i.pravatar.cc/150?img=25",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 5",
+      "priceRange": "$$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_6",
+      "name": "Organizer 6",
+      "specialty": "Event Specialist",
+      "rating": 4.3,
+      "completedEvents": 164,
+      "avatar": "https://i.pravatar.cc/150?img=26",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 6",
+      "priceRange": "$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_7",
+      "name": "Organizer 7",
+      "specialty": "Event Specialist",
+      "rating": 4.7,
+      "completedEvents": 39,
+      "avatar": "https://i.pravatar.cc/150?img=27",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 7",
+      "priceRange": "$$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_8",
+      "name": "Organizer 8",
+      "specialty": "Event Specialist",
+      "rating": 4.4,
+      "completedEvents": 148,
+      "avatar": "https://i.pravatar.cc/150?img=28",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 8",
+      "priceRange": "$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_9",
+      "name": "Organizer 9",
+      "specialty": "Event Specialist",
+      "rating": 4.6,
+      "completedEvents": 57,
+      "avatar": "https://i.pravatar.cc/150?img=29",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 9",
+      "priceRange": "$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "org_10",
+      "name": "Organizer 10",
+      "specialty": "Event Specialist",
+      "rating": 4.7,
+      "completedEvents": 94,
+      "avatar": "https://i.pravatar.cc/150?img=30",
+      "location": "Lima, Perú",
+      "description": "Experienced organizer 10",
+      "priceRange": "$$$",
+      "languages": [
+        "Español",
+        "Inglés"
+      ],
+      "isPublic": true
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote_1",
+      "ownerId": 14,
+      "customerId": 10,
+      "state": "PENDING",
+      "subtotal": 2174,
+      "vat": 1600,
+      "total": 9489,
+      "currency": "S/.",
+      "createdAt": "2025-06-28T00:00:00",
+      "updatedAt": "2024-05-07T00:00:00",
+      "eventId": 18
+    },
+    {
+      "id": "quote_2",
+      "ownerId": 15,
+      "customerId": 6,
+      "state": "APPROVED",
+      "subtotal": 7790,
+      "vat": 548,
+      "total": 11174,
+      "currency": "S/.",
+      "createdAt": "2025-02-10T00:00:00",
+      "updatedAt": "2025-10-24T00:00:00",
+      "eventId": 18
+    },
+    {
+      "id": "quote_3",
+      "ownerId": 12,
+      "customerId": 4,
+      "state": "APPROVED",
+      "subtotal": 8966,
+      "vat": 748,
+      "total": 4370,
+      "currency": "S/.",
+      "createdAt": "2024-05-10T00:00:00",
+      "updatedAt": "2025-12-19T00:00:00",
+      "eventId": 11
+    },
+    {
+      "id": "quote_4",
+      "ownerId": 14,
+      "customerId": 8,
+      "state": "PENDING",
+      "subtotal": 1645,
+      "vat": 530,
+      "total": 12241,
+      "currency": "S/.",
+      "createdAt": "2025-09-01T00:00:00",
+      "updatedAt": "2024-12-23T00:00:00",
+      "eventId": 7
+    },
+    {
+      "id": "quote_5",
+      "ownerId": 16,
+      "customerId": 8,
+      "state": "DECLINED",
+      "subtotal": 5825,
+      "vat": 1792,
+      "total": 5576,
+      "currency": "S/.",
+      "createdAt": "2024-01-10T00:00:00",
+      "updatedAt": "2025-07-04T00:00:00",
+      "eventId": 3
+    },
+    {
+      "id": "quote_6",
+      "ownerId": 16,
+      "customerId": 4,
+      "state": "PENDING",
+      "subtotal": 3977,
+      "vat": 772,
+      "total": 3028,
+      "currency": "S/.",
+      "createdAt": "2025-10-24T00:00:00",
+      "updatedAt": "2024-04-16T00:00:00",
+      "eventId": 15
+    },
+    {
+      "id": "quote_7",
+      "ownerId": 15,
+      "customerId": 2,
+      "state": "APPROVED",
+      "subtotal": 7938,
+      "vat": 1231,
+      "total": 13259,
+      "currency": "S/.",
+      "createdAt": "2025-05-13T00:00:00",
+      "updatedAt": "2024-09-02T00:00:00",
+      "eventId": 9
+    },
+    {
+      "id": "quote_8",
+      "ownerId": 19,
+      "customerId": 1,
+      "state": "DECLINED",
+      "subtotal": 4722,
+      "vat": 1760,
+      "total": 2114,
+      "currency": "S/.",
+      "createdAt": "2024-12-13T00:00:00",
+      "updatedAt": "2024-01-17T00:00:00",
+      "eventId": 13
+    },
+    {
+      "id": "quote_9",
+      "ownerId": 14,
+      "customerId": 8,
+      "state": "APPROVED",
+      "subtotal": 1112,
+      "vat": 1533,
+      "total": 2403,
+      "currency": "S/.",
+      "createdAt": "2025-04-17T00:00:00",
+      "updatedAt": "2025-04-27T00:00:00",
+      "eventId": 20
+    },
+    {
+      "id": "quote_10",
+      "ownerId": 20,
+      "customerId": 9,
+      "state": "DECLINED",
+      "subtotal": 7443,
+      "vat": 1613,
+      "total": 3450,
+      "currency": "S/.",
+      "createdAt": "2025-01-12T00:00:00",
+      "updatedAt": "2025-09-10T00:00:00",
+      "eventId": 19
+    },
+    {
+      "id": "quote_11",
+      "ownerId": 15,
+      "customerId": 6,
+      "state": "APPROVED",
+      "subtotal": 9227,
+      "vat": 1173,
+      "total": 9978,
+      "currency": "S/.",
+      "createdAt": "2024-02-21T00:00:00",
+      "updatedAt": "2024-07-06T00:00:00",
+      "eventId": 8
+    },
+    {
+      "id": "quote_12",
+      "ownerId": 11,
+      "customerId": 5,
+      "state": "DECLINED",
+      "subtotal": 7179,
+      "vat": 1566,
+      "total": 2764,
+      "currency": "S/.",
+      "createdAt": "2025-07-15T00:00:00",
+      "updatedAt": "2025-06-10T00:00:00",
+      "eventId": 20
+    },
+    {
+      "id": "quote_13",
+      "ownerId": 16,
+      "customerId": 7,
+      "state": "APPROVED",
+      "subtotal": 5933,
+      "vat": 283,
+      "total": 8225,
+      "currency": "S/.",
+      "createdAt": "2024-03-22T00:00:00",
+      "updatedAt": "2024-11-30T00:00:00",
+      "eventId": 20
+    },
+    {
+      "id": "quote_14",
+      "ownerId": 13,
+      "customerId": 4,
+      "state": "APPROVED",
+      "subtotal": 8101,
+      "vat": 350,
+      "total": 6741,
+      "currency": "S/.",
+      "createdAt": "2024-08-02T00:00:00",
+      "updatedAt": "2025-04-07T00:00:00",
+      "eventId": 5
+    },
+    {
+      "id": "quote_15",
+      "ownerId": 16,
+      "customerId": 5,
+      "state": "APPROVED",
+      "subtotal": 5513,
+      "vat": 813,
+      "total": 13037,
+      "currency": "S/.",
+      "createdAt": "2025-03-03T00:00:00",
+      "updatedAt": "2025-06-17T00:00:00",
+      "eventId": 17
+    },
+    {
+      "id": "quote_16",
+      "ownerId": 12,
+      "customerId": 2,
+      "state": "PENDING",
+      "subtotal": 6357,
+      "vat": 1672,
+      "total": 4989,
+      "currency": "S/.",
+      "createdAt": "2025-12-31T00:00:00",
+      "updatedAt": "2025-12-12T00:00:00",
+      "eventId": 19
+    },
+    {
+      "id": "quote_17",
+      "ownerId": 16,
+      "customerId": 2,
+      "state": "DECLINED",
+      "subtotal": 1975,
+      "vat": 509,
+      "total": 3483,
+      "currency": "S/.",
+      "createdAt": "2024-11-01T00:00:00",
+      "updatedAt": "2024-12-16T00:00:00",
+      "eventId": 18
+    },
+    {
+      "id": "quote_18",
+      "ownerId": 12,
+      "customerId": 10,
+      "state": "DECLINED",
+      "subtotal": 7980,
+      "vat": 1126,
+      "total": 11933,
+      "currency": "S/.",
+      "createdAt": "2025-01-05T00:00:00",
+      "updatedAt": "2025-12-26T00:00:00",
+      "eventId": 5
+    },
+    {
+      "id": "quote_19",
+      "ownerId": 15,
+      "customerId": 10,
+      "state": "APPROVED",
+      "subtotal": 4448,
+      "vat": 685,
+      "total": 4726,
+      "currency": "S/.",
+      "createdAt": "2024-11-24T00:00:00",
+      "updatedAt": "2025-06-10T00:00:00",
+      "eventId": 1
+    },
+    {
+      "id": "quote_20",
+      "ownerId": 13,
+      "customerId": 1,
+      "state": "DECLINED",
+      "subtotal": 2995,
+      "vat": 1433,
+      "total": 9711,
+      "currency": "S/.",
+      "createdAt": "2024-09-02T00:00:00",
+      "updatedAt": "2025-09-01T00:00:00",
+      "eventId": 2
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Task 1",
+      "description": "Description for task 1",
+      "status": "in_progress",
+      "assignedTo": 20,
+      "dueDate": "2024-12-06T00:00:00"
+    },
+    {
+      "id": "2",
+      "title": "Task 2",
+      "description": "Description for task 2",
+      "status": "pending",
+      "assignedTo": 19,
+      "dueDate": "2024-03-30T00:00:00"
+    },
+    {
+      "id": "3",
+      "title": "Task 3",
+      "description": "Description for task 3",
+      "status": "in_progress",
+      "assignedTo": 15,
+      "dueDate": "2024-11-13T00:00:00"
+    },
+    {
+      "id": "4",
+      "title": "Task 4",
+      "description": "Description for task 4",
+      "status": "in_progress",
+      "assignedTo": 18,
+      "dueDate": "2025-09-18T00:00:00"
+    },
+    {
+      "id": "5",
+      "title": "Task 5",
+      "description": "Description for task 5",
+      "status": "pending",
+      "assignedTo": 16,
+      "dueDate": "2025-07-08T00:00:00"
+    },
+    {
+      "id": "6",
+      "title": "Task 6",
+      "description": "Description for task 6",
+      "status": "done",
+      "assignedTo": 15,
+      "dueDate": "2025-07-04T00:00:00"
+    },
+    {
+      "id": "7",
+      "title": "Task 7",
+      "description": "Description for task 7",
+      "status": "pending",
+      "assignedTo": 19,
+      "dueDate": "2025-07-27T00:00:00"
+    },
+    {
+      "id": "8",
+      "title": "Task 8",
+      "description": "Description for task 8",
+      "status": "done",
+      "assignedTo": 11,
+      "dueDate": "2024-03-22T00:00:00"
+    },
+    {
+      "id": "9",
+      "title": "Task 9",
+      "description": "Description for task 9",
+      "status": "in_progress",
+      "assignedTo": 11,
+      "dueDate": "2025-04-15T00:00:00"
+    },
+    {
+      "id": "10",
+      "title": "Task 10",
+      "description": "Description for task 10",
+      "status": "pending",
+      "assignedTo": 11,
+      "dueDate": "2025-01-26T00:00:00"
+    },
+    {
+      "id": "11",
+      "title": "Task 11",
+      "description": "Description for task 11",
+      "status": "pending",
+      "assignedTo": 20,
+      "dueDate": "2024-06-11T00:00:00"
+    },
+    {
+      "id": "12",
+      "title": "Task 12",
+      "description": "Description for task 12",
+      "status": "pending",
+      "assignedTo": 14,
+      "dueDate": "2025-01-13T00:00:00"
+    },
+    {
+      "id": "13",
+      "title": "Task 13",
+      "description": "Description for task 13",
+      "status": "done",
+      "assignedTo": 13,
+      "dueDate": "2025-10-16T00:00:00"
+    },
+    {
+      "id": "14",
+      "title": "Task 14",
+      "description": "Description for task 14",
+      "status": "pending",
+      "assignedTo": 20,
+      "dueDate": "2024-08-24T00:00:00"
+    },
+    {
+      "id": "15",
+      "title": "Task 15",
+      "description": "Description for task 15",
+      "status": "in_progress",
+      "assignedTo": 15,
+      "dueDate": "2024-08-14T00:00:00"
+    },
+    {
+      "id": "16",
+      "title": "Task 16",
+      "description": "Description for task 16",
+      "status": "in_progress",
+      "assignedTo": 16,
+      "dueDate": "2025-07-08T00:00:00"
+    },
+    {
+      "id": "17",
+      "title": "Task 17",
+      "description": "Description for task 17",
+      "status": "done",
+      "assignedTo": 18,
+      "dueDate": "2025-03-22T00:00:00"
+    },
+    {
+      "id": "18",
+      "title": "Task 18",
+      "description": "Description for task 18",
+      "status": "in_progress",
+      "assignedTo": 14,
+      "dueDate": "2025-01-19T00:00:00"
+    },
+    {
+      "id": "19",
+      "title": "Task 19",
+      "description": "Description for task 19",
+      "status": "in_progress",
+      "assignedTo": 17,
+      "dueDate": "2025-04-05T00:00:00"
+    },
+    {
+      "id": "20",
+      "title": "Task 20",
+      "description": "Description for task 20",
+      "status": "in_progress",
+      "assignedTo": 19,
+      "dueDate": "2024-11-16T00:00:00"
+    },
+    {
+      "id": "21",
+      "title": "Task 21",
+      "description": "Description for task 21",
+      "status": "in_progress",
+      "assignedTo": 14,
+      "dueDate": "2025-07-13T00:00:00"
+    },
+    {
+      "id": "22",
+      "title": "Task 22",
+      "description": "Description for task 22",
+      "status": "done",
+      "assignedTo": 17,
+      "dueDate": "2024-03-09T00:00:00"
+    },
+    {
+      "id": "23",
+      "title": "Task 23",
+      "description": "Description for task 23",
+      "status": "done",
+      "assignedTo": 14,
+      "dueDate": "2025-05-24T00:00:00"
+    },
+    {
+      "id": "24",
+      "title": "Task 24",
+      "description": "Description for task 24",
+      "status": "in_progress",
+      "assignedTo": 16,
+      "dueDate": "2024-09-29T00:00:00"
+    },
+    {
+      "id": "25",
+      "title": "Task 25",
+      "description": "Description for task 25",
+      "status": "in_progress",
+      "assignedTo": 17,
+      "dueDate": "2024-05-08T00:00:00"
+    },
+    {
+      "id": "26",
+      "title": "Task 26",
+      "description": "Description for task 26",
+      "status": "in_progress",
+      "assignedTo": 11,
+      "dueDate": "2024-09-21T00:00:00"
+    },
+    {
+      "id": "27",
+      "title": "Task 27",
+      "description": "Description for task 27",
+      "status": "pending",
+      "assignedTo": 18,
+      "dueDate": "2025-11-08T00:00:00"
+    },
+    {
+      "id": "28",
+      "title": "Task 28",
+      "description": "Description for task 28",
+      "status": "pending",
+      "assignedTo": 16,
+      "dueDate": "2024-01-09T00:00:00"
+    },
+    {
+      "id": "29",
+      "title": "Task 29",
+      "description": "Description for task 29",
+      "status": "pending",
+      "assignedTo": 17,
+      "dueDate": "2024-05-21T00:00:00"
+    },
+    {
+      "id": "30",
+      "title": "Task 30",
+      "description": "Description for task 30",
+      "status": "done",
+      "assignedTo": 11,
+      "dueDate": "2024-03-05T00:00:00"
+    },
+    {
+      "id": "31",
+      "title": "Task 31",
+      "description": "Description for task 31",
+      "status": "done",
+      "assignedTo": 20,
+      "dueDate": "2024-07-29T00:00:00"
+    },
+    {
+      "id": "32",
+      "title": "Task 32",
+      "description": "Description for task 32",
+      "status": "done",
+      "assignedTo": 17,
+      "dueDate": "2025-12-17T00:00:00"
+    },
+    {
+      "id": "33",
+      "title": "Task 33",
+      "description": "Description for task 33",
+      "status": "done",
+      "assignedTo": 15,
+      "dueDate": "2025-10-02T00:00:00"
+    },
+    {
+      "id": "34",
+      "title": "Task 34",
+      "description": "Description for task 34",
+      "status": "in_progress",
+      "assignedTo": 12,
+      "dueDate": "2025-12-14T00:00:00"
+    },
+    {
+      "id": "35",
+      "title": "Task 35",
+      "description": "Description for task 35",
+      "status": "pending",
+      "assignedTo": 20,
+      "dueDate": "2024-12-04T00:00:00"
+    },
+    {
+      "id": "36",
+      "title": "Task 36",
+      "description": "Description for task 36",
+      "status": "in_progress",
+      "assignedTo": 11,
+      "dueDate": "2025-06-22T00:00:00"
+    },
+    {
+      "id": "37",
+      "title": "Task 37",
+      "description": "Description for task 37",
+      "status": "done",
+      "assignedTo": 12,
+      "dueDate": "2024-03-16T00:00:00"
+    },
+    {
+      "id": "38",
+      "title": "Task 38",
+      "description": "Description for task 38",
+      "status": "pending",
+      "assignedTo": 16,
+      "dueDate": "2025-03-18T00:00:00"
+    },
+    {
+      "id": "39",
+      "title": "Task 39",
+      "description": "Description for task 39",
+      "status": "in_progress",
+      "assignedTo": 11,
+      "dueDate": "2025-02-02T00:00:00"
+    },
+    {
+      "id": "40",
+      "title": "Task 40",
+      "description": "Description for task 40",
+      "status": "pending",
+      "assignedTo": 11,
+      "dueDate": "2024-05-20T00:00:00"
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "sender": 14,
+      "receiver": 17,
+      "preview": "Message preview 1",
+      "time": "2025-02-09T00:00:00",
+      "content": "Full content of message 1"
+    },
+    {
+      "id": "msg_2",
+      "sender": 14,
+      "receiver": 12,
+      "preview": "Message preview 2",
+      "time": "2025-05-11T00:00:00",
+      "content": "Full content of message 2"
+    },
+    {
+      "id": "msg_3",
+      "sender": 8,
+      "receiver": 16,
+      "preview": "Message preview 3",
+      "time": "2025-11-10T00:00:00",
+      "content": "Full content of message 3"
+    },
+    {
+      "id": "msg_4",
+      "sender": 15,
+      "receiver": 16,
+      "preview": "Message preview 4",
+      "time": "2025-03-01T00:00:00",
+      "content": "Full content of message 4"
+    },
+    {
+      "id": "msg_5",
+      "sender": 5,
+      "receiver": 14,
+      "preview": "Message preview 5",
+      "time": "2024-01-16T00:00:00",
+      "content": "Full content of message 5"
+    },
+    {
+      "id": "msg_6",
+      "sender": 17,
+      "receiver": 15,
+      "preview": "Message preview 6",
+      "time": "2025-10-11T00:00:00",
+      "content": "Full content of message 6"
+    },
+    {
+      "id": "msg_7",
+      "sender": 15,
+      "receiver": 5,
+      "preview": "Message preview 7",
+      "time": "2024-05-31T00:00:00",
+      "content": "Full content of message 7"
+    },
+    {
+      "id": "msg_8",
+      "sender": 5,
+      "receiver": 17,
+      "preview": "Message preview 8",
+      "time": "2024-02-02T00:00:00",
+      "content": "Full content of message 8"
+    },
+    {
+      "id": "msg_9",
+      "sender": 5,
+      "receiver": 11,
+      "preview": "Message preview 9",
+      "time": "2025-08-19T00:00:00",
+      "content": "Full content of message 9"
+    },
+    {
+      "id": "msg_10",
+      "sender": 18,
+      "receiver": 7,
+      "preview": "Message preview 10",
+      "time": "2025-06-13T00:00:00",
+      "content": "Full content of message 10"
+    },
+    {
+      "id": "msg_11",
+      "sender": 13,
+      "receiver": 2,
+      "preview": "Message preview 11",
+      "time": "2025-03-12T00:00:00",
+      "content": "Full content of message 11"
+    },
+    {
+      "id": "msg_12",
+      "sender": 12,
+      "receiver": 16,
+      "preview": "Message preview 12",
+      "time": "2025-11-24T00:00:00",
+      "content": "Full content of message 12"
+    },
+    {
+      "id": "msg_13",
+      "sender": 5,
+      "receiver": 4,
+      "preview": "Message preview 13",
+      "time": "2025-01-12T00:00:00",
+      "content": "Full content of message 13"
+    },
+    {
+      "id": "msg_14",
+      "sender": 1,
+      "receiver": 19,
+      "preview": "Message preview 14",
+      "time": "2024-04-29T00:00:00",
+      "content": "Full content of message 14"
+    },
+    {
+      "id": "msg_15",
+      "sender": 10,
+      "receiver": 5,
+      "preview": "Message preview 15",
+      "time": "2025-07-15T00:00:00",
+      "content": "Full content of message 15"
+    },
+    {
+      "id": "msg_16",
+      "sender": 17,
+      "receiver": 7,
+      "preview": "Message preview 16",
+      "time": "2024-10-24T00:00:00",
+      "content": "Full content of message 16"
+    },
+    {
+      "id": "msg_17",
+      "sender": 17,
+      "receiver": 12,
+      "preview": "Message preview 17",
+      "time": "2025-05-29T00:00:00",
+      "content": "Full content of message 17"
+    },
+    {
+      "id": "msg_18",
+      "sender": 12,
+      "receiver": 10,
+      "preview": "Message preview 18",
+      "time": "2024-10-19T00:00:00",
+      "content": "Full content of message 18"
+    },
+    {
+      "id": "msg_19",
+      "sender": 2,
+      "receiver": 14,
+      "preview": "Message preview 19",
+      "time": "2024-11-05T00:00:00",
+      "content": "Full content of message 19"
+    },
+    {
+      "id": "msg_20",
+      "sender": 3,
+      "receiver": 2,
+      "preview": "Message preview 20",
+      "time": "2025-06-24T00:00:00",
+      "content": "Full content of message 20"
+    },
+    {
+      "id": "msg_21",
+      "sender": 3,
+      "receiver": 16,
+      "preview": "Message preview 21",
+      "time": "2024-05-11T00:00:00",
+      "content": "Full content of message 21"
+    },
+    {
+      "id": "msg_22",
+      "sender": 4,
+      "receiver": 16,
+      "preview": "Message preview 22",
+      "time": "2024-08-20T00:00:00",
+      "content": "Full content of message 22"
+    },
+    {
+      "id": "msg_23",
+      "sender": 1,
+      "receiver": 2,
+      "preview": "Message preview 23",
+      "time": "2025-07-05T00:00:00",
+      "content": "Full content of message 23"
+    },
+    {
+      "id": "msg_24",
+      "sender": 13,
+      "receiver": 7,
+      "preview": "Message preview 24",
+      "time": "2025-07-30T00:00:00",
+      "content": "Full content of message 24"
+    },
+    {
+      "id": "msg_25",
+      "sender": 3,
+      "receiver": 5,
+      "preview": "Message preview 25",
+      "time": "2024-07-31T00:00:00",
+      "content": "Full content of message 25"
+    },
+    {
+      "id": "msg_26",
+      "sender": 10,
+      "receiver": 20,
+      "preview": "Message preview 26",
+      "time": "2025-02-22T00:00:00",
+      "content": "Full content of message 26"
+    },
+    {
+      "id": "msg_27",
+      "sender": 13,
+      "receiver": 2,
+      "preview": "Message preview 27",
+      "time": "2024-03-27T00:00:00",
+      "content": "Full content of message 27"
+    },
+    {
+      "id": "msg_28",
+      "sender": 7,
+      "receiver": 11,
+      "preview": "Message preview 28",
+      "time": "2024-12-21T00:00:00",
+      "content": "Full content of message 28"
+    },
+    {
+      "id": "msg_29",
+      "sender": 16,
+      "receiver": 3,
+      "preview": "Message preview 29",
+      "time": "2025-10-10T00:00:00",
+      "content": "Full content of message 29"
+    },
+    {
+      "id": "msg_30",
+      "sender": 16,
+      "receiver": 14,
+      "preview": "Message preview 30",
+      "time": "2024-09-24T00:00:00",
+      "content": "Full content of message 30"
+    },
+    {
+      "id": "msg_31",
+      "sender": 18,
+      "receiver": 15,
+      "preview": "Message preview 31",
+      "time": "2025-01-25T00:00:00",
+      "content": "Full content of message 31"
+    },
+    {
+      "id": "msg_32",
+      "sender": 2,
+      "receiver": 13,
+      "preview": "Message preview 32",
+      "time": "2024-04-10T00:00:00",
+      "content": "Full content of message 32"
+    },
+    {
+      "id": "msg_33",
+      "sender": 7,
+      "receiver": 18,
+      "preview": "Message preview 33",
+      "time": "2025-09-06T00:00:00",
+      "content": "Full content of message 33"
+    },
+    {
+      "id": "msg_34",
+      "sender": 13,
+      "receiver": 11,
+      "preview": "Message preview 34",
+      "time": "2025-05-09T00:00:00",
+      "content": "Full content of message 34"
+    },
+    {
+      "id": "msg_35",
+      "sender": 6,
+      "receiver": 4,
+      "preview": "Message preview 35",
+      "time": "2024-12-22T00:00:00",
+      "content": "Full content of message 35"
+    },
+    {
+      "id": "msg_36",
+      "sender": 14,
+      "receiver": 18,
+      "preview": "Message preview 36",
+      "time": "2025-09-29T00:00:00",
+      "content": "Full content of message 36"
+    },
+    {
+      "id": "msg_37",
+      "sender": 18,
+      "receiver": 12,
+      "preview": "Message preview 37",
+      "time": "2024-11-29T00:00:00",
+      "content": "Full content of message 37"
+    },
+    {
+      "id": "msg_38",
+      "sender": 19,
+      "receiver": 16,
+      "preview": "Message preview 38",
+      "time": "2025-01-21T00:00:00",
+      "content": "Full content of message 38"
+    },
+    {
+      "id": "msg_39",
+      "sender": 14,
+      "receiver": 15,
+      "preview": "Message preview 39",
+      "time": "2025-05-31T00:00:00",
+      "content": "Full content of message 39"
+    },
+    {
+      "id": "msg_40",
+      "sender": 4,
+      "receiver": 9,
+      "preview": "Message preview 40",
+      "time": "2025-05-15T00:00:00",
+      "content": "Full content of message 40"
+    },
+    {
+      "id": "msg_41",
+      "sender": 11,
+      "receiver": 1,
+      "preview": "Message preview 41",
+      "time": "2025-04-17T00:00:00",
+      "content": "Full content of message 41"
+    },
+    {
+      "id": "msg_42",
+      "sender": 6,
+      "receiver": 16,
+      "preview": "Message preview 42",
+      "time": "2025-08-23T00:00:00",
+      "content": "Full content of message 42"
+    },
+    {
+      "id": "msg_43",
+      "sender": 2,
+      "receiver": 17,
+      "preview": "Message preview 43",
+      "time": "2025-12-14T00:00:00",
+      "content": "Full content of message 43"
+    },
+    {
+      "id": "msg_44",
+      "sender": 10,
+      "receiver": 7,
+      "preview": "Message preview 44",
+      "time": "2024-07-22T00:00:00",
+      "content": "Full content of message 44"
+    },
+    {
+      "id": "msg_45",
+      "sender": 7,
+      "receiver": 4,
+      "preview": "Message preview 45",
+      "time": "2024-10-11T00:00:00",
+      "content": "Full content of message 45"
+    },
+    {
+      "id": "msg_46",
+      "sender": 14,
+      "receiver": 3,
+      "preview": "Message preview 46",
+      "time": "2024-07-11T00:00:00",
+      "content": "Full content of message 46"
+    },
+    {
+      "id": "msg_47",
+      "sender": 2,
+      "receiver": 3,
+      "preview": "Message preview 47",
+      "time": "2025-04-03T00:00:00",
+      "content": "Full content of message 47"
+    },
+    {
+      "id": "msg_48",
+      "sender": 15,
+      "receiver": 4,
+      "preview": "Message preview 48",
+      "time": "2025-10-11T00:00:00",
+      "content": "Full content of message 48"
+    },
+    {
+      "id": "msg_49",
+      "sender": 15,
+      "receiver": 2,
+      "preview": "Message preview 49",
+      "time": "2025-08-24T00:00:00",
+      "content": "Full content of message 49"
+    },
+    {
+      "id": "msg_50",
+      "sender": 16,
+      "receiver": 9,
+      "preview": "Message preview 50",
+      "time": "2024-03-01T00:00:00",
+      "content": "Full content of message 50"
+    },
+    {
+      "id": "msg_51",
+      "sender": 19,
+      "receiver": 8,
+      "preview": "Message preview 51",
+      "time": "2024-05-16T00:00:00",
+      "content": "Full content of message 51"
+    },
+    {
+      "id": "msg_52",
+      "sender": 4,
+      "receiver": 16,
+      "preview": "Message preview 52",
+      "time": "2025-01-30T00:00:00",
+      "content": "Full content of message 52"
+    },
+    {
+      "id": "msg_53",
+      "sender": 19,
+      "receiver": 10,
+      "preview": "Message preview 53",
+      "time": "2025-04-13T00:00:00",
+      "content": "Full content of message 53"
+    },
+    {
+      "id": "msg_54",
+      "sender": 7,
+      "receiver": 8,
+      "preview": "Message preview 54",
+      "time": "2025-04-11T00:00:00",
+      "content": "Full content of message 54"
+    },
+    {
+      "id": "msg_55",
+      "sender": 20,
+      "receiver": 9,
+      "preview": "Message preview 55",
+      "time": "2025-09-26T00:00:00",
+      "content": "Full content of message 55"
+    },
+    {
+      "id": "msg_56",
+      "sender": 2,
+      "receiver": 15,
+      "preview": "Message preview 56",
+      "time": "2024-06-26T00:00:00",
+      "content": "Full content of message 56"
+    },
+    {
+      "id": "msg_57",
+      "sender": 1,
+      "receiver": 16,
+      "preview": "Message preview 57",
+      "time": "2025-05-06T00:00:00",
+      "content": "Full content of message 57"
+    },
+    {
+      "id": "msg_58",
+      "sender": 2,
+      "receiver": 2,
+      "preview": "Message preview 58",
+      "time": "2025-12-26T00:00:00",
+      "content": "Full content of message 58"
+    },
+    {
+      "id": "msg_59",
+      "sender": 9,
+      "receiver": 14,
+      "preview": "Message preview 59",
+      "time": "2024-02-11T00:00:00",
+      "content": "Full content of message 59"
+    },
+    {
+      "id": "msg_60",
+      "sender": 19,
+      "receiver": 17,
+      "preview": "Message preview 60",
+      "time": "2024-09-20T00:00:00",
+      "content": "Full content of message 60"
+    }
+  ],
+  "notifications": []
+}

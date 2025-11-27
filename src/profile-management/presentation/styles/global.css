@@ -1,0 +1,60 @@
+.mat-spacer {
+  flex: 1 1 auto;
+}
+
+a {
+  text-decoration: none;
+  font-size: 16px;
+  margin-right: 24px;
+  color: #3A506B;
+  position: relative;
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #6FFFE9;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #6FFFE9;
+  transition: width 0.3s ease-in-out;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+.logo {
+  color: #3A506B;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+mat-toolbar {
+  background-color: white;
+  color: #3A506B;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0 24px;
+}
+
+button {
+  background-color: #6FFFE9;
+  color: #3A506B;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3A506B;
+  color: white;
+}

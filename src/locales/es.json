@@ -1,0 +1,707 @@
+{
+  "header": {
+    "dashboard": "Panel",
+    "events": "Eventos",
+    "task": "Tareas",
+    "quotes": "Cotizaciones",
+    "messages": "Mensajes",
+    "profile": "Perfil",
+    "albums": "Álbumes",
+    "chat": "Chat"
+  },
+  "common": {
+    "settings": "Configuración",
+    "language": "Idioma",
+    "goHome": "Ir al inicio",
+    "goBack": "Regresar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "loading": "Cargando...",
+    "actions": "Acciones",
+    "viewDetails": "Ver detalles",
+    "noData": "No hay datos disponibles",
+    "back": "Atrás",
+    "cancel": "Cancelar",
+    "warning": "Advertencia",
+    "add": "Agregar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "error": "Error",
+    "info": "Información",
+    "backToList": "Volver a la lista",
+    "success": "Éxito"
+  },
+  "errors": {
+    "pageNotFound": "Página no encontrada",
+    "pageNotFoundDescription": "La página que buscas no existe o ha sido movida.",
+    "fetchError": "Ocurrió un error al obtener los datos.",
+    "saveError": "Ocurrió un error al guardar.",
+    "deleteError": "Ocurrió un error al eliminar."
+  },
+  "profile": {
+    "title": "Perfil del Organizador",
+    "editTitle": "Editar Perfil del Organizador",
+    "description": "Gestiona tu información personal y profesional.",
+    "name": "Nombre",
+    "specialty": "Especialidad",
+    "location": "Ubicación",
+    "about": "Sobre mí",
+    "editProfileButton": "Editar perfil",
+    "updateSuccess": "Perfil actualizado con éxito",
+    "updateError": "Error al actualizar el perfil",
+    "noDescription": "Este organizador aún no tiene descripción.",
+    "loading": "Cargando información del perfil...",
+    "roles": {
+      "host": "Anfitrión",
+      "organizer": "Organizador",
+      "admin": "Administrador"
+    },
+    "actions": {
+      "editProfile": "Editar perfil",
+      "manageQuotes": "Gestionar cotizaciones",
+      "logout": "Cerrar sesión",
+      "viewAllQuotes": "Ver todas las cotizaciones",
+      "viewQuote": "Ver detalles",
+      "settings": "Configuración",
+      "addService": "Agregar servicio",
+      "createAlbum": "Crear álbum"
+    },
+    "sections": {
+      "contactInfo": "Información de contacto",
+      "preferences": "Preferencias de evento",
+      "recentEvents": "Eventos recientes",
+      "recentOrganizers": "Organizadores recientes",
+      "quotes": "Cotizaciones",
+      "personalInfo": "Información personal",
+      "description": "Descripción",
+      "social": "Redes sociales",
+      "services": "Servicios ofrecidos",
+      "albums": "Mis álbumes"
+    },
+    "hostMetrics": {
+      "totalQuotes": "Total de cotizaciones",
+      "totalQuotesSubtitle": "Solicitudes enviadas",
+      "pendingQuotes": "Cotizaciones pendientes",
+      "pendingQuotesSubtitle": "Esperando tu decisión",
+      "approvedQuotes": "Cotizaciones aprobadas",
+      "approvedQuotesSubtitle": "Organizadores listos para trabajar",
+      "declinedQuotes": "Cotizaciones rechazadas",
+      "declinedQuotesSubtitle": "Solicitudes descartadas"
+    },
+    "columns": {
+      "organizer": "Organizador",
+      "event": "Evento",
+      "date": "Fecha",
+      "amount": "Monto",
+      "state": "Estado",
+      "actions": "Acciones"
+    },
+    "tabs": {
+      "information": "Información",
+      "services": "Servicios",
+      "albums": "Álbumes",
+      "reviews": "Reseñas"
+    },
+    "labels": {
+      "name": "Nombre",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "city": "Ciudad",
+      "photos": "fotos"
+    },
+    "empty": {
+      "preferences": "Aún no has seleccionado preferencias.",
+      "events": "No tienes eventos recientes.",
+      "organizers": "Aún no has trabajado con organizadores.",
+      "quotes": "Aún no has solicitado cotizaciones.",
+      "services": "Aún no has agregado servicios.",
+      "albums": "Aún no tienes álbumes.",
+      "reviews": "No hay reseñas disponibles.",
+      "description": "Sin descripción.",
+      "notProvided": "No proporcionado"
+    },
+    "eventStates": {
+      "active": "Activo",
+      "pending": "Pendiente",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    }
+  },
+
+  "host-profile": {
+    "title": "Mi Perfil",
+    "editTitle": "Editar Mi Perfil",
+    "description": "Gestiona tu información personal y tus preferencias de eventos.",
+    "name": "Nombre",
+    "specialty": "Especialidad",
+    "location": "Ubicación",
+    "about": "Sobre mí",
+    "editProfileButton": "Editar perfil",
+    "updateSuccess": "Perfil actualizado con éxito",
+    "updateError": "Error al actualizar perfil",
+    "noDescription": "Este anfitrión no ha agregado descripción.",
+    "loading": "Cargando información del perfil...",
+    "roles": {
+      "host": "Anfitrión",
+      "organizer": "Organizador",
+      "admin": "Administrador"
+    },
+    "actions": {
+      "editProfile": "Editar perfil",
+      "manageQuotes": "Gestionar cotizaciones",
+      "logout": "Cerrar sesión",
+      "viewAllQuotes": "Ver todas",
+      "viewQuote": "Ver detalles",
+      "settings": "Configuración",
+      "addService": "Solicitar cotización",
+      "createAlbum": "Crear álbum"
+    },
+    "sections": {
+      "contactInfo": "Información de contacto",
+      "preferences": "Preferencias",
+      "recentEvents": "Eventos recientes",
+      "recentOrganizers": "Organizadores recientes",
+      "quotes": "Cotizaciones",
+      "personalInfo": "Información personal",
+      "description": "Descripción",
+      "social": "Redes sociales",
+      "services": "Servicios ofrecidos",
+      "albums": "Mis álbumes"
+    },
+    "hostMetrics": {
+      "totalQuotes": "Total de cotizaciones",
+      "totalQuotesSubtitle": "Solicitudes enviadas",
+      "pendingQuotes": "Pendientes",
+      "pendingQuotesSubtitle": "Esperando tu decisión",
+      "approvedQuotes": "Aprobadas",
+      "approvedQuotesSubtitle": "Organizadores listos",
+      "declinedQuotes": "Rechazadas",
+      "declinedQuotesSubtitle": "Solicitudes descartadas"
+    },
+    "columns": {
+      "organizer": "Organizador",
+      "event": "Evento",
+      "date": "Fecha",
+      "amount": "Monto",
+      "state": "Estado",
+      "actions": "Acciones"
+    },
+    "tabs": {
+      "information": "Información",
+      "services": "Servicios",
+      "albums": "Álbumes",
+      "reviews": "Reseñas"
+    },
+    "labels": {
+      "name": "Nombre completo",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "city": "Ciudad",
+      "photos": "fotos"
+    },
+    "empty": {
+      "preferences": "No has seleccionado preferencias.",
+      "events": "No tienes eventos recientes.",
+      "organizers": "No has trabajado con organizadores.",
+      "quotes": "No has solicitado cotizaciones.",
+      "services": "No has agregado servicios.",
+      "albums": "No tienes álbumes.",
+      "reviews": "No hay reseñas disponibles.",
+      "description": "Sin descripción."
+    }
+  },
+
+  "albums": {
+    "title": "Álbumes",
+    "createTitle": "Crear Álbum",
+    "editTitle": "Editar Álbum",
+    "detailsTitle": "Detalles del Álbum",
+    "emptyMessage": "Este organizador no tiene álbumes aún.",
+    "createButton": "Crear Álbum",
+    "editButton": "Editar",
+    "deleteButton": "Eliminar",
+    "albumName": "Nombre del álbum",
+    "albumDescription": "Descripción del álbum",
+    "coverImage": "Imagen de portada",
+    "saveSuccess": "Álbum guardado con éxito",
+    "deleteSuccess": "Álbum eliminado con éxito",
+    "noDescription": "Sin descripción"
+  },
+
+  "chat": {
+    "title": "Chat con clientes",
+    "emptyMessage": "No hay conversaciones activas.",
+    "sendMessage": "Enviar mensaje",
+    "placeholder": "Escribe tu mensaje...",
+    "messageSent": "Mensaje enviado con éxito",
+    "messageError": "Error al enviar el mensaje"
+  },
+
+  "eventManagement": {
+    "pageTitle": "Gestión de Eventos",
+    "location": "Lugar",
+    "customer": "Cliente",
+    "edit": "Editar",
+    "editEvent": "Editar Evento",
+    "createEvent": "Crear Evento",
+    "guests": "Invitados",
+    "tabs": {
+      "events": "Mis Eventos",
+      "approvedQuotes": "De Cotizaciones Aprobadas"
+    },
+    "actions": {
+      "selectAll": "Seleccionar todo",
+      "deleteSelected": "Eliminar seleccionados ({count})",
+      "search": "Buscar eventos...",
+      "newEvent": "Nuevo evento",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "edit": "Editar"
+    },
+    "filters": {
+      "all": "Todos los estados",
+      "active": "Activo",
+      "pending": "Pendiente",
+      "cancelled": "Cancelado"
+    },
+    "sort": {
+      "recent": "Más reciente",
+      "oldest": "Más antiguo",
+      "title": "Por título"
+    },
+    "pagination": {
+      "showing": "Mostrando",
+      "of": "de",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "confirmation": {
+      "title": "Confirmar eliminación",
+      "message": "¿Estás seguro de eliminar {count} evento(s)? Esta acción no se puede deshacer."
+    },
+    "messages": {
+      "noEvents": "No hay eventos disponibles",
+      "forbiddenEvent": "No tienes permiso para modificar este evento."
+    },
+    "status": {
+      "active": "Activo",
+      "pending": "Pendiente",
+      "cancelled": "Cancelado"
+    },
+    "labels": {
+      "customer": "Cliente",
+      "location": "Lugar"
+    }
+  },
+
+  "quotes": {
+    "page": {
+      "title": "Cotizaciones",
+      "subtitle": "Gestiona todas tus cotizaciones"
+    },
+    "list": {
+      "searchPlaceholder": "Buscar cotizaciones...",
+      "filterAll": "Todas",
+      "sortRecent": "Más recientes",
+      "newQuote": "Nueva cotización",
+      "customer": "Cliente",
+      "event": "Evento",
+      "date": "Fecha",
+      "amount": "Monto",
+      "state": "Estado",
+      "actions": "Acciones",
+      "view": "Ver",
+      "edit": "Editar",
+      "noQuotes": "No hay cotizaciones",
+      "title": "Mis cotizaciones",
+      "empty": "No hay cotizaciones disponibles",
+      "filter": "Filtrar por estado",
+      "search": "Buscar cotización",
+      "allStates": "Todos los estados",
+      "noResults": "Sin resultados"
+    },
+
+    "filters": {
+      "all": "Todas",
+      "approved": "Aprobadas",
+      "pending": "Pendientes",
+      "declined": "Rechazadas",
+      "draft": "Borradores"
+    },
+
+    "sort": {
+      "recent": "Más recientes",
+      "oldest": "Más antiguas",
+      "amountHigh": "Mayor monto",
+      "amountLow": "Menor monto"
+    },
+
+    "states": {
+      "draft": "Borrador",
+      "pending": "Pendiente",
+      "approved": "Aprobada",
+      "declined": "Rechazada",
+      "expired": "Expirada"
+    },
+
+    "form": {
+      "createTitle": "Crear nueva cotización",
+      "editTitle": "Editar cotización",
+      "basicInfo": "Información básica",
+      "customer": "Cliente",
+      "customerPlaceholder": "Nombre del cliente",
+      "eventType": "Tipo de evento",
+      "selectType": "Seleccionar tipo",
+      "eventDate": "Fecha del evento",
+      "datePlaceholder": "DD/MM/AAAA",
+      "numberOfGuests": "Número de invitados",
+      "guestsPlaceholder": "Cantidad",
+      "location": "Ubicación",
+      "locationPlaceholder": "Lugar del evento",
+      "eventName": "Nombre del evento",
+      "eventDescription": "Descripción del evento"
+    },
+
+    "services": {
+      "title": "Servicios incluidos",
+      "addService": "Agregar servicio",
+      "addNewService": "Agregar nuevo servicio",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Nombre del servicio",
+      "quantity": "Cantidad",
+      "unitPrice": "Precio unitario",
+      "total": "Total",
+      "noServices": "No hay servicios agregados",
+      "services": "servicios",
+      "removeService": "Eliminar servicio"
+    },
+
+    "financial": {
+      "title": "Resumen financiero",
+      "subtotal": "Subtotal",
+      "vat": "IGV",
+      "total": "Total",
+      "services": "servicios",
+      "paymentTerms": "Condiciones de pago: 50% adelantado, 50% al finalizar",
+      "currency": "Moneda",
+      "discount": "Descuento",
+      "finalTotal": "Total final"
+    },
+
+    "actions": {
+      "title": "Acciones",
+      "save": "Guardar",
+      "preview": "Vista previa",
+      "send": "Enviar",
+      "cancel": "Cancelar",
+      "currentState": "Estado actual",
+      "lastUpdate": "Última actualización",
+      "approve": "Aprobar",
+      "decline": "Rechazar",
+      "requestQuote": "Solicitar cotización",
+      "downloadPDF": "Descargar PDF",
+      "share": "Compartir",
+      "print": "Imprimir"
+    },
+
+    "preview": {
+      "title": "Vista previa",
+      "quotation": "Cotización",
+      "for": "PARA",
+      "event": "EVENTO",
+      "date": "Fecha",
+      "location": "Ubicación",
+      "guests": "Invitados",
+      "tel": "Tel",
+      "editAgain": "Editar nuevamente",
+      "saveAndSend": "Guardar y enviar"
+    },
+
+    "detail": {
+      "title": "Detalle de cotización",
+      "information": "Información",
+      "organizer": "Organizador",
+      "created": "Creado",
+      "lastUpdate": "Última actualización",
+      "quoteId": "ID de cotización",
+      "notFound": "Cotización no encontrada",
+      "status": "Estado",
+      "metadata": "Información adicional",
+      "notFoundMessage": "No encontramos la cotización solicitada."
+    },
+
+    "messages": {
+      "loadedSuccessfully": "Cotizaciones cargadas con éxito",
+      "loadError": "No se pudieron cargar las cotizaciones. Inténtalo nuevamente.",
+      "createdSuccessfully": "Cotización creada con éxito",
+      "createError": "No se pudo crear la cotización",
+      "updatedSuccessfully": "Cotización actualizada con éxito",
+      "updateError": "No se pudo actualizar la cotización",
+      "deletedSuccessfully": "Cotización eliminada con éxito",
+      "deleteError": "No se pudo eliminar la cotización",
+      "invalidData": "Datos inválidos",
+      "requiredFields": "Completa todos los campos obligatorios",
+      "sentSuccessfully": "Cotización enviada",
+      "sendError": "No se pudo enviar la cotización",
+      "stateApproved": "Cotización aprobada",
+      "stateDeclined": "Cotización rechazada",
+      "stateChangeError": "Error al actualizar el estado",
+      "forbiddenQuote": "No tienes permiso para ver esta cotización",
+      "deleteSuccess": "Cotización eliminada",
+      "updateSuccess": "Cotización actualizada"
+    }
+  },
+
+  "messages": {
+    "title": "Mensajes",
+    "subtitle": "Comunícate con clientes y organizadores",
+    "searchPlaceholder": "Buscar conversaciones...",
+    "newMessage": "Nuevo mensaje",
+    "noConversations": "Sin conversaciones",
+    "startConversation": "Inicia una conversación con tus contactos",
+    "typeMessage": "Escribe un mensaje...",
+    "send": "Enviar",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "typing": "Escribiendo...",
+    "messageSent": "Mensaje enviado",
+    "messageError": "Error al enviar el mensaje",
+    "loadingMessages": "Cargando mensajes..."
+  },
+
+  "tasks": {
+    "title": "Tareas",
+    "pending": "Pendientes",
+    "in_progress": "En progreso",
+    "done": "Completadas",
+    "status": {
+      "todo": "Por hacer",
+      "inprogress": "En progreso",
+      "done": "Hecho",
+      "cancelled": "Cancelada"
+    }
+  },
+
+  "auth": {
+    "email": "Correo",
+    "password": "Contraseña",
+    "rememberMe": "Recordarme en este dispositivo",
+    "loginButton": "Iniciar sesión",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes cuenta?",
+    "registerHere": "Regístrate aquí",
+    "securePassword": "Crea una contraseña segura",
+    "minChars": "Mínimo 8 caracteres",
+    "confirmPassword": "Confirmar contraseña",
+    "roleQuestion": "¿Qué tipo de cuenta necesitas?",
+    "roleHost": "Anfitrión",
+    "roleOrganizer": "Organizador",
+    "agreeTerms": "Acepto los",
+    "terms": "términos y condiciones",
+    "and": "y",
+    "privacyPolicy": "política de privacidad",
+    "registerButton": "Crear cuenta",
+    "alreadyAccount": "¿Ya tienes cuenta?",
+    "loginHere": "Inicia sesión aquí",
+    "errorPasswordMismatch": "Las contraseñas no coinciden",
+    "errorPasswordLength": "La contraseña debe tener al menos 8 caracteres",
+    "errorAcceptTerms": "Debes aceptar los términos y condiciones",
+    "errorLogin": "Correo o contraseña incorrectos",
+    "errorAccountInactive": "La cuenta está inactiva",
+    "errorEmailRegistered": "El correo ya está registrado",
+    "successLogin": "Inicio de sesión exitoso",
+    "successRegister": "Cuenta creada con éxito",
+    "signOut": "Cerrar sesión",
+    "loginTitle": "Iniciar sesión",
+    "loginSubtitle": "Accede a tu cuenta eventify",
+    "registerTitle": "Crear cuenta",
+    "registerSubtitle": "Únete a la comunidad eventify",
+    "emailPlaceholder": "tu email",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "confirmPasswordPlaceholder": "Confirma tu contraseña",
+    "fullName": "Nombre completo",
+    "fullNamePlaceholder": "Juan Pérez",
+    "selectRole": "Selecciona tu rol",
+    "roleHostDescription": "Busco organizadores para mis eventos",
+    "roleOrganizerDescription": "Ofrezco servicios de organización de eventos",
+    "welcomeBack": "Hola {name}, ¡qué bueno verte nuevamente!",
+    "welcomeHost": "¡Bienvenido {name}! Encuentra organizadores para tus eventos",
+    "welcomeOrganizer": "¡Bienvenido {name}! Administra tus cotizaciones y eventos",
+    "errorFieldsRequired": "Completa todos los campos obligatorios",
+    "errorNameLength": "El nombre debe tener al menos 3 caracteres",
+    "errorInvalidEmail": "Ingrese un correo válido",
+    "errorCheckFields": "Revisa los campos marcados",
+    "errorInvalidCredentials": "Credenciales inválidas",
+    "errorEmailExists": "Este correo ya está registrado",
+    "errorNetwork": "Error de conexión",
+    "passwordHint": "Mínimo 8 caracteres, incluye letras y números"
+  },
+
+  "dashboard": {
+    "welcome": "Bienvenido, {user}",
+    "activitySummary": "Tu resumen de actividad",
+    "seeAll": "Ver todo",
+    "viewAll": "Ver todo",
+    "user": {
+      "defaultName": "Usuario"
+    },
+    "metrics": {
+      "activeEvents": {
+        "title": "Eventos activos",
+        "subtitle": "{count} eventos esta semana"
+      },
+      "pendingTasks": {
+        "title": "Tareas pendientes",
+        "subtitle": "{count} para hoy"
+      },
+      "quotes": {
+        "title": "Cotizaciones",
+        "subtitle": "{count} nuevas esta semana"
+      }
+    },
+    "recentMessages": {
+      "title": "Mensajes recientes",
+      "seeAll": "Ver todo",
+      "empty": "No hay mensajes recientes"
+    },
+    "messages": {
+      "loadError": "No pudimos cargar el panel. Inténtalo de nuevo."
+    },
+    "host": {
+      "welcome": "Bienvenido, {name}",
+      "subtitle": "Encuentra el organizador perfecto para tu evento",
+      "hero": {
+        "mainTitle": "Encuentra el organizador perfecto para tu evento.",
+        "searchPlaceholder": "Buscar por nombre, tipo de evento, ubicación...",
+        "filters": "Filtros",
+        "typeOfEvent": "Tipo de evento",
+        "classification": "Clasificación"
+      },
+      "filters": {
+        "allTypes": "Todos los tipos de evento",
+        "allClassifications": "Todas las clasificaciones",
+        "classifications": {
+          "premium": "Premium",
+          "verified": "Verificado",
+          "new": "Nuevo"
+        }
+      },
+      "sidebar": {
+        "searchOrganizers": "Buscar organizadores",
+        "myEvents": "Mis eventos",
+        "quotes": "Cotizaciones",
+        "messages": "Mensajes",
+        "reviews": "Reseñas",
+        "profile": "Perfil",
+        "settings": "Configuración"
+      },
+      "organizerBrowser": {
+        "viewProfile": "Ver perfil",
+        "empty": "No se encontraron organizadores con tu búsqueda",
+        "allCategories": "Todas las categorías"
+      },
+      "organizerDialog": {
+        "requestQuote": "Solicitar cotización",
+        "sendMessage": "Enviar mensaje",
+        "tabs": {
+          "information": "Información",
+          "services": "Servicios",
+          "albums": "Álbumes",
+          "reviews": "Reseñas"
+        },
+        "aboutTitle": "Sobre {name}",
+        "specialties": "Especialidades",
+        "experience": "Experiencia",
+        "eventifyOrganizer": "Organizador Eventify",
+        "present": "2019 - Presente",
+        "experienceDescription": "Organizador profesional con {count} eventos realizados. Especializado en crear experiencias memorables adaptadas a cada cliente.",
+        "certifications": "Certificaciones",
+        "servicesOffered": "Servicios ofrecidos",
+        "noServices": "No hay servicios disponibles por ahora.",
+        "priceRange": "Rango de precios",
+        "noAlbums": "Pronto habrá álbumes disponibles.",
+        "featuredReviews": "Reseñas destacadas",
+        "sampleReview": "Servicio excepcional y atención al detalle. El organizador superó las expectativas.",
+        "verifiedClient": "Cliente verificado, marzo 2025",
+        "noReviews": "Aún no hay reseñas."
+      },
+      "pagination": {
+        "label": "Página {page} de {total}"
+      },
+      "organizerBrowserMessages": {
+        "unableToNavigateQuotes": "No se puede acceder a cotizaciones por ahora",
+        "featureComingSoon": "Función disponible próximamente"
+      }
+    },
+    "organizer": {
+      "welcome": "Bienvenido, {name}"
+    }
+  },
+
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Gestiona tus preferencias de cuenta",
+    "account": "Cuenta",
+    "accountName": "Nombre de la cuenta",
+    "accountEmail": "Correo electrónico",
+    "accountPhone": "Número telefónico",
+    "security": "Seguridad",
+    "changePassword": "Cambiar contraseña",
+    "twoFactor": "Autenticación en dos pasos",
+    "enabled": "Activado",
+    "disabled": "Desactivado",
+    "enable": "Activar",
+    "preferences": "Preferencias",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "emailNotifications": "Notificaciones por correo",
+    "pushNotifications": "Notificaciones push",
+    "theme": "Tema",
+    "lightMode": "Modo claro",
+    "darkMode": "Modo oscuro",
+    "privacy": "Privacidad",
+    "profileVisibility": "Visibilidad del perfil",
+    "public": "Público",
+    "private": "Privado",
+    "dataExport": "Exportar mis datos",
+    "deleteAccount": "Eliminar cuenta",
+    "save": "Guardar cambios",
+    "cancel": "Cancelar",
+    "successUpdate": "Configuración actualizada con éxito"
+  },
+
+  "notifications": {
+    "title": "Notificaciones",
+    "subtitle": "Mantente al día con tus actividades",
+    "markAllRead": "Marcar todo como leído",
+    "clearAll": "Limpiar todo",
+    "noNotifications": "No hay notificaciones",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "older": "Más antiguas",
+    "types": {
+      "event": "Evento",
+      "task": "Tarea",
+      "message": "Mensaje",
+      "quote": "Cotización",
+      "system": "Sistema"
+    }
+  },
+
+  "events": {
+    "types": {
+      "boda": "Boda",
+      "social": "Evento social",
+      "cumpleaños": "Cumpleaños",
+      "corporativo": "Corporativo",
+      "wedding": "Boda",
+      "baby_shower": "Baby Shower",
+      "birthday": "Cumpleaños",
+      "conference": "Conferencia",
+      "other": "Evento"
+    }
+  }
+}

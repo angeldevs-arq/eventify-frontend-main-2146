@@ -1,0 +1,680 @@
+{
+  "header": {
+    "dashboard": "Dashboard",
+    "events": "Events",
+    "task": "Tasks",
+    "quotes": "Quotes",
+    "messages": "Messages",
+    "profile": "Profile",
+    "albums": "Albums",
+    "chat": "Chat"
+  },
+  "common": {
+    "settings": "Settings",
+    "language": "Language",
+    "goHome": "Go home",
+    "goBack": "Go back",
+    "create": "Create",
+    "update": "Update",
+    "loading": "Loading...",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "noData": "No data available",
+    "back": "Back",
+    "cancel": "Cancel",
+    "warning": "Warning",
+    "add": "Add",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "error": "Error",
+    "info": "Information",
+    "backToList": "Back to list",
+    "success": "Success"
+  },
+  "errors": {
+    "pageNotFound": "Page not found",
+    "pageNotFoundDescription": "The page you're looking for doesn't exist or has been moved.",
+    "fetchError": "An error occurred while fetching data.",
+    "saveError": "An error occurred while saving.",
+    "deleteError": "An error occurred while deleting."
+  },
+  "profile": {
+    "title": "Organizer Profile",
+    "editTitle": "Edit Organizer Profile",
+    "description": "Manage your personal and professional information.",
+    "name": "Name",
+    "specialty": "Specialty",
+    "location": "Location",
+    "about": "About Me",
+    "editProfileButton": "Edit Profile",
+    "updateSuccess": "Profile updated successfully",
+    "updateError": "Error updating profile",
+    "noDescription": "This organizer has no description yet.",
+    "loading": "Loading profile information...",
+    "roles": {
+      "host": "Host",
+      "organizer": "Organizer",
+      "admin": "Administrator"
+    },
+    "actions": {
+      "editProfile": "Edit profile",
+      "manageQuotes": "Manage quotes",
+      "logout": "Log out",
+      "viewAllQuotes": "View all quotes",
+      "viewQuote": "View details",
+      "settings": "Settings",
+      "addService": "Add service",
+      "createAlbum": "Create album"
+    },
+    "sections": {
+      "contactInfo": "Contact info",
+      "preferences": "Event preferences",
+      "recentEvents": "Recent events",
+      "recentOrganizers": "Recent organizers",
+      "quotes": "Quotes",
+      "personalInfo": "Personal information",
+      "description": "Description",
+      "social": "Social networks",
+      "services": "Offered services",
+      "albums": "My albums"
+    },
+    "hostMetrics": {
+      "totalQuotes": "Total quotes",
+      "totalQuotesSubtitle": "Requests sent",
+      "pendingQuotes": "Pending quotes",
+      "pendingQuotesSubtitle": "Waiting for your decision",
+      "approvedQuotes": "Approved quotes",
+      "approvedQuotesSubtitle": "Organizers ready to work",
+      "declinedQuotes": "Declined quotes",
+      "declinedQuotesSubtitle": "Requests dismissed"
+    },
+    "columns": {
+      "organizer": "Organizer",
+      "event": "Event",
+      "date": "Date",
+      "amount": "Amount",
+      "state": "State",
+      "actions": "Actions"
+    },
+    "tabs": {
+      "information": "Information",
+      "services": "Services",
+      "albums": "Albums",
+      "reviews": "Reviews"
+    },
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "city": "City",
+      "photos": "photos"
+    },
+    "empty": {
+      "preferences": "You haven't selected preferences yet.",
+      "events": "You don't have recent events yet.",
+      "organizers": "You haven't worked with any organizer yet.",
+      "quotes": "You haven't requested quotes yet.",
+      "services": "You haven't added services yet.",
+      "albums": "You don't have albums yet.",
+      "reviews": "There are no reviews available.",
+      "description": "No description available.",
+      "notProvided": "Not provided"
+    },
+    "eventStates": {
+      "active": "Active",
+      "pending": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "host-profile": {
+    "title": "My Profile",
+    "editTitle": "Edit My Profile",
+    "description": "Manage your personal information and event preferences.",
+    "name": "Name",
+    "specialty": "Specialty",
+    "location": "Location",
+    "about": "About me",
+    "editProfileButton": "Edit Profile",
+    "updateSuccess": "Profile updated successfully",
+    "updateError": "Error updating profile",
+    "noDescription": "This host hasn't added a description yet.",
+    "loading": "Loading profile information...",
+    "roles": {
+      "host": "Host",
+      "organizer": "Organizer",
+      "admin": "Administrator"
+    },
+    "actions": {
+      "editProfile": "Edit Profile",
+      "manageQuotes": "Manage Quotes",
+      "logout": "Logout",
+      "viewAllQuotes": "View All",
+      "viewQuote": "View Details",
+      "settings": "Settings",
+      "addService": "Request Quote",
+      "createAlbum": "Create Album"
+    },
+    "sections": {
+      "contactInfo": "Contact Information",
+      "preferences": "Event Preferences",
+      "recentEvents": "Recent Events",
+      "recentOrganizers": "Recent Organizers",
+      "quotes": "Quotes",
+      "personalInfo": "Personal Information",
+      "description": "Description",
+      "social": "Social Networks",
+      "services": "Services Offered",
+      "albums": "My Albums"
+    },
+    "hostMetrics": {
+      "totalQuotes": "Total Quotes",
+      "totalQuotesSubtitle": "Requests Sent",
+      "pendingQuotes": "Pending Quotes",
+      "pendingQuotesSubtitle": "Waiting for your decision",
+      "approvedQuotes": "Approved Quotes",
+      "approvedQuotesSubtitle": "Organizers ready to work",
+      "declinedQuotes": "Declined Quotes",
+      "declinedQuotesSubtitle": "Discarded requests"
+    },
+    "columns": {
+      "organizer": "Organizer",
+      "event": "Event",
+      "date": "Date",
+      "amount": "Amount",
+      "state": "Status",
+      "actions": "Actions"
+    },
+    "tabs": {
+      "information": "Information",
+      "services": "Services",
+      "albums": "Albums",
+      "reviews": "Reviews"
+    },
+    "labels": {
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "city": "City",
+      "photos": "photos"
+    },
+    "empty": {
+      "preferences": "You haven't selected any preferences yet.",
+      "events": "You don't have any recent events yet.",
+      "organizers": "You haven't worked with any organizers yet.",
+      "quotes": "You haven't requested any quotes yet.",
+      "services": "You haven't added any services yet.",
+      "albums": "You don't have any albums yet.",
+      "reviews": "No reviews available.",
+      "description": "No description available."
+    }
+  },
+  "albums": {
+    "title": "Albums",
+    "createTitle": "Create Album",
+    "editTitle": "Edit Album",
+    "detailsTitle": "Album Details",
+    "emptyMessage": "This organizer doesn't have any albums yet.",
+    "createButton": "Create Album",
+    "editButton": "Edit",
+    "deleteButton": "Delete",
+    "albumName": "Album Name",
+    "albumDescription": "Album Description",
+    "coverImage": "Cover Image",
+    "saveSuccess": "Album saved successfully",
+    "deleteSuccess": "Album deleted successfully",
+    "noDescription": "No description"
+  },
+  "chat": {
+    "title": "Chat with Clients",
+    "emptyMessage": "No active conversations.",
+    "sendMessage": "Send Message",
+    "placeholder": "Type your message...",
+    "messageSent": "Message sent successfully",
+    "messageError": "Failed to send message"
+  },
+  "eventManagement": {
+    "pageTitle": "Event Management",
+    "location": "Location",
+    "customer": "Customer",
+    "edit": "Edit",
+    "editEvent": "Edit Event",
+    "createEvent": "Create Event",
+    "guests": "Guests",
+    "tabs": {
+      "events": "My Events",
+      "approvedQuotes": "From Approved Quotes"
+    },
+    "actions": {
+      "selectAll": "Select all",
+      "deleteSelected": "Delete selected ({count})",
+      "search": "Search events...",
+      "newEvent": "New Event",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "filters": {
+      "all": "All statuses",
+      "active": "Active",
+      "pending": "Pending",
+      "cancelled": "Cancelled"
+    },
+    "sort": {
+      "recent": "Most recent",
+      "oldest": "Oldest",
+      "title": "By title"
+    },
+    "pagination": {
+      "showing": "Showing",
+      "of": "of",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "confirmation": {
+      "title": "Confirm deletion",
+      "message": "Are you sure you want to delete {count} event(s)? This action cannot be undone."
+    },
+    "messages": {
+      "noEvents": "No events available",
+      "forbiddenEvent": "You don't have permission to modify this event."
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "cancelled": "Cancelled"
+    }
+  },
+  "quotes": {
+    "page": {
+      "title": "Quotes",
+      "subtitle": "Manage all your event quotes"
+    },
+    "list": {
+      "searchPlaceholder": "Search quotes...",
+      "filterAll": "All",
+      "sortRecent": "Most recent",
+      "newQuote": "New Quote",
+      "customer": "Customer",
+      "event": "Event",
+      "date": "Date",
+      "amount": "Amount",
+      "state": "State",
+      "actions": "Actions",
+      "view": "View",
+      "edit": "Edit",
+      "noQuotes": "No quotes available",
+      "title": "My Quotes",
+      "empty": "No quotes available",
+      "filter": "Filter by status",
+      "search": "Search quote",
+      "allStates": "All statuses",
+      "noResults": "No results found"
+    },
+    "filters": {
+      "all": "All",
+      "approved": "Approved",
+      "pending": "Pending",
+      "declined": "Declined",
+      "draft": "Drafts"
+    },
+    "sort": {
+      "recent": "Most recent",
+      "oldest": "Oldest",
+      "amountHigh": "Highest amount",
+      "amountLow": "Lowest amount"
+    },
+    "states": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "approved": "Approved",
+      "declined": "Declined",
+      "expired": "Expired"
+    },
+    "form": {
+      "createTitle": "Create New Quote",
+      "editTitle": "Edit Quote",
+      "basicInfo": "Basic Information",
+      "customer": "Customer",
+      "customerPlaceholder": "Customer name",
+      "eventType": "Event Type",
+      "selectType": "Select type",
+      "eventDate": "Event Date",
+      "datePlaceholder": "MM/DD/YYYY",
+      "numberOfGuests": "Number of Guests",
+      "guestsPlaceholder": "Quantity",
+      "location": "Location",
+      "locationPlaceholder": "Event venue",
+      "eventName": "Event Name",
+      "eventDescription": "Event Description"
+    },
+    "services": {
+      "title": "Included Services",
+      "addService": "Add Service",
+      "addNewService": "Add New Service",
+      "description": "Description",
+      "descriptionPlaceholder": "Service name",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "total": "Total",
+      "noServices": "No services added",
+      "services": "services",
+      "removeService": "Remove Service"
+    },
+    "financial": {
+      "title": "Financial Summary",
+      "subtotal": "Subtotal",
+      "vat": "VAT",
+      "total": "Total",
+      "services": "services",
+      "paymentTerms": "Payment terms: 50% upfront, 50% upon completion",
+      "currency": "Currency",
+      "discount": "Discount",
+      "finalTotal": "Final Total"
+    },
+    "actions": {
+      "title": "Actions",
+      "save": "Save",
+      "preview": "Preview",
+      "send": "Send",
+      "cancel": "Cancel",
+      "currentState": "Current state",
+      "lastUpdate": "Last update",
+      "approve": "Approve",
+      "decline": "Decline",
+      "requestQuote": "Request Quote",
+      "downloadPDF": "Download PDF",
+      "share": "Share",
+      "print": "Print"
+    },
+    "preview": {
+      "title": "Quote Preview",
+      "quotation": "Quotation",
+      "for": "FOR",
+      "event": "EVENT",
+      "date": "Date",
+      "location": "Location",
+      "guests": "Guests",
+      "tel": "Tel",
+      "editAgain": "Edit Again",
+      "saveAndSend": "Save and Send"
+    },
+    "detail": {
+      "title": "Quote detail",
+      "information": "Information",
+      "organizer": "Organizer",
+      "created": "Created",
+      "lastUpdate": "Last update",
+      "quoteId": "Quote ID",
+      "notFound": "Quote not found",
+      "status": "Status",
+      "metadata": "Additional Information",
+      "notFoundMessage": "We cannot find the quote you're looking for."
+    },
+    "messages": {
+      "loadedSuccessfully": "Quotes loaded successfully",
+      "loadError": "Unable to load quotes. Please try again.",
+      "createdSuccessfully": "Quote created successfully",
+      "createError": "Unable to create quote. Please try again.",
+      "updatedSuccessfully": "Quote updated successfully",
+      "updateError": "Unable to update quote. Please try again.",
+      "deletedSuccessfully": "Quote deleted successfully",
+      "deleteError": "Unable to delete quote. Please try again.",
+      "invalidData": "Quote data is invalid.",
+      "requiredFields": "Please complete all required fields.",
+      "sentSuccessfully": "Quote sent successfully",
+      "sendError": "Could not send quote",
+      "stateApproved": "Quote approved",
+      "stateDeclined": "Quote declined",
+      "stateChangeError": "Error updating state",
+      "forbiddenQuote": "You do not have permission to view this quote",
+      "deleteSuccess": "Quote deleted successfully",
+      "updateSuccess": "Quote updated successfully"
+    }
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communicate with your clients and organizers",
+    "searchPlaceholder": "Search conversations...",
+    "newMessage": "New Message",
+    "noConversations": "No conversations",
+    "startConversation": "Start a conversation with your contacts",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "online": "Online",
+    "offline": "Offline",
+    "typing": "Typing...",
+    "messageSent": "Message sent",
+    "messageError": "Error sending message",
+    "loadingMessages": "Loading messages..."
+  },
+  "tasks": {
+    "title": "Tasks",
+    "pending": "Pending",
+    "in_progress": "In progress",
+    "done": "Completed",
+    "status": {
+      "todo": "To Do",
+      "inprogress": "In Progress",
+      "done": "Done",
+      "cancelled": "Cancelled"
+    }
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me on this device",
+    "loginButton": "Sign In",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "registerHere": "Register here",
+    "securePassword": "Create a secure password",
+    "minChars": "Minimum 8 characters",
+    "confirmPassword": "Confirm Password",
+    "roleQuestion": "Which account type do you need?",
+    "roleHost": "Host",
+    "roleOrganizer": "Organizer",
+    "agreeTerms": "I agree to the",
+    "terms": "terms and conditions",
+    "and": "and",
+    "privacyPolicy": "privacy policy",
+    "registerButton": "Create Account",
+    "alreadyAccount": "Already have an account?",
+    "loginHere": "Sign in here",
+    "errorPasswordMismatch": "Passwords do not match",
+    "errorPasswordLength": "Password must be at least 8 characters",
+    "errorAcceptTerms": "You must accept the terms and conditions",
+    "errorLogin": "Incorrect email or password",
+    "errorAccountInactive": "Account is inactive",
+    "errorEmailRegistered": "Email is already registered",
+    "successLogin": "Login successful",
+    "successRegister": "Account created successfully",
+    "signOut": "Sign Out",
+    "loginTitle": "Sign In",
+    "loginSubtitle": "Access your eventify account",
+    "registerTitle": "Create Account",
+    "registerSubtitle": "Join the eventify community",
+    "emailPlaceholder": "you email",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "John Doe",
+    "selectRole": "Select your role",
+    "roleHostDescription": "I'm looking for organizers for my events",
+    "roleOrganizerDescription": "I offer event organization services",
+    "welcomeBack": "Hello {name}, great to see you again",
+    "welcomeHost": "Welcome {name}! Start finding perfect organizers for your events",
+    "welcomeOrganizer": "Welcome {name}! Start managing your quotes and events",
+    "errorFieldsRequired": "Please fill in all required fields",
+    "errorNameLength": "Name must be at least 3 characters",
+    "errorInvalidEmail": "Please enter a valid email address",
+    "errorCheckFields": "Please check the fields marked in red",
+    "errorInvalidCredentials": "Invalid email or password",
+    "errorEmailExists": "This email is already registered",
+    "errorNetwork": "Connection error. Please check your internet",
+    "passwordHint": "Minimum 8 characters, include letters and numbers"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {user}",
+    "activitySummary": "Your activity summary",
+    "seeAll": "See all",
+    "viewAll": "View all",
+    "user": {
+      "defaultName": "User"
+    },
+    "metrics": {
+      "activeEvents": {
+        "title": "Active Events",
+        "subtitle": "{count} events this week"
+      },
+      "pendingTasks": {
+        "title": "Pending Tasks",
+        "subtitle": "{count} due today"
+      },
+      "quotes": {
+        "title": "Quotes",
+        "subtitle": "{count} new this week"
+      }
+    },
+    "recentMessages": {
+      "title": "Recent Messages",
+      "seeAll": "See all",
+      "empty": "No recent messages"
+    },
+    "messages": {
+      "loadError": "We couldn't load the dashboard. Please try again."
+    },
+    "host": {
+      "welcome": "Welcome, {name}",
+      "subtitle": "Find the perfect organizer for your event",
+      "hero": {
+        "mainTitle": "Find the perfect organizer for your event.",
+        "searchPlaceholder": "Search by name, event type, location...",
+        "filters": "Filters",
+        "typeOfEvent": "Type of event",
+        "classification": "Classification"
+      },
+      "filters": {
+        "allTypes": "All event types",
+        "allClassifications": "All classifications",
+        "classifications": {
+          "premium": "Premium",
+          "verified": "Verified",
+          "new": "New"
+        }
+      },
+      "sidebar": {
+        "searchOrganizers": "Search Organizers",
+        "myEvents": "My Events",
+        "quotes": "Quotes",
+        "messages": "Messages",
+        "reviews": "Reviews",
+        "profile": "Profile",
+        "settings": "Settings"
+      },
+      "organizerBrowser": {
+        "viewProfile": "View profile",
+        "empty": "No organizers found matching your search criteria",
+        "allCategories": "All Categories"
+      },
+      "organizerDialog": {
+        "requestQuote": "Request Quote",
+        "sendMessage": "Send Message",
+        "tabs": {
+          "information": "Information",
+          "services": "Services",
+          "albums": "Albums",
+          "reviews": "Reviews"
+        },
+        "aboutTitle": "About {name}",
+        "specialties": "Specialties",
+        "experience": "Experience",
+        "eventifyOrganizer": "Eventify Organizer",
+        "present": "2019 - Present",
+        "experienceDescription": "Professional event organizer with {count} completed events. Specialized in creating memorable experiences tailored to each client's unique vision.",
+        "certifications": "Certifications",
+        "servicesOffered": "Services Offered",
+        "noServices": "No services information available at the moment.",
+        "priceRange": "Price Range",
+        "noAlbums": "Photo albums will be available soon.",
+        "featuredReviews": "Featured Reviews",
+        "sampleReview": "Outstanding service and attention to detail. The organizer exceeded all expectations and made our event truly unforgettable.",
+        "verifiedClient": "Verified Client, March 2025",
+        "noReviews": "No reviews available yet."
+      },
+      "pagination": {
+        "label": "Page {page} of {total}"
+      },
+      "organizerBrowserMessages": {
+        "unableToNavigateQuotes": "Unable to navigate to quotes at this time",
+        "featureComingSoon": "This feature will be available soon"
+      }
+    },
+    "organizer": {
+      "welcome": "Welcome, {name}"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account preferences",
+    "account": "Account",
+    "accountName": "Account Name",
+    "accountEmail": "Email Address",
+    "accountPhone": "Phone Number",
+    "security": "Security",
+    "changePassword": "Change Password",
+    "twoFactor": "Two-Factor Authentication",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "enable": "Enable",
+    "preferences": "Preferences",
+    "language": "Language",
+    "notifications": "Notifications",
+    "emailNotifications": "Email Notifications",
+    "pushNotifications": "Push Notifications",
+    "theme": "Theme",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "privacy": "Privacy",
+    "profileVisibility": "Profile Visibility",
+    "public": "Public",
+    "private": "Private",
+    "dataExport": "Export My Data",
+    "deleteAccount": "Delete Account",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "successUpdate": "Settings updated successfully"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Stay updated with your activities",
+    "markAllRead": "Mark all as read",
+    "clearAll": "Clear all",
+    "noNotifications": "No notifications",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "older": "Older",
+    "types": {
+      "event": "Event",
+      "task": "Task",
+      "message": "Message",
+      "quote": "Quote",
+      "system": "System"
+    }
+  },
+  "events": {
+    "types": {
+      "boda": "Wedding",
+      "social": "Social event",
+      "cumpleaños": "Birthday",
+      "corporativo": "Corporate",
+      "wedding": "Wedding",
+      "baby_shower": "Baby Shower",
+      "birthday": "Birthday",
+      "conference": "Conference",
+      "other": "Event"
+    }
+  }
+}
