@@ -7,7 +7,7 @@ import axios from 'axios';
 
 // Crear instancia de Axios
 const apiClient = axios.create({
-  baseURL: 'https://data-jaon-eventify.onrender.com',
+  baseURL: 'https://data-jaon-eventgo.onrender.com',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
