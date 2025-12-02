@@ -1,8 +1,10 @@
 import apiClient from '@/shared/infrastructure/http/axios.config.js';
 
 export class ProfileApiService {
-  static ENDPOINT = '/organizers';
-  static USERS_ENDPOINT = '/users';
+  //static ENDPOINT = '/organizers';
+  static ENDPOINT = '/api/v1/profiles';
+  //static USERS_ENDPOINT = '/users';
+  static USERS_ENDPOINT = '/api/v1/profiles';
 
   // Obtener todos los perfiles
   static async getAll() {
@@ -44,6 +46,17 @@ export class ProfileApiService {
 
     try {
       const response = await apiClient.put(`${endpoint}/${id}`, profileData);
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  static async updateProfile(id, profileData) {
+
+
+    try {
+      const response = await apiClient.put(`/api/v1/profiles/${id}`, profileData);
       return response.data;
     } catch (error) {
       throw this.handleError(error);

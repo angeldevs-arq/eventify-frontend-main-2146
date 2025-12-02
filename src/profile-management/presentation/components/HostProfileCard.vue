@@ -6,14 +6,15 @@
     <!-- Avatar y Nombre -->
     <div class="profile-header">
       <Avatar
-        :label="userInitials"
+
+        :image="user.profileImageUrl"
         size="xlarge"
         :style="{ backgroundColor: '#5BC0BE', color: '#fff' }"
         shape="circle"
       />
       <div class="profile-info">
-        <h1 class="profile-name">{{ user?.name || 'Usuario' }}</h1>
-        <p class="profile-role">{{ $t('host-profile.roles.host') }}</p>
+        <h1 class="profile-name">{{ user?.firstName + ' ' + user?.lastName  || 'Usuario' }}</h1>
+        <p class="profile-role">HOST</p>
       </div>
     </div>
 

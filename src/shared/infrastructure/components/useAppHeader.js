@@ -64,7 +64,7 @@ export const useAppHeader = () => {
   const profileRoute = computed(() => {
     if (!user.value || !user.value.role) return '/login'
 
-    return user.value.role === 'host'
+    return user.value.role === 'HOST'
       ? '/host/profile'
       : '/organizer/profile'
   })
@@ -76,7 +76,7 @@ export const useAppHeader = () => {
     try {
       closeSidebar()
       await logout()
-      router.push('/login')
+      await router.push('/login')
     } catch (err) {
       console.error('Error during logout:', err)
     }

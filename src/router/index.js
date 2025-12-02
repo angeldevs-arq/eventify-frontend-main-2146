@@ -44,8 +44,8 @@ const routes = [
     path: '/',
     redirect: () => {
       const auth = useAuthStore(pinia)
-      if (auth.user?.role === 'host') return '/host/dashboard'
-      if (auth.user?.role === 'organizer') return '/organizer/dashboard'
+      if (auth.user?.role === 'HOST') return '/host/dashboard'
+      if (auth.user?.role === 'ORGANIZER') return '/organizer/dashboard'
       return '/login'
     },
   },
@@ -59,7 +59,7 @@ const routes = [
     component: () => import('@/dashboard/infrastructure/components/host/HostDashboard.vue'),
     meta: {
       requiresAuth: true,
-      requiresRole: 'host',
+      requiresRole: 'HOST',
       title: 'Panel Anfitrión',
     },
   },
@@ -70,7 +70,7 @@ const routes = [
       import('@/dashboard/infrastructure/components/organizer/OrganizerDashboard.vue'),
     meta: {
       requiresAuth: true,
-      requiresRole: 'organizer',
+      requiresRole: 'ORGANIZER',
       title: 'Panel Organizador',
     },
   },
@@ -84,7 +84,7 @@ const routes = [
     component: () => import('@/profile-management/presentation/pages/HostProfilePage.vue'),
     meta: {
       requiresAuth: true,
-      requiresRole: 'host',
+      requiresRole: 'HOST',
       title: 'Mi Perfil',
     },
   },
@@ -94,7 +94,7 @@ const routes = [
      component: () => import('@/profile-management/presentation/pages/HostProfileEditPage.vue'),
      meta: {
        requiresAuth: true,
-       requiresRole: 'host',
+       requiresRole: 'HOST',
        title: 'Editar Perfil',
      },
    },
@@ -108,7 +108,7 @@ const routes = [
     component: () => import('@/profile-management/presentation/pages/OrganizerProfilePage.vue'),
     meta: {
       requiresAuth: true,
-      requiresRole: 'organizer',
+      requiresRole: 'ORGANIZER',
       title: 'Mi Perfil',
     },
   },
@@ -118,7 +118,7 @@ const routes = [
     component: () => import('@/profile-management/presentation/pages/OrganizerProfileEditPage.vue'),
     meta: {
       requiresAuth: true,
-      requiresRole: 'organizer',
+      requiresRole: 'ORGANIZER',
       title: 'Editar Perfil',
     },
   },
@@ -153,27 +153,27 @@ const routes = [
     path: '/tasks',
     name: 'tasks',
     component: TaskPage,
-    meta: { requiresAuth: true, requiresRole: 'organizer' },
+    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
   },
   {
     path: '/tasks/create',
     name: 'task-create',
     component: TaskCreatePage,
-    meta: { requiresAuth: true, requiresRole: 'organizer' },
+    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
   },
   {
     path: '/tasks/:id',
     name: 'task-detail',
     component: TaskDetailPage,
     props: true,
-    meta: { requiresAuth: true, requiresRole: 'organizer' },
+    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
   },
   {
     path: '/tasks/:id/edit',
     name: 'task-edit',
     component: TaskEditPage,
     props: true,
-    meta: { requiresAuth: true, requiresRole: 'organizer' },
+    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
   },
 
   // ========================================
@@ -183,52 +183,32 @@ const routes = [
     path: '/quotes',
     name: 'quotes',
     component: QuotePage,
-    meta: { requiresAuth: true, allowedRoles: ['organizer', 'host'] },
+    meta: { requiresAuth: true, allowedRoles: ['ORGANIZER', 'HOST'] },
   },
   {
     path: '/quotes/create',
     name: 'quote-create',
     component: QuoteCreatePage,
-    meta: { requiresAuth: true, allowedRoles: ['organizer', 'host'] },
+    meta: { requiresAuth: true, allowedRoles: ['ORGANIZER', 'HOST'] },
   },
   {
     path: '/quotes/:id',
     name: 'quote-detail',
     component: QuoteDetailPage,
     props: true,
-    meta: { requiresAuth: true, allowedRoles: ['organizer', 'host'] },
+    meta: { requiresAuth: true, allowedRoles: ['ORGANIZER', 'HOST'] },
   },
   {
     path: '/quotes/:id/edit',
     name: 'quote-edit',
     component: QuoteEditPage,
     props: true,
-    meta: { requiresAuth: true, requiresRole: 'organizer' },
+    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
   },
   // ========================================
   // FIN RUTAS QUOTE MANAGEMENT
   // ========================================
-  {
-    path: '/messages',
-    name: 'Messages',
-    component: () => import('/src/direct-communication/presentation/views/MessagesView.vue'),
-    meta: { requiresAuth: true },
-    children: [
-      {
-        path: ':conversationId',
-        name: 'MessagesConversation',
-        component: () => import('/src/direct-communication/presentation/views/MessagesView.vue'),
-        props: true,
-      },
-    ],
-  },
-  {
-    path: '/chat/:userId',
-    name: 'DirectChat',
-    component: () => import('/src/direct-communication/presentation/views/ChatView.vue'),
-    props: true,
-    meta: { requiresAuth: true },
-  },
+
   {
     path: '/Notifications',
     name: 'Notifications',
@@ -261,7 +241,38 @@ const router = createRouter({
 // ========================================
 // GUARD DE NAVEGACIÓN
 // ========================================
-router.beforeEach(async (to, from, next) => {
+
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore();
+  const isLogged = auth.isAuthenticated;
+  const role = auth.user?.role; // "HOST" o "ORGANIZER"
+
+  // Rutas públicas con redirect si ya estás autenticado
+  if (to.meta.redirectIfAuth && isLogged) {
+    if (role === "HOST") return next("/host/dashboard");
+    if (role === "ORGANIZER") return next("/organizer/dashboard");
+  }
+
+  // Requiere autenticación
+  if (to.meta.requiresAuth && !isLogged) {
+    return next("/login");
+  }
+
+  // Requiere rol único
+  if (to.meta.requiresRole && to.meta.requiresRole !== role) {
+    return next("/login");
+  }
+
+  // Roles múltiples
+  if (Array.isArray(to.meta.allowedRoles) &&
+    !to.meta.allowedRoles.includes(role)) {
+    return next("/login");
+  }
+
+  next();
+});
+
+/*router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore(pinia);
 
   const requiresAuth = to.meta.requiresAuth ?? true;
@@ -269,8 +280,8 @@ router.beforeEach(async (to, from, next) => {
   const allowedRoles = to.meta.allowedRoles;
 
   const resolveDashboardRedirect = () => {
-    if (auth.user?.role === "host") return "/host/dashboard";
-    if (auth.user?.role === "organizer") return "/organizer/dashboard";
+    if (auth.user?.role === "HOST") return "/host/dashboard";
+    if (auth.user?.role === "ORGANIZER") return "/organizer/dashboard";
     return "/login";
   };
 
@@ -318,6 +329,6 @@ router.beforeEach(async (to, from, next) => {
   }
 
   next();
-});
+});*/
 
 export default router;

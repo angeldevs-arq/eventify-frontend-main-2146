@@ -226,34 +226,9 @@ const goToQuotes = () => {
         </div>
 
         <aside class="messages-container">
-          <h2 class="section-title">{{ t('dashboard.recentMessages.title') }}</h2>
+          <h2 class="section-title">{{ "Recents Notifications" }}</h2>
 
-          <Card v-if="organizerMessages.length === 0" class="message-card message-card--empty">
-            <template #content>
-              <div class="message-content">
-                <i class="pi pi-inbox empty-icon"></i>
-                <p>{{ t('dashboard.recentMessages.empty') }}</p>
-              </div>
-            </template>
-          </Card>
 
-          <Card
-            v-for="message in organizerMessages"
-            :key="message.id"
-            class="message-card"
-          >
-            <template #content>
-              <div class="message-content">
-                <h3 class="message-sender">{{ message.sender }}</h3>
-                <p class="message-preview">{{ message.preview }}</p>
-                <small class="message-time">{{ message.time }}</small>
-              </div>
-            </template>
-          </Card>
-
-          <Button text class="messages-link" @click="router.push('/messages')">
-            {{ t('dashboard.recentMessages.seeAll') }}
-          </Button>
         </aside>
       </section>
     </template>

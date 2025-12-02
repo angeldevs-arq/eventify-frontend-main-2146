@@ -22,28 +22,36 @@ export class Organizer {
    */
   constructor({
                 id,
-                name,
+                firstName,
+                lastName,
                 email,
-                phone = '',
+                street = '',
+    number = '',
+    postalCode = '',
+    country = '',
+    type = '',
+
                 city = '',
-                description = '',
-                profileImage = '',
-                socialLinks = [],
-                status = 'active',
-                createdAt = new Date().toISOString(),
-                updatedAt = new Date().toISOString(),
+
+                profileImageUrl = '',
+    profileImagePublicId ='',
+    userId = 0,
+                status = 'active'
               }) {
     this.id = id;
-    this.name = name;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.email = email;
-    this.phone = phone;
+    this.street = street;
+    this.number = number;
+    this.postalCode = postalCode;
+    this.country = country;
+    this.type = type;
     this.city = city;
-    this.description = description;
-    this.profileImage = profileImage;
-    this.socialLinks = socialLinks;
+    this.profileImageUrl = profileImageUrl;
+    this.profileImagePublicId = profileImagePublicId;
+    this.userId = userId;
     this.status = status;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
   }
 
   /**

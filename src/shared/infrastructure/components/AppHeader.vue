@@ -30,16 +30,15 @@ const navigationItems = computed(() => {
   const role = user.value?.role ?? null
   if (!role) return []
 
-  if (role === 'host') {
+  if (role === 'HOST') {
     return [
       { key: 'dashboard', icon: 'pi pi-home', to: '/host/dashboard', labelKey: 'header.dashboard' },
       { key: 'events', icon: 'pi pi-calendar', to: '/events', labelKey: 'header.events' },
       { key: 'quotes', icon: 'pi pi-file-edit', to: '/quotes', labelKey: 'header.quotes' },
-      { key: 'messages', icon: 'pi pi-envelope', to: '/messages', labelKey: 'header.messages' },
     ]
   }
 
-  if (role === 'organizer') {
+  if (role === 'ORGANIZER') {
     return [
       { key: 'dashboard', icon: 'pi pi-home', to: '/organizer/dashboard', labelKey: 'header.dashboard' },
       { key: 'events', icon: 'pi pi-calendar', to: '/events', labelKey: 'header.events' },

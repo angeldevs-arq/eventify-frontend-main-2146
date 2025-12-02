@@ -12,16 +12,12 @@
         <p class="info-value">{{ user?.email || '-' }}</p>
       </div>
 
-      <!-- Teléfono -->
-      <div class="info-item">
-        <span class="info-label">{{ $t('host-profile.labels.phone') }}</span>
-        <p class="info-value">{{ user?.phone || '+51 987 654 328' }}</p>
-      </div>
+
 
       <!-- Ubicación -->
       <div class="info-item">
         <span class="info-label">{{ $t('host-profile.labels.city') }}</span>
-        <p class="info-value">{{ user?.location || 'Lima, Lima' }}</p>
+        <p class="info-value">{{ user.street+' '+user.number+', '+ user.postalCode + ' - ' +user.city + ', ' + user.country || 'Lima, Lima' }}</p>
       </div>
     </div>
   </section>

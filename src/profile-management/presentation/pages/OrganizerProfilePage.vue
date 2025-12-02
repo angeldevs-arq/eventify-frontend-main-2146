@@ -27,18 +27,18 @@
           <div class="col-12 md:col-4 lg:col-3 mb-4 md:mb-0">
             <div class="profile-avatar-section">
               <Avatar
-                :image="profileData.profileImage"
+                :image="profileData.profileImageUrl"
                 :label="getInitials(profileData.name)"
                 size="xlarge"
                 shape="circle"
                 class="mb-3"
               />
 
-              <h2 class="text-2xl font-bold text-gray-800">{{ profileData.name }}</h2>
+              <h2 class="text-2xl font-bold text-gray-800">{{ profileData.firstName +' '+ profileData.lastName }}</h2>
               <p class="text-gray-600 text-sm">{{ profileData.email }}</p>
 
               <span class="inline-block mt-2 px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                {{ getRoleLabel(profileData.role) }}
+                {{ getRoleLabel(profileData.type) }}
               </span>
             </div>
           </div>
@@ -119,7 +119,7 @@
                     <div class="space-y-3">
                       <div class="info-item">
                         <span class="label">{{ $t('profile.labels.name') }}:</span>
-                        <span class="value">{{ profileData.name }}</span>
+                        <span class="value">{{ profileData.firstName +' '+ profileData.lastName }}</span>
                       </div>
 
                       <div class="info-item">
@@ -128,47 +128,11 @@
                       </div>
 
                       <div class="info-item">
-                        <span class="label">{{ $t('profile.labels.phone') }}:</span>
-                        <span class="value">{{ profileData.phone || $t('profile.empty.notProvided') }}</span>
-                      </div>
-
-                      <div class="info-item">
                         <span class="label">{{ $t('profile.labels.city') }}:</span>
-                        <span class="value">{{ profileData.city || $t('profile.empty.notProvided') }}</span>
+                        <span class="value">{{ profileData.street+' '+profileData.number+', '+ profileData.postalCode + ' - ' +profileData.city + ', ' + profileData.country || $t('profile.empty.notProvided') }}</span>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <!-- Descripción -->
-                <div class="col-12 md:col-6">
-                  <div class="info-section">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-3">
-                      {{ $t('profile.sections.description') }}
-                    </h3>
-
-                    <p class="text-gray-700 text-sm leading-relaxed">
-                      {{ profileData.description || $t('profile.empty.description') }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Redes sociales -->
-              <div class="mt-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">
-                  {{ $t('profile.sections.social') }}
-                </h3>
-
-                <div class="flex flex-wrap gap-3">
-                  <Button
-                    v-for="social in socialLinks"
-                    :key="social.type"
-                    :label="social.type"
-                    :icon="`pi pi-${getSocialIcon(social.type)}`"
-                    class="p-button-secondary p-button-sm"
-                    @click="openSocialLink(social.url)"
-                  />
                 </div>
               </div>
             </div>
@@ -338,6 +302,7 @@ import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Card from 'primevue/card';
 import Rating from 'primevue/rating';
+import { ProfileApiService } from '@/profile-management/application/profile-api.service.js'
 
 const router = useRouter();
 const { logout, user } = useAuth();
@@ -352,14 +317,17 @@ const defaultMetrics = Object.freeze({
 
 const defaultProfile = Object.freeze({
   id: '',
-  name: '',
+  firstName: '',
+  lastName:'',
   email: '',
-  phone: '',
+  street:'',
+  number:'',
+  postalCode:'',
   city: '',
-  role: '',
-  profileImage: '',
-  description: '',
-  socialLinks: [],
+  country:'',
+  type: '',
+  profileImageUrl: '',
+  profileImagePublicId:'',
   metrics: defaultMetrics,
 });
 
@@ -393,19 +361,19 @@ const loadProfile = async () => {
   profileError.value = null;
 
   try {
-    if (currentUser.id) {
-      const [apiUser] = await AuthApiService.fetchUsers({ id: currentUser.id });
-      const normalizedUser = apiUser ? AuthApiService.sanitizeUser(apiUser) : currentUser;
-      profileData.value = normalizeProfile({ ...currentUser, ...normalizedUser });
-    } else {
-      profileData.value = normalizeProfile(currentUser);
-    }
+    // 🔥 NUEVA LÓGICA usando ProfileApiService
+    const apiProfile = await ProfileApiService.getProfile(currentUser.id);
+
+    // normalizamos y seteamos
+    profileData.value = normalizeProfile(apiProfile);
+
   } catch (error) {
     profileError.value = error.message || 'No se pudo cargar la información del perfil.';
-    profileData.value = normalizeProfile(currentUser);
+    profileData.value = normalizeProfile(currentUser); // fallback
   } finally {
     isProfileLoading.value = false;
   }
+
 };
 
 onMounted(loadProfile);

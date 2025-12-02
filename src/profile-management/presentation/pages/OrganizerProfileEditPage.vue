@@ -12,8 +12,8 @@
     <div class="flex flex-col items-center mb-6">
       <div class="relative">
         <img
-          v-if="previewPhoto || organizer.photo"
-          :src="previewPhoto || organizer.photo"
+          v-if="previewPhoto || organizer.profileImageUrl"
+          :src="previewPhoto || organizer.profileImageUrl"
           alt="Foto de perfil"
           class="w-24 h-24 rounded-full object-cover bg-gray-100 border border-gray-300"
         />
@@ -41,34 +41,27 @@
         <h2 class="text-lg font-medium text-[#3A506B] mb-2">Información básica</h2>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo*</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Nombres*</label>
             <input
-              v-model="organizer.name"
+              v-model="organizer.firstName"
               type="text"
               class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de empresa</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Apellidos*</label>
             <input
-              v-model="organizer.company"
+              v-model="organizer.lastName"
               type="text"
               class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
             />
           </div>
+
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Email*</label>
             <input
               v-model="organizer.email"
               type="email"
-              class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-            <input
-              v-model="organizer.phone"
-              type="text"
               class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
             />
           </div>
@@ -79,6 +72,30 @@
       <section>
         <h2 class="text-lg font-medium text-[#3A506B] mb-2">Ubicación y especialidades</h2>
         <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Calle*</label>
+            <input
+              v-model="organizer.street"
+              type="text"
+              class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Numero*</label>
+            <input
+              v-model="organizer.number"
+              type="text"
+              class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Código Postal*</label>
+            <input
+              v-model="organizer.postalCode"
+              type="text"
+              class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
+            />
+          </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad*</label>
             <input
@@ -91,56 +108,6 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">País*</label>
             <input
               v-model="organizer.country"
-              type="text"
-              class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
-            />
-          </div>
-        </div>
-
-        <div class="mt-3">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Especialidades*</label>
-          <input
-            v-model="organizer.specialties"
-            type="text"
-            class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
-          />
-        </div>
-      </section>
-
-      <!-- Descripción -->
-      <section>
-        <h2 class="text-lg font-medium text-[#3A506B] mb-2">Descripción profesional</h2>
-        <textarea
-          v-model="organizer.description"
-          rows="4"
-          class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
-        ></textarea>
-      </section>
-
-      <!-- Redes sociales -->
-      <section>
-        <h2 class="text-lg font-medium text-[#3A506B] mb-2">Redes sociales</h2>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Sitio web</label>
-            <input
-              v-model="organizer.website"
-              type="text"
-              class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
-            <input
-              v-model="organizer.linkedin"
-              type="text"
-              class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Instagram</label>
-            <input
-              v-model="organizer.instagram"
               type="text"
               class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#3A506B] outline-none"
             />
@@ -176,18 +143,18 @@ import { useAuth } from '@/auth-management/infrastructure/composables/useAuth.js
 
 const router = useRouter()
 const organizer = ref({
-  name: '',
-  company: '',
+  id: '',
+  firstName: '',
+  lastName:'',
   email: '',
-  phone: '',
+  street:'',
+  number:'',
+  postalCode:'',
   city: '',
-  country: '',
-  specialties: '',
-  description: '',
-  website: '',
-  linkedin: '',
-  instagram: '',
-  photo: ''
+  country:'',
+  type: '',
+  profileImageUrl: '',
+  profileImagePublicId:'',
 })
 
 const previewPhoto = ref(null)
@@ -228,8 +195,8 @@ async function updateProfile() {
       formData.append('photo', organizer.value.photoFile)
     }
 
-    await ProfileApiService.update(organizer.value.id, formData)
-    router.push('/profile')
+    await ProfileApiService.updateProfile(organizer.value.id, formData)
+    router.push('/organizer/profile')
   } catch (error) {
     alert('No se pudo actualizar el perfil.')
     console.error(error)

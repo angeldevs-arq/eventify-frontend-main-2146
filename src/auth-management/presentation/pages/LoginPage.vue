@@ -38,16 +38,16 @@ const handleSubmit = async () => {
     }
 
     // 🔥 Redirección correcta según rol
-    if (role === "host") {
+    if (role === "HOST") {
       router.push("/host/dashboard");
-    } else if (role === "organizer") {
+    } else if (role === "ORGANIZER") {
       router.push("/organizer/dashboard");
     }
 
     toast.add({
       severity: "success",
       summary: t("auth.successLogin"),
-      detail: t("auth.welcomeBack", { name: user.value?.name }),
+      detail: t("auth.welcomeBack", { name: user.value?.username}),
     });
 
   } catch (error) {

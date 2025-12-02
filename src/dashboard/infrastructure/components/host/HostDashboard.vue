@@ -17,8 +17,7 @@ const defaultAvatar =
 // Cargar organizadores desde API
 const loadOrganizers = async () => {
   try {
-    const response = await api.get("/users", {
-      params: { role: "organizer" },
+    const response = await api.get("/api/v1/profiles/organizers", {
     });
     organizers.value = response.data;
   } catch (error) {

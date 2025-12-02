@@ -348,6 +348,13 @@
       "password": "july123!",
       "role": "organizer",
       "id": "8wtMfJa"
+    },
+    {
+      "name": "Alex Mendoza",
+      "email": "alex.mend@gmail.com",
+      "password": "abcd1234",
+      "role": "organizer",
+      "id": "TejJFIN"
     }
   ],
   "events": [

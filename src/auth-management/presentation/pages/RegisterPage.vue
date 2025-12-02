@@ -9,11 +9,10 @@ const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 
-const { register, user, isAuthenticated } = useAuth();
+const { register} = useAuth();
 
 const form = ref({
-  name: "",
-  email: "",
+  email:"",
   password: "",
   confirmPassword: "",
   role: "host",
@@ -28,8 +27,7 @@ const errors = ref({});
 const validate = () => {
   errors.value = {};
 
-  if (!form.value.name || form.value.name.length < 3)
-    errors.value.name = t("auth.errorNameLength");
+
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email))
     errors.value.email = t("auth.errorInvalidEmail");
@@ -58,31 +56,23 @@ const handleSubmit = async () => {
 
   try {
     const payload = {
-      name: form.value.name.trim(),
-      email: form.value.email.trim().toLowerCase(),
+      username: form.value.email.trim().toLowerCase(),
       password: form.value.password,
-      role: form.value.role,
+      role: form.value.role.toUpperCase()
     };
 
-    // Registrar usuario (NO retorna user)
+    // Registrar usuario
     await register(payload, "local");
 
-    // Obtener rol desde Pinia
-    const role = user.value?.role;
-
-    if (!role) {
-      throw new Error("No se pudo obtener el rol del usuario");
-    }
-
-    // Redirección automática
-    if (role === "host") router.push("/host/dashboard");
-    else router.push("/organizer/dashboard");
-
+    // Mostrar mensaje de éxito
     toast.add({
       severity: "success",
       summary: t("auth.successRegister"),
-      detail: t("auth.welcomeBack", { name: user.value?.name }),
+      detail: t("auth.registerSuccessMessage"), // o el texto que uses
     });
+
+    // 🔥 Redirigir al login
+    router.push("/login");
 
   } catch (error) {
     toast.add({
@@ -114,22 +104,6 @@ const handleSubmit = async () => {
 
       <!-- Form -->
       <form @submit.prevent="handleSubmit" class="auth-form">
-
-        <!-- NAME -->
-        <div class="form-field">
-          <label class="form-label">
-            {{ $t("auth.fullName") }} <span class="required">*</span>
-          </label>
-
-          <InputText
-            v-model="form.name"
-            :placeholder="$t('auth.fullNamePlaceholder')"
-            :class="{ 'p-invalid': errors.name }"
-            :disabled="isLoading"
-          />
-
-          <small v-if="errors.name" class="p-error">{{ errors.name }}</small>
-        </div>
 
         <!-- EMAIL -->
         <div class="form-field">

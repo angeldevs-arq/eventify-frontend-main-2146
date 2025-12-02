@@ -8,12 +8,23 @@
 
       <!-- Nombre -->
       <div class="form-group">
-        <label for="name" class="form-label">{{ $t('host-profile.labels.name') }}</label>
+        <label for="name" class="form-label">First Name</label>
         <InputText
           id="name"
-          v-model="formData.name"
+          v-model="formData.firstName"
           type="text"
-          :placeholder="$t('host-profile.labels.name')"
+          placeholder="First Name"
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="name" class="form-label">Last Name</label>
+        <InputText
+          id="name"
+          v-model="formData.lastName"
+          type="text"
+          placeholder="Last Name"
           class="form-input"
         />
       </div>
@@ -33,24 +44,54 @@
 
       <!-- Teléfono -->
       <div class="form-group">
-        <label for="phone" class="form-label">{{ $t('host-profile.labels.phone') }}</label>
+        <label for="phone" class="form-label">Street</label>
         <InputText
           id="phone"
-          v-model="formData.phone"
+          v-model="formData.street"
           type="tel"
-          :placeholder="$t('host-profile.labels.phone')"
+          placeholder="Street"
           class="form-input"
         />
       </div>
 
       <!-- Ubicación -->
       <div class="form-group">
-        <label for="location" class="form-label">{{ $t('host-profile.labels.city') }}</label>
+        <label for="location" class="form-label">Number</label>
         <InputText
           id="location"
-          v-model="formData.location"
+          v-model="formData.number"
           type="text"
-          :placeholder="$t('host-profile.labels.city')"
+          placeholder="Number"
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="location" class="form-label">Postal Code</label>
+        <InputText
+          id="location"
+          v-model="formData.postalCode"
+          type="text"
+          placeholder="Postal Code"
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="location" class="form-label">City</label>
+        <InputText
+          id="location"
+          v-model="formData.city"
+          type="text"
+          placeholder="City"
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="location" class="form-label">Country</label>
+        <InputText
+          id="location"
+          v-model="formData.country"
+          type="text"
+          placeholder="Country"
           class="form-input"
         />
       </div>
@@ -77,6 +118,7 @@
 import { ref, reactive } from 'vue';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   user: {
@@ -89,20 +131,36 @@ const props = defineProps({
   },
 });
 
+
 const emit = defineEmits(['save', 'cancel']);
 
 const formData = reactive({
-  name: props.user?.name || '',
+  firstName: props.user?.firstName || '',
+  lastName: props.user?.lastName || '',
   email: props.user?.email || '',
-  phone: props.user?.phone || '',
-  location: props.user?.location || '',
+  street: props.user?.street || '',
+  number: props.user?.number || '',
+  postalCode: props.user?.postalCode || '',
+  city: props.user?.city || '',
+  country: props.user?.country || '',
+  type: 'HOST',
+  profileImageUrl: props.user?.profileImageUrl || '',
+  profileImagePublicId: props.user?.profileImagePublicId || ''
 });
 
 const handleSubmit = () => {
   emit('save', {
-    name: formData.name,
-    phone: formData.phone,
-    location: formData.location,
+    firstName: formData.firstName || '',
+    lastName: formData.lastName || '',
+    email: formData.email || '',
+    street: formData.street || '',
+    number: formData.number || '',
+    postalCode: formData.postalCode || '',
+    city: formData.city || '',
+    country: formData.country || '',
+    type: 'HOST',
+    profileImageUrl: formData.profileImageUrl || '',
+    profileImagePublicId: formData.profileImagePublicId || ''
   });
 };
 </script>

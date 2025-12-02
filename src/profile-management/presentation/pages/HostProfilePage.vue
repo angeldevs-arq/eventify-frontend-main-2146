@@ -21,12 +21,13 @@
         <!-- Columna Izquierda -->
         <aside class="profile-sidebar">
           <HostProfileCard
-            :user="user"
+            v-if="profile"
+            :user="profile"
             :user-initials="userInitials"
             @edit="isEditing = true"
           />
-          <HostContactInfo :user="user" />
-          <HostPreferencesChips :user="user" />
+          <HostContactInfo v-if="profile" :user="profile" />
+          <HostPreferencesChips v-if="profile" :user="profile" />
         </aside>
 
         <!-- Columna Derecha -->
@@ -45,7 +46,8 @@
           <h2>{{ $t('host-profile.editTitle') }}</h2>
         </div>
         <HostProfileForm
-          :user="user"
+          v-if="profile"
+          :user="profile"
           :is-loading="isLoading"
           @save="handleSaveProfile"
           @cancel="isEditing = false"
@@ -56,7 +58,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted} from 'vue'
 import ProgressSpinner from 'primevue/progressspinner';
 import HostProfileCard from '@/profile-management/presentation/components/HostProfileCard.vue';
 import HostContactInfo from '@/profile-management/presentation/components/HostContactInfo.vue';
@@ -67,15 +69,17 @@ import HostProfileForm from '@/profile-management/presentation/components/HostPr
 import { useHostProfile } from '@/profile-management/application/composables/useHostProfile.js';
 
 const {
-  user,
+  profile,
   isLoading,
   isEditing,
   userInitials,
   recentEvents,
   recentOrganizers,
   loadProfile,
-  updateProfile,
+  updateProfile
 } = useHostProfile();
+
+
 
 onMounted(() => {
   loadProfile();
@@ -83,6 +87,7 @@ onMounted(() => {
 
 const handleSaveProfile = async (profileData) => {
   await updateProfile(profileData);
+  isEditing.value = false;
 };
 
 const handleQuoteCreated = () => {

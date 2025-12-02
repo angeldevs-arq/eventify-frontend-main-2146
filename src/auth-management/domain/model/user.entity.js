@@ -22,24 +22,12 @@ export class User {
                 id,
                 email,
                 password,
-                name,
-                role = 'host',
-                profileImage = '',
-                status = 'active',
-                emailVerified = false,
-                createdAt = new Date().toISOString(),
-                updatedAt = new Date().toISOString(),
+                role = 'HOST',
               }) {
     this.id = id;
     this.email = email;
     this.password = password;
-    this.name = name;
     this.role = role;
-    this.profileImage = profileImage;
-    this.status = status;
-    this.emailVerified = emailVerified;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
   }
 
   /**
@@ -55,24 +43,9 @@ export class User {
    * @returns {boolean}
    */
   isOrganizer() {
-    return this.role === 'organizer';
+    return this.role === 'ORGANIZER';
   }
 
-  /**
-   * Verifica si el usuario es administrador
-   * @returns {boolean}
-   */
-  isAdmin() {
-    return this.role === 'admin';
-  }
-
-  /**
-   * Verifica si la cuenta está activa
-   * @returns {boolean}
-   */
-  isActive() {
-    return this.status === 'active';
-  }
 
   /**
    * Actualiza la información del usuario
@@ -80,23 +53,6 @@ export class User {
    */
   update(data) {
     Object.assign(this, data);
-    this.updatedAt = new Date().toISOString();
-  }
-
-  /**
-   * Cambia el estado del usuario
-   * @param {string} newStatus
-   */
-  changeStatus(newStatus) {
-    this.status = newStatus;
-    this.updatedAt = new Date().toISOString();
-  }
-
-  /**
-   * Marca el email como verificado
-   */
-  verifyEmail() {
-    this.emailVerified = true;
     this.updatedAt = new Date().toISOString();
   }
 }

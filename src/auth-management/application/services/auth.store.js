@@ -57,58 +57,48 @@ export const useAuthStore = defineStore('auth', () => {
   ============================================================ */
   const register = async (payload, persistence = 'local') => {
     try {
-      // Verificar si ya existe el email
-      const exists = await api.get('/users', {
-        params: { email: payload.email }
-      })
+      // Enviar datos al backend
+      const { data } = await api.post('/api/v1/iam/sign-up', payload);
 
-      if (exists.data.length > 0) {
-        throw new Error('El email ya está registrado')
-      }
+      // NO iniciar sesión automáticamente
+      // NO guardar user ni token en el store
+      // (El usuario debe iniciar sesión manualmente luego)
 
-      // Crear usuario
-      const { data: newUser } = await api.post('/users', payload)
-
-      // json-server no genera tokens
-      const generatedToken = 'auth_' + Math.random().toString(36).substring(2)
-
-      // Guardamos en estado
-      user.value = newUser
-      token.value = generatedToken
-      storageType.value = persistence
-
-      persistSession(newUser, generatedToken, persistence)
-
-      return newUser
+      return data; // éxito
     } catch (err) {
-      console.error('Register error:', err)
-      throw err
+      console.error('Register error:', err);
+      throw err;
     }
   }
 
   /* ============================================================
-      LOGIN
+      LOGIN - USANDO BACKEND REAL
   ============================================================ */
-  const login = async (email, password, persistence = 'local') => {
+  const login = async (username, password, persistence = 'local') => {
     try {
-      const { data } = await api.get('/users', {
-        params: { email, password }
-      })
+      const payload = {username, password}
+      const { data } = await api.post('/api/v1/iam/sign-in',payload)
 
-      if (!data || data.length === 0) {
-        throw new Error('Credenciales inválidas')
+      if (!data?.token) {
+        throw new Error('Respuesta inválida del servidor')
       }
 
-      const loggedUser = data[0]
-      const generatedToken = 'auth_' + Math.random().toString(36).substring(2)
+      // Guardamos en store
+      user.value = {
+        id: data.id,
+        username: data.username,
+        role: data.role
+      }
 
-      user.value = loggedUser
-      token.value = generatedToken
+      token.value = data.token
       storageType.value = persistence
 
-      persistSession(loggedUser, generatedToken, persistence)
 
-      return loggedUser
+
+      // Persistimos
+      persistSession(user.value, token.value, persistence)
+
+      return user.value
     } catch (err) {
       console.error('Login error:', err)
       throw err
@@ -148,8 +138,8 @@ export const useAuthStore = defineStore('auth', () => {
       GETTERS
   ============================================================ */
   const isAuthenticated = computed(() => token.value !== null)
-  const isHost = computed(() => user.value?.role === 'host')
-  const isOrganizer = computed(() => user.value?.role === 'organizer')
+  const isHost = computed(() => user.value?.role === 'HOST')
+  const isOrganizer = computed(() => user.value?.role === 'ORGANIZER')
 
   return {
     user,

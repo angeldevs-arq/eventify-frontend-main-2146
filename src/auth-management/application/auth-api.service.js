@@ -6,7 +6,6 @@
 import apiClient from '/src/shared/infrastructure/http/axios.config.js';
 
 const RESOURCE = '/users';
-const DEFAULT_STATUS = 'active';
 
 export class AuthApiService {
   /**
@@ -14,7 +13,7 @@ export class AuthApiService {
    * Siempre devuelve un arreglo para simplificar su consumo.
    */
   static async fetchUsers(params = {}) {
-    const response = await apiClient.get(RESOURCE, { params });
+    const response = await apiClient.get(RESOURCE, params);
     const data = response.data;
 
     if (Array.isArray(data)) {
@@ -50,7 +49,6 @@ export class AuthApiService {
         password: userData.password, // En producción la contraseña debe ir cifrada.
         role: userData.role || 'host',
         profileImage: userData.profileImage || '',
-        status: DEFAULT_STATUS,
         emailVerified: false,
         createdAt: timestamp,
         updatedAt: timestamp,
@@ -85,10 +83,6 @@ export class AuthApiService {
 
       if (!user || user.password !== password) {
         throw new Error('Email o contraseña incorrectos');
-      }
-
-      if ((user.status || DEFAULT_STATUS) !== DEFAULT_STATUS) {
-        throw new Error('La cuenta está desactivada');
       }
 
       const safeUser = this.sanitizeUser(user);
