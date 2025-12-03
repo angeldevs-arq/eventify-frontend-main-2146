@@ -1,39 +1,58 @@
-
-<template>
-  <Badge
-    :value="$t(`quotes.states.${state.toLowerCase()}`)"
-    :severity="getBadgeSeverity()"
-    class="quote-state-badge"
-  />
-</template>
-
 <script setup>
 import { computed } from 'vue';
-import Badge from 'primevue/badge';
+import Tag from 'primevue/tag';
 
 const props = defineProps({
   state: {
     type: String,
     required: true,
-    validator: (value) => ['DRAFT', 'PENDING', 'APPROVED', 'DECLINED'].includes(value)
+    validator: (value) => ['PENDING', 'CONFIRMED', 'REJECTED'].includes(value)
   }
 });
 
-const getBadgeSeverity = () => {
-  const severityMap = {
-    'DRAFT': 'info',
-    'PENDING': 'warning',
-    'APPROVED': 'success',
-    'DECLINED': 'danger'
+const badgeConfig = computed(() => {
+  const configs = {
+    PENDING: {
+      severity: 'warning',
+      label: 'Pendiente',
+      icon: 'pi pi-clock'
+    },
+    CONFIRMED: {
+      severity: 'success',
+      label: 'Confirmada',
+      icon: 'pi pi-check-circle'
+    },
+    REJECTED: {
+      severity: 'danger',
+      label: 'Rechazada',
+      icon: 'pi pi-times-circle'
+    }
   };
 
-  return severityMap[props.state] || 'info';
-};
+  return configs[props.state] || configs.PENDING;
+});
 </script>
+
+<template>
+  <Tag
+    :severity="badgeConfig.severity"
+    :value="badgeConfig.label"
+    :icon="badgeConfig.icon"
+    class="quote-state-badge"
+  />
+</template>
 
 <style scoped>
 .quote-state-badge {
   font-weight: 600;
-  text-transform: capitalize;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quote-state-badge :deep(.p-tag-icon) {
+  font-size: 0.875rem;
 }
 </style>

@@ -6,7 +6,7 @@ import { TaskApiService } from '../../infrastructure/services/task-api.service.j
 import { useAuthStore } from '@/auth-management/application/services/auth.store.js';
 
 // MODO MOCK TEMPORAL
-const USE_MOCK_DATA = false; // Cambiar a false cuando el backend funcione
+const USE_MOCK_DATA = true; // Cambiar a false cuando el backend funcione
 
 export const useTaskStore = defineStore('task', () => {
   const tasks = ref([]);

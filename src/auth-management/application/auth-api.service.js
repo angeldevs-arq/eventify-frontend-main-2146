@@ -5,7 +5,7 @@
 
 import apiClient from '/src/shared/infrastructure/http/axios.config.js';
 
-const RESOURCE = '/users';
+const RESOURCE = '/api/v1/users';
 
 export class AuthApiService {
   /**

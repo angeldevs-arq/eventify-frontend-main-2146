@@ -10,36 +10,40 @@ import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import Dropdown from 'primevue/dropdown';
 import Button from 'primevue/button';
-import QuoteStateBadge from '/src/quote-management/presentation/pages/QuoteStateBadge.vue'
-import { QuoteApiService } from '../../application/services/quote-api.service.js';
-import { QuoteOrder } from '../../domain/model';
+import QuoteStateBadge from '/src/quote-management/presentation/pages/QuoteStateBadge.vue';
+import { QuoteApiService } from '../../infrastructure/services/quote-api.service.js';
+import { ServiceItemApiService } from '../../infrastructure/services/service-item-api.service.js';
+import { ProfileApiService } from '@/profile-management/infrastructure/services/profile-api.service.js';
+import { Quote } from '../../domain/model/quote.entity.js';
 import { useAuth } from '@/auth-management/infrastructure/composables/useAuth.js';
 
 const router = useRouter();
 const { t } = useI18n();
 const toast = useToast();
 const { user, isOrganizer, isHost, restoreSession } = useAuth();
-const isHostUser = computed(() => isHost.value);
-const quoteStates = QuoteOrder.STATES;
 
-const currentUserId = computed(() => {
-  const value = user.value?.id;
-  return value != null ? String(value) : null;
-});
 // Estado reactivo
 const quotes = ref([]);
+const quotesWithDetails = ref([]); // Quotes enriquecidas con datos de perfil
 const loading = ref(false);
 const searchQuery = ref('');
 const selectedFilter = ref('ALL');
 const selectedSort = ref('RECENT');
+const userProfile = ref(null); // Perfil completo del usuario actual
+
+// Estados disponibles
+const QUOTE_STATES = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  REJECTED: 'REJECTED'
+};
 
 // Opciones de filtros
 const filterOptions = computed(() => [
   { label: t('quotes.filters.all'), value: 'ALL' },
-  { label: t('quotes.filters.approved'), value: 'APPROVED' },
+  { label: t('quotes.filters.approved'), value: 'CONFIRMED' },
   { label: t('quotes.filters.pending'), value: 'PENDING' },
-  { label: t('quotes.filters.declined'), value: 'DECLINED' },
-  { label: t('quotes.filters.draft'), value: 'DRAFT' }
+  { label: t('quotes.filters.declined'), value: 'REJECTED' }
 ]);
 
 const sortOptions = computed(() => [
@@ -51,15 +55,16 @@ const sortOptions = computed(() => [
 
 // Computed - Filtrar cotizaciones
 const filteredQuotes = computed(() => {
-  let result = [...quotes.value];
+  let result = [...quotesWithDetails.value];
 
   // Filtrar por búsqueda
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     result = result.filter(quote =>
-      quote.customer.name.toLowerCase().includes(query) ||
-      quote.event.type.toLowerCase().includes(query) ||
-      (quote.event.name && quote.event.name.toLowerCase().includes(query))
+      quote.hostName?.toLowerCase().includes(query) ||
+      quote.eventType?.toLowerCase().includes(query) ||
+      quote.title?.toLowerCase().includes(query) ||
+      quote.location?.toLowerCase().includes(query)
     );
   }
 
@@ -71,16 +76,16 @@ const filteredQuotes = computed(() => {
   // Ordenar
   switch (selectedSort.value) {
     case 'RECENT':
-      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      result.sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
       break;
     case 'OLDEST':
-      result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      result.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
       break;
     case 'AMOUNT_HIGH':
-      result.sort((a, b) => b.total - a.total);
+      result.sort((a, b) => b.totalPrice - a.totalPrice);
       break;
     case 'AMOUNT_LOW':
-      result.sort((a, b) => a.total - b.total);
+      result.sort((a, b) => a.totalPrice - b.totalPrice);
       break;
   }
 
@@ -88,13 +93,17 @@ const filteredQuotes = computed(() => {
 });
 
 // Métodos
-const formatDate = (date) => {
-  if (!date) return '';
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
   return `${day}/${month}/${year}`;
+};
+
+const formatCurrency = (amount) => {
+  return `S/ ${Number(amount).toFixed(2)}`;
 };
 
 const handleNewQuote = () => {
@@ -109,91 +118,179 @@ const handleEdit = (quoteId) => {
   router.push({ name: 'quote-edit', params: { id: quoteId } });
 };
 
-const applyQuoteState = (quoteId, newState) => {
-  const index = quotes.value.findIndex((item) => item.id === quoteId);
-  if (index === -1) {
-    return;
-  }
-
-  const updatedQuote = quotes.value[index];
-  updatedQuote.state = newState;
-  if (typeof updatedQuote.markAsUpdated === 'function') {
-    updatedQuote.markAsUpdated();
-  }
-  quotes.value = [...quotes.value];
-};
-
-const changeQuoteState = async (quoteId, newState) => {
+const handleApprove = async (quoteId) => {
   loading.value = true;
   try {
-    const response = await QuoteApiService.changeState(quoteId, newState);
-    const updatedEntity = QuoteOrder.fromJSON(response);
-    applyQuoteState(updatedEntity.id, updatedEntity.state);
-
-    const successMessage = newState === QuoteOrder.STATES.APPROVED
-      ? t('quotes.messages.stateApproved')
-      : t('quotes.messages.stateDeclined');
+    await QuoteApiService.confirmQuote(quoteId);
 
     toast.add({
       severity: 'success',
       summary: t('common.success'),
-      detail: successMessage,
-      life: 3000,
+      detail: t('quotes.messages.stateApproved'),
+      life: 3000
     });
+
+    // Recargar quotes
+    await loadQuotes();
   } catch (error) {
-    console.error('Error updating quote state:', error);
+    console.error('Error approving quote:', error);
     toast.add({
       severity: 'error',
       summary: t('common.error'),
       detail: error.message || t('quotes.messages.stateChangeError'),
-      life: 5000,
+      life: 5000
     });
   } finally {
     loading.value = false;
   }
 };
 
-const handleApprove = (quoteId) => changeQuoteState(quoteId, QuoteOrder.STATES.APPROVED);
-const handleDecline = (quoteId) => changeQuoteState(quoteId, QuoteOrder.STATES.DECLINED);
-
-const loadQuotes = async () => {
+const handleDecline = async (quoteId) => {
   loading.value = true;
+  try {
+    await QuoteApiService.rejectQuote(quoteId);
+
+    toast.add({
+      severity: 'success',
+      summary: t('common.success'),
+      detail: t('quotes.messages.stateDeclined'),
+      life: 3000
+    });
+
+    // Recargar quotes
+    await loadQuotes();
+  } catch (error) {
+    console.error('Error declining quote:', error);
+    toast.add({
+      severity: 'error',
+      summary: t('common.error'),
+      detail: error.message || t('quotes.messages.stateChangeError'),
+      life: 5000
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
+const enrichQuoteWithDetails = async (quote) => {
+  try {
+    // Obtener nombre del host
+    let hostName = 'Cliente';
+    try {
+      const hostProfile = await ProfileApiService.getProfileById(quote.hostId);
+      hostName = `${hostProfile.firstName} ${hostProfile.lastName}`;
+    } catch (error) {
+      console.warn(`No se pudo cargar perfil del host ${quote.hostId}:`, error);
+    }
+
+    // Calcular total de items si es necesario
+    let calculatedTotal = quote.totalPrice;
+    if (!calculatedTotal || calculatedTotal === 0) {
+      try {
+        calculatedTotal = await ServiceItemApiService.getTotalForQuote(quote.quoteId);
+      } catch (error) {
+        console.warn(`No se pudo calcular total para quote ${quote.quoteId}:`, error);
+      }
+    }
+
+    return {
+      ...quote,
+      hostName,
+      calculatedTotal
+    };
+  } catch (error) {
+    console.error('Error enriching quote:', error);
+    return {
+      ...quote,
+      hostName: 'Cliente',
+      calculatedTotal: quote.totalPrice
+    };
+  }
+};
+
+// Cargar perfil del usuario actual
+const loadUserProfile = async () => {
   try {
     if (!user.value) {
       await restoreSession();
     }
 
-    const data = await QuoteApiService.getAll();
-    const userId = currentUserId.value;
+    // Intentar obtener el profileId desde diferentes fuentes
+    let profileId = user.value?.profileId || user.value?.id;
 
-    if (!userId) {
+    if (!profileId) {
+      // Buscar el perfil por email
+      console.log('🔍 Buscando perfil del usuario:', user.value);
+      const allProfiles = await ProfileApiService.getAll();
+      const profile = allProfiles.find(p =>
+        p.email === user.value?.email ||
+        p.userId === user.value?.id
+      );
+
+      if (!profile) {
+        throw new Error('No se encontró el perfil del usuario');
+      }
+
+      userProfile.value = profile;
+      console.log('✅ Perfil del usuario cargado:', userProfile.value);
+    } else {
+      // Si existe profileId, cargarlo directamente
+      userProfile.value = await ProfileApiService.getById(profileId);
+      console.log('✅ Perfil del usuario cargado:', userProfile.value);
+    }
+  } catch (error) {
+    console.error('❌ Error loading user profile:', error);
+    toast.add({
+      severity: 'error',
+      summary: t('common.error'),
+      detail: 'No se pudo cargar tu perfil',
+      life: 5000
+    });
+  }
+};
+
+const loadQuotes = async () => {
+  loading.value = true;
+  try {
+    // Asegurar que tenemos el perfil del usuario
+    if (!userProfile.value) {
+      await loadUserProfile();
+    }
+
+    if (!userProfile.value?.id) {
+      console.error('No se encontró profileId del usuario');
       quotes.value = [];
+      quotesWithDetails.value = [];
       return;
     }
 
-    const filtered = data.filter((quoteItem) => {
-      const ownerId = quoteItem.ownerId ?? quoteItem.organizerId ?? quoteItem.customerId ?? quoteItem.organizer?.id ?? quoteItem.customer?.id;
-      const normalizedOwner = ownerId != null ? String(ownerId) : null;
+    let data = [];
 
-      if (!normalizedOwner) {
-        return false;
+    if (isOrganizer.value) {
+      // Organizer: cargar sus propias cotizaciones
+      data = await QuoteApiService.getQuotesByOrganizer(userProfile.value.id);
+    } else if (isHost.value) {
+      // Host: El backend no tiene endpoint GET /quotes
+      // Debemos buscar en todas las quotes de todos los organizadores
+      // O si hay un endpoint específico para host, usarlo aquí
+
+      // TEMPORAL: Obtener quotes del organizador 1 y filtrar por hostId
+      // TODO: Crear endpoint en backend GET /api/v1/hosts/{hostId}/quotes
+      try {
+        const organizerQuotes = await QuoteApiService.getQuotesByOrganizer(1);
+        data = organizerQuotes.filter(q => q.hostId === userProfile.value.id);
+      } catch (error) {
+        console.warn('No se pudieron cargar quotes del organizador 1');
+        data = [];
       }
+    }
 
-      if (isOrganizer.value) {
-        return normalizedOwner === userId;
-      }
+    quotes.value = data.map(q => Quote.fromBackend(q));
 
-      const customerId = quoteItem.customerId != null
-        ? String(quoteItem.customerId)
-        : (quoteItem.customer?.id != null ? String(quoteItem.customer.id) : null);
-      return normalizedOwner === userId || (customerId && customerId === userId);
-    });
-
-    quotes.value = filtered.map(q => {
-      const entity = QuoteOrder.fromJSON(q);
-      entity.ownerId = entity.ownerId || userId;
-      return entity;
-    });
+    // Enriquecer con detalles (nombres de perfil, etc.)
+    quotesWithDetails.value = await Promise.all(
+      quotes.value.map(quote => enrichQuoteWithDetails(quote))
+    );
 
     toast.add({
       severity: 'success',
@@ -209,6 +306,8 @@ const loadQuotes = async () => {
       detail: t('quotes.messages.loadError'),
       life: 5000
     });
+    quotes.value = [];
+    quotesWithDetails.value = [];
   } finally {
     loading.value = false;
   }
@@ -219,6 +318,7 @@ onMounted(() => {
   loadQuotes();
 });
 </script>
+
 <template>
   <section class="quotes-list">
     <!-- Filtros y búsqueda -->
@@ -274,29 +374,30 @@ onMounted(() => {
       class="quotes-table"
       stripedRows
     >
-      <Column field="customer.name" :header="$t('quotes.list.customer')" sortable>
+      <Column field="hostName" :header="$t('quotes.list.customer')" sortable>
         <template #body="{ data }">
-          <span class="customer-name">{{ data.customer.name }}</span>
+          <span class="customer-name">{{ data.hostName }}</span>
         </template>
       </Column>
 
-      <Column field="event.type" :header="$t('quotes.list.event')" sortable>
+      <Column field="eventType" :header="$t('quotes.list.event')" sortable>
         <template #body="{ data }">
           <div class="event-info">
-            <span class="event-type">{{ $t(`events.types.${data.event.type.toLowerCase()}`) }}</span>
+            <span class="event-type">{{ data.eventType }}</span>
+            <span class="event-title" v-if="data.title">{{ data.title }}</span>
           </div>
         </template>
       </Column>
 
-      <Column field="event.date" :header="$t('quotes.list.date')" sortable>
+      <Column field="eventDate" :header="$t('quotes.list.date')" sortable>
         <template #body="{ data }">
-          <span class="event-date">{{ formatDate(data.event.date) }}</span>
+          <span class="event-date">{{ formatDate(data.eventDate) }}</span>
         </template>
       </Column>
 
-      <Column field="total" :header="$t('quotes.list.amount')" sortable>
+      <Column field="totalPrice" :header="$t('quotes.list.amount')" sortable>
         <template #body="{ data }">
-          <span class="quote-amount">{{ data.getFormattedTotal() }}</span>
+          <span class="quote-amount">{{ formatCurrency(data.totalPrice) }}</span>
         </template>
       </Column>
 
@@ -313,7 +414,7 @@ onMounted(() => {
               :label="$t('quotes.list.view')"
               icon="pi pi-eye"
               text
-              @click="handleView(data.id)"
+              @click="handleView(data.quoteId)"
               class="action-btn view-btn"
             />
             <Button
@@ -321,28 +422,28 @@ onMounted(() => {
               :label="$t('quotes.list.edit')"
               icon="pi pi-pencil"
               text
-              @click="handleEdit(data.id)"
+              @click="handleEdit(data.quoteId)"
               class="action-btn edit-btn"
             />
             <Button
-              v-if="isHostUser && data.state === quoteStates.PENDING"
+              v-if="isHost && data.state === QUOTE_STATES.PENDING"
               :label="$t('quotes.actions.approve')"
               icon="pi pi-check"
               text
               class="action-btn approve-btn"
-              @click="handleApprove(data.id)"
+              @click="handleApprove(data.quoteId)"
             />
             <Button
-              v-if="isHostUser && data.state === quoteStates.PENDING"
+              v-if="isHost && data.state === QUOTE_STATES.PENDING"
               :label="$t('quotes.actions.decline')"
               icon="pi pi-times"
               text
               class="action-btn decline-btn"
-              @click="handleDecline(data.id)"
+              @click="handleDecline(data.quoteId)"
             />
-         </div>
-       </template>
-     </Column>
+          </div>
+        </template>
+      </Column>
 
       <template #empty>
         <div class="empty-state">
@@ -353,6 +454,7 @@ onMounted(() => {
     </DataTable>
   </section>
 </template>
+
 <style scoped>
 .quotes-list {
   width: 100%;
@@ -432,6 +534,11 @@ onMounted(() => {
 .event-type {
   font-weight: 500;
   color: #495057;
+}
+
+.event-title {
+  font-size: 0.85rem;
+  color: #6C757D;
 }
 
 .event-date {

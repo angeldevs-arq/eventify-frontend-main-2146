@@ -1,4 +1,3 @@
-
 import { Customer } from './customer.entity.js';
 import { Event } from './event.entity.js';
 import { Organizer } from './organizer.entity.js';
@@ -178,24 +177,46 @@ export class QuoteOrder {
     return badges[this.state] || badges[QuoteOrder.STATES.DRAFT];
   }
 
-  // Factory method para crear desde JSON (API fake)
+  // Factory method para crear desde JSON del backend
   static fromJSON(data) {
+    // El backend devuelve una estructura flat con campos específicos
+    // Necesitamos mapear a la estructura de QuoteOrder
+
     return new QuoteOrder({
-      id: data.id,
+      id: data.quoteId || data.id,
       customer: data.customer
         ? Customer.fromJSON({
           ...data.customer,
-          id: data.customer.id ?? data.customerId ?? null,
+          id: data.customer.id ?? data.customerId ?? data.hostId ?? null,
         })
-        : new Customer({ id: data.customerId ?? null }),      event: data.event ? Event.fromJSON(data.event) : new Event({}),
-      organizer: data.organizer ? Organizer.fromJSON(data.organizer) : new Organizer({}),
+        : new Customer({
+          id: data.customerId ?? data.hostId ?? null,
+          name: data.customerName || '',
+          email: data.customerEmail || '',
+          phone: data.customerPhone || ''
+        }),
+      event: data.event
+        ? Event.fromJSON(data.event)
+        : new Event({
+          type: data.eventType || '',
+          date: data.eventDate ? new Date(data.eventDate) : null,
+          numberOfGuests: data.guestQuantity || 0,
+          location: data.location || '',
+          description: data.title || ''
+        }),
+      organizer: data.organizer
+        ? Organizer.fromJSON(data.organizer)
+        : new Organizer({
+          id: data.organizerId || null
+        }),
       services: data.services ? data.services.map(s => ServiceItem.fromJSON(s)) : [],
       state: data.state || QuoteOrder.STATES.DRAFT,
       vatPercentage: data.vatPercentage || 18,
       currency: data.currency || 'S/.',
       createdAt: data.createdAt ? new Date(data.createdAt) : new Date(),
       updatedAt: data.updatedAt ? new Date(data.updatedAt) : new Date(),
-      ownerId: data.ownerId ?? data.organizerId ?? data.customerId ?? null });
+      ownerId: data.ownerId ?? data.organizerId ?? data.customerId ?? data.hostId ?? null
+    });
   }
 
   // Serialización para API fake

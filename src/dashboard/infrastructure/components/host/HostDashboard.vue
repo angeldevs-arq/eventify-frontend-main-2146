@@ -1,211 +1,275 @@
+<template>
+  <div class="host-dashboard">
+    <div class="dashboard-header">
+      <h1>Bienvenido,</h1>
+      <p>Explora y conecta con los organizadores disponibles</p>
+    </div>
+
+    <!-- Loading -->
+    <div v-if="loading" class="text-center p-8">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      <p class="mt-2">Cargando organizadores...</p>
+    </div>
+
+    <!-- Error -->
+    <div v-else-if="error" class="error-message p-4 bg-red-50 border-red-200 rounded">
+      <i class="pi pi-exclamation-circle text-red-600"></i>
+      <span class="ml-2 text-red-600">{{ error }}</span>
+    </div>
+
+    <!-- Lista de Organizers -->
+    <div v-else-if="organizers.length > 0" class="organizers-grid">
+      <div
+        v-for="organizer in organizers"
+        :key="organizer.id"
+        class="organizer-card"
+        @click="viewProfile(organizer)"
+      >
+        <!-- Imagen de perfil -->
+        <div class="organizer-avatar">
+          <img
+            v-if="organizer.profileImageUrl"
+            :src="organizer.profileImageUrl"
+            :alt="organizer.firstName"
+          />
+          <div v-else class="avatar-placeholder">
+            {{ getInitials(organizer) }}
+          </div>
+        </div>
+
+        <!-- Info del organizer -->
+        <div class="organizer-info">
+          <h3>{{ organizer.firstName }} {{ organizer.lastName }}</h3>
+          <p class="text-gray-600">
+            <i class="pi pi-map-marker"></i>
+            {{ organizer.city || 'Ciudad no especificada' }}
+          </p>
+          <p class="text-gray-500">
+            <i class="pi pi-envelope"></i>
+            {{ organizer.email }}
+          </p>
+        </div>
+
+        <!-- Botón de acción -->
+        <button
+          class="btn-request-quote"
+          @click.stop="requestQuote(organizer)"
+        >
+          <i class="pi pi-file"></i>
+          Solicitar Cotización
+        </button>
+      </div>
+    </div>
+
+    <!-- Sin resultados -->
+    <div v-else class="empty-state">
+      <i class="pi pi-users" style="font-size: 3rem; color: #ccc;"></i>
+      <p>No hay organizadores registrados aún.</p>
+    </div>
+  </div>
+</template>
+
 <script setup>
-import { ref, onMounted } from "vue";
-import api from "@/shared/infrastructure/http/axios.config.js";
-import { useRouter } from "vue-router";
-import { useI18n } from 'vue-i18n';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { ProfileApiService } from '@/profile-management/infrastructure/services/profile-api.service.js';
+
 const router = useRouter();
-const { t } = useI18n();
+
+// Estado reactivo
 const organizers = ref([]);
-const loading = ref(true);
+const loading = ref(false);
 const error = ref(null);
-const showModal = ref(false);
-const selected = ref(null);
 
-const defaultAvatar =
-  "https://cdn-icons-png.flaticon.com/512/3177/3177440.png";
-
-// Cargar organizadores desde API
+/**
+ * Cargar organizadores
+ */
 const loadOrganizers = async () => {
+  loading.value = true;
+  error.value = null;
+
   try {
-    const response = await api.get("/api/v1/profiles/organizers", {
-    });
-    organizers.value = response.data;
-  } catch (error) {
-    error.value = "Error al cargar organizadores";
+    // Obtener todos los perfiles y filtrar por tipo ORGANIZER
+    const allProfiles = await ProfileApiService.getAllProfiles();
+    organizers.value = allProfiles.filter(profile => profile.type === 'ORGANIZER');
+
+    console.log('✅ Organizadores cargados:', organizers.value.length);
+  } catch (err) {
+    console.error('❌ Error al cargar organizadores:', err);
+    error.value = 'Error al cargar los organizadores. Por favor, intenta de nuevo.';
+    organizers.value = [];
   } finally {
     loading.value = false;
   }
 };
 
-const openProfile = (org) => {
-  selected.value = org;
-  showModal.value = true;
+/**
+ * Obtener iniciales del nombre
+ */
+const getInitials = (organizer) => {
+  const first = organizer.firstName?.charAt(0) || '';
+  const last = organizer.lastName?.charAt(0) || '';
+  return (first + last).toUpperCase();
 };
 
-const goToQuote = (org) => {
+/**
+ * Ver perfil del organizer
+ */
+const viewProfile = (organizer) => {
+  console.log('Ver perfil de:', organizer.firstName);
+  // Navegar a la página de perfil
+  router.push(`/organizer/${organizer.id}/profile`);
+};
+
+/**
+ * Solicitar cotización
+ */
+const requestQuote = (organizer) => {
+  console.log('Solicitar cotización a:', organizer.firstName);
+  // Navegar al formulario de cotización
   router.push({
-    name: "quote-create",
-    query: { organizerId: org.id },
+    name: 'RequestQuote',
+    params: { organizerId: organizer.id }
   });
 };
 
-onMounted(loadOrganizers);
+// Cargar al montar el componente
+onMounted(() => {
+  loadOrganizers();
+});
 </script>
-<template>
-  <div class="dashboard-container">
-    <h1 class="page-title">{{$t('dashboard.welcome')}}</h1>
-    <p class="page-subtitle">Explora y conecta con los organizadores disponibles</p>
 
-    <!-- Loading State -->
-    <div v-if="loading" class="loading-box">
-      <i class="pi pi-spin pi-spinner"></i>
-      <span>Cargando organizadores...</span>
-    </div>
-
-    <!-- Error State -->
-    <div v-if="error" class="error-box">
-      {{ error }}
-    </div>
-
-    <!-- Organizer Grid -->
-    <div class="organizer-grid" v-if="organizers.length > 0">
-      <div v-for="org in organizers" :key="org.id" class="organizer-card">
-        <img
-          :src="org.profileImage || defaultAvatar"
-          alt="Organizer"
-          class="card-avatar"
-        />
-
-        <div class="card-info">
-          <h3 class="card-name">{{ org.name }}</h3>
-          <p class="card-email">{{ org.email }}</p>
-          <p class="card-role">Organizador</p>
-        </div>
-
-        <div class="card-actions">
-          <Button
-            label="Ver Perfil"
-            icon="pi pi-user"
-            class="p-button-info w-full"
-            @click="openProfile(org)"
-          />
-        </div>
-      </div>
-    </div>
-
-    <!-- Empty State -->
-    <div v-if="!loading && organizers.length === 0" class="empty-box">
-      <i class="pi pi-users"></i>
-      <p>No hay organizadores registrados aún.</p>
-    </div>
-
-    <!-- Organizer Modal -->
-    <Dialog
-      v-model:visible="showModal"
-      modal
-      header="Perfil del Organizador"
-      :style="{ width: '450px' }"
-    >
-      <div v-if="selected">
-        <div class="profile-header">
-          <img
-            :src="selected.profileImage || defaultAvatar"
-            class="profile-avatar"
-          />
-          <h2>{{ selected.name }}</h2>
-          <p>{{ selected.email }}</p>
-        </div>
-
-        <Divider />
-
-        <h3 class="profile-subtitle">Información</h3>
-        <ul class="profile-list">
-          <li><strong>Rol:</strong> Organizador</li>
-          <li><strong>ID:</strong> {{ selected.id }}</li>
-          <li><strong>Estado:</strong> {{ selected.status }}</li>
-        </ul>
-
-        <Divider />
-
-        <Button
-          label="Solicitar Cotización"
-          icon="pi pi-send"
-          class="p-button-success w-full"
-          @click="goToQuote(selected)"
-        />
-      </div>
-    </Dialog>
-  </div>
-</template>
 <style scoped>
-.dashboard-container {
-  padding: 2.5rem;
+.host-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
-.page-title {
-  font-size: 2rem;
-  font-weight: 700;
-}
-.page-subtitle {
-  color: #666;
+
+.dashboard-header {
   margin-bottom: 2rem;
 }
 
-.loading-box,
-.error-box,
-.empty-box {
-  background: #f8fafc;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
 }
 
-.organizer-grid {
+.dashboard-header p {
+  color: #718096;
+  font-size: 1.1rem;
+}
+
+.organizers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .organizer-card {
   background: white;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.card-avatar {
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.card-info {
   text-align: center;
+}
+
+.organizer-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  border-color: #4299e1;
+}
+
+.organizer-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
   margin-bottom: 1rem;
+  border: 3px solid #e2e8f0;
 }
 
-.card-name {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-.card-email {
-  color: #777;
-  font-size: 0.9rem;
-}
-
-.card-actions {
+.organizer-avatar img {
   width: 100%;
-  margin-top: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
-.profile-header {
-  text-align: center;
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
 }
-.profile-avatar {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
+
+.organizer-info {
+  flex: 1;
   margin-bottom: 1rem;
 }
 
-.profile-list {
-  list-style: none;
-  padding: 0;
+.organizer-info h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
 }
-.profile-list li {
-  margin-bottom: 6px;
+
+.organizer-info p {
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-request-quote {
+  background: #4299e1;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.3s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-request-quote:hover {
+  background: #3182ce;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #718096;
+}
+
+.empty-state p {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
 }
 </style>

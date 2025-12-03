@@ -90,12 +90,20 @@
         <!-- Services Table -->
         <section class="form-section">
           <ServicesTable
+            v-if="isEditMode && quote.id && !isLoadingQuote"
+            :quoteId="quote.id"
             :services="quote.services"
             :currency="quote.currency"
             @update:services="handleServicesUpdate"
             @service-added="handleServiceAdded"
             @service-removed="handleServiceRemoved"
           />
+          <div v-else-if="isLoadingQuote" class="loading-message">
+            <ProgressSpinner />
+          </div>
+          <div v-else class="no-edit-message">
+            <p>{{ $t('quotes.messages.saveBeforeAddingServices') }}</p>
+          </div>
         </section>
 
         <!-- Financial Summary -->
@@ -155,8 +163,10 @@ import ServicesTable from './services-table.vue';
 import FinancialSummary from './financial-summary.vue';
 import ActionsQuotes from './actions-quotes.vue';
 import QuotePreviewModal from './QuotePreviewModal.vue';
-import { QuoteApiService } from '../../application/services/quote-api.service.js';
+import { QuoteApiService } from '../../infrastructure/services/quote-api.service.js';
+import { ProfileApiService } from '@/profile-management/infrastructure/services/profile-api.service.js';
 import { useAuth } from '@/auth-management/infrastructure/composables/useAuth.js';
+
 
 const router = useRouter();
 const route = useRoute();
@@ -479,6 +489,22 @@ const loadQuote = async (quoteId) => {
     const data = await QuoteApiService.getById(quoteId);
     const loadedQuote = QuoteOrder.fromJSON(data);
     const userId = currentUserId.value;
+
+    // CRÍTICO: Preservar el UUID real del backend
+    loadedQuote.id = data.quoteId || quoteId;
+
+    // 🆕 CARGAR PERFIL DEL HOST SI EXISTE
+    if (data.hostId) {
+      try {
+        const hostProfile = await ProfileApiService.getById(data.hostId);
+        loadedQuote.customer.name = `${hostProfile.firstName} ${hostProfile.lastName}`.trim();
+        loadedQuote.customer.email = hostProfile.email || '';
+        loadedQuote.customer.phone = hostProfile.phoneNumber || '';
+        loadedQuote.customer.id = data.hostId;
+      } catch (error) {
+        console.warn('No se pudo cargar el perfil del host:', error);
+      }
+    }
 
     const ownerId = loadedQuote.ownerId ? String(loadedQuote.ownerId) : null;
     const organizerId = loadedQuote.organizer?.id ? String(loadedQuote.organizer.id) : null;

@@ -171,7 +171,12 @@ const routes = [
     props: true,
     meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
   },
-
+  {
+    path: '/host/request-quote/:organizerId',
+    name: 'RequestQuote',
+    component: () => import('/src/quote-management/presentation/components/QuoteRequestForm.vue'),
+    meta: { requiresAuth: true, role: 'HOST' }
+  },
   // ========================================
   // NOTIFICACIONES Y CONFIGURACIÓN
   // ========================================

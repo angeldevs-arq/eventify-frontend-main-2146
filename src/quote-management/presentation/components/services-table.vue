@@ -1,4 +1,247 @@
-<!-- src/bounded-contexts/quote-management/presentation/components/services-table.vue -->
+<script setup>
+import { ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useToast } from 'primevue/usetoast';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
+import Dialog from 'primevue/dialog';
+import { ServiceItemApiService } from '../../infrastructure/services/service-item-api.service.js';
+import { ServiceItem } from '../../domain/model/service-item.entity.js';
+
+const props = defineProps({
+  quoteId: {
+    type: String,
+    required: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  currency: {
+    type: String,
+    default: 'S/'
+  }
+});
+
+const emit = defineEmits(['items-updated', 'total-changed']);
+
+const { t } = useI18n();
+const toast = useToast();
+
+// Estado reactivo
+const services = ref([]);
+const loading = ref(false);
+const showAddDialog = ref(false);
+const newService = ref({
+  description: '',
+  quantity: 1,
+  unitPrice: 0
+});
+
+// Computed
+const total = computed(() => {
+  return services.value.reduce((sum, service) => {
+    return sum + (service.totalPrice || 0);
+  }, 0);
+});
+
+// Watch total para emitir cambios
+watch(total, (newTotal) => {
+  emit('total-changed', newTotal);
+});
+
+// Métodos
+const formatCurrency = (amount) => {
+  return `${props.currency} ${Number(amount).toFixed(2)}`;
+};
+
+const calculateServiceTotal = (service) => {
+  return (service.quantity || 0) * (service.unitPrice || 0);
+};
+
+const loadServices = async () => {
+  if (!props.quoteId) return;
+
+  loading.value = true;
+  try {
+    const data = await ServiceItemApiService.getServiceItemsByQuote(props.quoteId);
+    services.value = data.map(item => ServiceItem.fromBackend(item));
+    emit('items-updated', services.value);
+  } catch (error) {
+    console.error('Error loading services:', error);
+    toast.add({
+      severity: 'error',
+      summary: t('common.error'),
+      detail: t('quotes.services.loadError'),
+      life: 5000
+    });
+    services.value = [];
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleAddService = () => {
+  newService.value = {
+    description: '',
+    quantity: 1,
+    unitPrice: 0
+  };
+  showAddDialog.value = true;
+};
+
+const confirmAddService = async () => {
+  if (!newService.value.description?.trim()) {
+    toast.add({
+      severity: 'warn',
+      summary: t('common.warning'),
+      detail: t('quotes.services.descriptionRequired'),
+      life: 3000
+    });
+    return;
+  }
+
+  if (newService.value.unitPrice <= 0) {
+    toast.add({
+      severity: 'warn',
+      summary: t('common.warning'),
+      detail: t('quotes.services.priceRequired'),
+      life: 3000
+    });
+    return;
+  }
+
+  loading.value = true;
+  try {
+    const createdItem = await ServiceItemApiService.createServiceItemAuto(
+      props.quoteId,
+      newService.value.description,
+      newService.value.quantity,
+      newService.value.unitPrice
+    );
+
+    services.value.push(ServiceItem.fromBackend(createdItem));
+
+    toast.add({
+      severity: 'success',
+      summary: t('common.success'),
+      detail: t('quotes.services.addedSuccessfully'),
+      life: 3000
+    });
+
+    showAddDialog.value = false;
+    emit('items-updated', services.value);
+  } catch (error) {
+    console.error('Error adding service:', error);
+    toast.add({
+      severity: 'error',
+      summary: t('common.error'),
+      detail: t('quotes.services.addError'),
+      life: 5000
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleServiceUpdate = async (index) => {
+  const service = services.value[index];
+
+  if (!service.id) {
+    // Nuevo servicio local, no hacer nada aún
+    return;
+  }
+
+  // Recalcular total
+  service.totalPrice = calculateServiceTotal(service);
+
+  loading.value = true;
+  try {
+    await ServiceItemApiService.updateServiceItemAuto(
+      props.quoteId,
+      service.id,
+      {
+        description: service.description,
+        quantity: service.quantity,
+        unitPrice: service.unitPrice
+      }
+    );
+
+    toast.add({
+      severity: 'success',
+      summary: t('common.success'),
+      detail: t('quotes.services.updatedSuccessfully'),
+      life: 2000
+    });
+
+    emit('items-updated', services.value);
+  } catch (error) {
+    console.error('Error updating service:', error);
+    toast.add({
+      severity: 'error',
+      summary: t('common.error'),
+      detail: t('quotes.services.updateError'),
+      life: 5000
+    });
+
+    // Recargar para restaurar valores correctos
+    await loadServices();
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleRemoveService = async (index) => {
+  const service = services.value[index];
+
+  if (!service.id) {
+    // Servicio local sin guardar
+    services.value.splice(index, 1);
+    emit('items-updated', services.value);
+    return;
+  }
+
+  loading.value = true;
+  try {
+    await ServiceItemApiService.deleteServiceItem(props.quoteId, service.id);
+
+    services.value.splice(index, 1);
+
+    toast.add({
+      severity: 'success',
+      summary: t('common.success'),
+      detail: t('quotes.services.deletedSuccessfully'),
+      life: 3000
+    });
+
+    emit('items-updated', services.value);
+  } catch (error) {
+    console.error('Error removing service:', error);
+    toast.add({
+      severity: 'error',
+      summary: t('common.error'),
+      detail: t('quotes.services.deleteError'),
+      life: 5000
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Exponer métodos para uso externo
+defineExpose({
+  loadServices,
+  getTotal: () => total.value
+});
+
+// Cargar servicios al montar si hay quoteId
+if (props.quoteId) {
+  loadServices();
+}
+</script>
 
 <template>
   <section class="services-table">
@@ -8,7 +251,7 @@
         :label="$t('quotes.services.addService')"
         icon="pi pi-plus"
         @click="handleAddService"
-        :disabled="disabled"
+        :disabled="disabled || loading"
         class="add-service-btn"
         outlined
       />
@@ -16,6 +259,7 @@
 
     <DataTable
       :value="services"
+      :loading="loading"
       class="services-data-table"
       responsiveLayout="scroll"
       :showGridlines="false"
@@ -67,9 +311,9 @@
         </template>
       </Column>
 
-      <Column field="total" :header="$t('quotes.services.total')" style="width: 150px">
+      <Column field="totalPrice" :header="$t('quotes.services.total')" style="width: 150px">
         <template #body="{ data }">
-          <span class="service-total">{{ formatCurrency(data.total) }}</span>
+          <span class="service-total">{{ formatCurrency(data.totalPrice) }}</span>
         </template>
       </Column>
 
@@ -81,7 +325,7 @@
             text
             rounded
             @click="handleRemoveService(index)"
-            :disabled="disabled"
+            :disabled="disabled || loading"
             class="remove-service-btn"
           />
         </template>
@@ -95,6 +339,12 @@
       </template>
     </DataTable>
 
+    <!-- Total -->
+    <div class="services-total">
+      <span class="total-label">{{ $t('quotes.services.totalAmount') }}:</span>
+      <span class="total-amount">{{ formatCurrency(total) }}</span>
+    </div>
+
     <!-- Diálogo para agregar servicio -->
     <Dialog
       v-model:visible="showAddDialog"
@@ -102,6 +352,7 @@
       :modal="true"
       :closable="true"
       class="add-service-dialog"
+      :style="{ width: '500px' }"
     >
       <div class="dialog-content">
         <div class="form-field">
@@ -140,6 +391,11 @@
             />
           </div>
         </div>
+
+        <div class="calculated-total">
+          <span>{{ $t('quotes.services.total') }}:</span>
+          <strong>{{ formatCurrency(newService.quantity * newService.unitPrice) }}</strong>
+        </div>
       </div>
 
       <template #footer>
@@ -150,164 +406,49 @@
           text
         />
         <Button
-          :label="$t('common.add')"
+          :label="$t('common.save')"
           icon="pi pi-check"
           @click="confirmAddService"
-          :disabled="!isNewServiceValid"
+          :loading="loading"
         />
       </template>
     </Dialog>
   </section>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
-import Button from 'primevue/button';
-import Dialog from 'primevue/dialog';
-import { ServiceItem } from '../../domain/model';
-
-const { t } = useI18n();
-
-const props = defineProps({
-  services: {
-    type: Array,
-    default: () => []
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  currency: {
-    type: String,
-    default: 'S/.'
-  }
-});
-
-const emit = defineEmits(['update:services', 'service-added', 'service-removed', 'service-updated']);
-
-// Estado reactivo
-const showAddDialog = ref(false);
-const newService = ref({
-  description: '',
-  quantity: 1,
-  unitPrice: 0
-});
-
-// Computed
-const isNewServiceValid = computed(() => {
-  return newService.value.description.trim().length > 0 &&
-    newService.value.quantity > 0 &&
-    newService.value.unitPrice >= 0;
-});
-
-// Métodos
-const formatCurrency = (value) => {
-  return `${props.currency} ${value.toLocaleString('es-PE', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  })}`;
-};
-
-const handleAddService = () => {
-  showAddDialog.value = true;
-  resetNewService();
-};
-
-const resetNewService = () => {
-  newService.value = {
-    description: '',
-    quantity: 1,
-    unitPrice: 0
-  };
-};
-
-const confirmAddService = () => {
-  if (!isNewServiceValid.value) return;
-
-  const service = new ServiceItem({
-    description: newService.value.description,
-    quantity: newService.value.quantity,
-    unitPrice: newService.value.unitPrice,
-    currency: props.currency
-  });
-
-  const updatedServices = [...props.services, service];
-  emit('update:services', updatedServices);
-  emit('service-added', service);
-
-  showAddDialog.value = false;
-  resetNewService();
-};
-
-const handleRemoveService = (index) => {
-  const service = props.services[index];
-  const updatedServices = props.services.filter((_, i) => i !== index);
-
-  emit('update:services', updatedServices);
-  emit('service-removed', service);
-};
-
-const handleServiceUpdate = (index) => {
-  const service = props.services[index];
-  emit('service-updated', { index, service });
-};
-</script>
-
 <style scoped>
 .services-table {
-  background: #FFFFFF;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
 }
 
 .services-table__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--primary-color, #3A506B);
+  color: #2D3748;
   margin: 0;
 }
 
 .add-service-btn {
-  color: var(--secondary-color, #5BC0BE);
-  border-color: var(--secondary-color, #5BC0BE);
+  border-color: var(--primary-color, #3A506B);
+  color: var(--primary-color, #3A506B);
 }
 
 .add-service-btn:hover {
-  background-color: var(--secondary-color, #5BC0BE);
-  color: #FFFFFF;
+  background-color: var(--primary-color, #3A506B);
+  color: white;
 }
 
-/* Tabla */
 .services-data-table {
-  border: 1px solid #E9ECEF;
-  border-radius: 6px;
-}
-
-:deep(.p-datatable-thead > tr > th) {
-  background-color: #F8F9FA;
-  color: #495057;
-  font-weight: 600;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 1rem;
-}
-
-:deep(.p-datatable-tbody > tr > td) {
-  padding: 0.75rem 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .service-input {
@@ -317,22 +458,101 @@ const handleServiceUpdate = (index) => {
 .service-total {
   font-weight: 600;
   color: #28A745;
-  font-size: 1rem;
 }
 
 .remove-service-btn {
-  color: #DC3545;
+  color: #DC2626;
 }
 
-.remove-service-btn:hover {
-  background-color: rgba(220, 53, 69, 0.1);
-}
-
-/* Empty state */
 .empty-services {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 2rem;
+  color: #9CA3AF;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.services-total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #F8F9FA;
+  border-radius: 8px;
+}
+
+.total-label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.total-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #28A745;
+}
+
+/* Dialog */
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.calculated-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #F3F4F6;
+  border-radius: 6px;
+  font-size: 1.125rem;
+}
+
+.calculated-total strong {
+  color: #28A745;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .services-table__header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .add-service-btn {
+    width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

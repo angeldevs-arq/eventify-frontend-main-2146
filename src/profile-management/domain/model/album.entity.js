@@ -1,78 +1,222 @@
-// src/profile-management/domain/model/album.entity.js
-
 /**
- * Entidad Album
- * Representa un álbum fotográfico perteneciente a un organizador
+ * Album Entity
+ * Entidad de dominio para álbumes de fotos
+ * Basada en AlbumResource del backend
  */
 
-export default class Album {
-  /**
-   * @param {Object} params
-   * @param {string} params.id - ID único del álbum
-   * @param {string} params.title - Título del álbum
-   * @param {string} [params.description] - Descripción del álbum
-   * @param {string} params.organizerId - ID del organizador propietario
-   * @param {Array<string>} [params.images] - URLs de las imágenes del álbum
-   * @param {Array<string>} [params.tags] - Etiquetas relacionadas al álbum
-   * @param {string} [params.status] - Estado del álbum (active, inactive)
-   * @param {string} [params.createdAt] - Fecha de creación
-   * @param {string} [params.updatedAt] - Fecha de actualización
-   */
-  constructor({
-    id,
-    title,
-    description = '',
-    organizerId,
-    images = [],
-    tags = [],
-    status = 'active',
-    createdAt = new Date().toISOString(),
-    updatedAt = new Date().toISOString()
-  }) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.organizerId = organizerId;
-    this.images = images;
-    this.tags = tags;
-    this.status = status;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+export class Album {
+  constructor(data = {}) {
+    this.id = data.id || null;
+    this.profileId = data.profileId || null;
+    this.title = data.title || '';
+    this.description = data.description || '';
+    this.photos = data.photos || [];
+    this.createdAt = data.createdAt || new Date().toISOString();
   }
 
   /**
-   * Actualiza parcialmente los campos del álbum
-   * @param {Partial<Album>} data
+   * Obtener número de fotos
+   * @returns {number}
    */
-  update(data) {
-    Object.assign(this, data);
-    this.updatedAt = new Date().toISOString();
+  get photoCount() {
+    return this.photos.length;
   }
 
   /**
-   * Agrega una imagen al álbum
-   * @param {string} imageUrl
+   * Verificar si el álbum tiene fotos
+   * @returns {boolean}
    */
-  addImage(imageUrl) {
-    this.images.push(imageUrl);
-    this.updatedAt = new Date().toISOString();
+  hasPhotos() {
+    return this.photos.length > 0;
   }
 
   /**
-   * Elimina una imagen del álbum
-   * @param {string} imageUrl
+   * Verificar si el álbum está vacío
+   * @returns {boolean}
    */
-  removeImage(imageUrl) {
-    this.images = this.images.filter(img => img !== imageUrl);
-    this.updatedAt = new Date().toISOString();
+  isEmpty() {
+    return this.photos.length === 0;
   }
 
   /**
-   * Cambia el estado del álbum
-   * @param {string} newStatus
+   * Obtener primera foto como cover
+   * @returns {Photo|null}
    */
-  changeStatus(newStatus) {
-    this.status = newStatus;
-    this.updatedAt = new Date().toISOString();
+  get coverPhoto() {
+    return this.photos[0] || null;
+  }
+
+  /**
+   * Agregar foto al álbum
+   * @param {Object} photo - { photoUrl, photoPublicId }
+   */
+  addPhoto(photo) {
+    this.photos.push(photo);
+  }
+
+  /**
+   * Eliminar foto del álbum por publicId
+   * @param {string} publicId
+   * @returns {boolean} - true si se eliminó
+   */
+  removePhoto(publicId) {
+    const index = this.photos.findIndex(p => p.photoPublicId === publicId);
+    if (index !== -1) {
+      this.photos.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Obtener foto por publicId
+   * @param {string} publicId
+   * @returns {Photo|null}
+   */
+  getPhoto(publicId) {
+    return this.photos.find(p => p.photoPublicId === publicId) || null;
+  }
+
+  /**
+   * Convertir a DTO para crear álbum
+   * @returns {CreateAlbumResource}
+   */
+  toCreateDTO() {
+    return {
+      profileId: this.profileId,
+      title: this.title,
+      description: this.description,
+      photos: this.photos
+    };
+  }
+
+  /**
+   * Validar datos del álbum
+   * @returns {Object} { valid: boolean, errors: string[] }
+   */
+  validate() {
+    const errors = [];
+
+    if (!this.profileId) {
+      errors.push('El profileId es obligatorio');
+    }
+
+    if (!this.title?.trim()) {
+      errors.push('El título es obligatorio');
+    }
+
+    if (this.title?.length > 100) {
+      errors.push('El título no puede exceder 100 caracteres');
+    }
+
+    if (this.description?.length > 500) {
+      errors.push('La descripción no puede exceder 500 caracteres');
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
+  /**
+   * Crear instancia desde datos del backend
+   * @param {Object} data - AlbumResource del backend
+   * @returns {Album}
+   */
+  static fromBackend(data) {
+    return new Album(data);
+  }
+
+  /**
+   * Crear álbum vacío
+   * @param {number} profileId - ID del perfil
+   * @returns {Album}
+   */
+  static empty(profileId) {
+    return new Album({
+      profileId,
+      photos: []
+    });
+  }
+}
+
+/**
+ * Photo Entity
+ * Entidad para fotos dentro de álbumes
+ */
+export class Photo {
+  constructor(data = {}) {
+    this.photoUrl = data.photoUrl || '';
+    this.photoPublicId = data.photoPublicId || '';
+  }
+
+  /**
+   * Verificar si la foto tiene URL válida
+   * @returns {boolean}
+   */
+  hasValidUrl() {
+    return !!this.photoUrl && this.photoUrl.startsWith('http');
+  }
+
+  /**
+   * Obtener nombre del archivo desde publicId
+   * @returns {string}
+   */
+  get filename() {
+    return this.photoPublicId.split('/').pop();
+  }
+
+  /**
+   * Convertir a DTO para crear foto
+   * @returns {CreatePhotoResource}
+   */
+  toCreateDTO() {
+    return {
+      photoUrl: this.photoUrl,
+      photoPublicId: this.photoPublicId
+    };
+  }
+
+  /**
+   * Validar datos de la foto
+   * @returns {Object} { valid: boolean, errors: string[] }
+   */
+  validate() {
+    const errors = [];
+
+    if (!this.photoUrl?.trim()) {
+      errors.push('La URL de la foto es obligatoria');
+    }
+
+    if (!this.photoPublicId?.trim()) {
+      errors.push('El publicId es obligatorio');
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
+  /**
+   * Crear instancia desde datos del backend
+   * @param {Object} data - PhotoResource del backend
+   * @returns {Photo}
+   */
+  static fromBackend(data) {
+    return new Photo(data);
+  }
+
+  /**
+   * Crear foto desde respuesta de Cloudinary
+   * @param {Object} mediaResponse - { imageUrl, imagePublicId }
+   * @returns {Photo}
+   */
+  static fromMediaResponse(mediaResponse) {
+    return new Photo({
+      photoUrl: mediaResponse.imageUrl,
+      photoPublicId: mediaResponse.imagePublicId
+    });
   }
 }

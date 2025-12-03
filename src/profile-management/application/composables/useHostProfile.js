@@ -6,7 +6,7 @@
 
 import { ref, computed } from 'vue';
 import { useAuth } from '@/auth-management/infrastructure/composables/useAuth.js';
-import { ProfileApiService } from '@/profile-management/application/profile-api.service.js';
+import { ProfileApiService } from '@/profile-management/infrastructure/services/profile-api.service.js';
 import { useToast } from 'primevue/usetoast';
 import { useAuthStore } from '@/auth-management/application/services/auth.store.js';
 
@@ -195,14 +195,15 @@ export function useHostProfile() {
   ]);
 
   // ----------------------------------------------------
-  //   CARGAR PERFIL DESDE /api/v1/profiles/{id}
+  //   CARGAR PERFIL DESDE /api/v1/profiles (busca por userId)
   // ----------------------------------------------------
   const loadProfile = async () => {
     if (!user.value?.id) return;
 
     isLoading.value = true;
     try {
-      const data = await ProfileApiService.getById(user.value.id);
+      // getMyProfile busca el perfil por userId
+      const data = await ProfileApiService.getMyProfile(user.value.id);
       profile.value = data;
       error.value = null;
     } catch (err) {
@@ -219,17 +220,28 @@ export function useHostProfile() {
   };
 
   // ----------------------------------------------------
-  //   ACTUALIZAR PERFIL EN /api/v1/profiles/{id}
+  //   ACTUALIZAR PERFIL EN /api/v1/profiles/{profileId}
   // ----------------------------------------------------
   const updateProfile = async (profileData) => {
-    if (!user.value?.id) return;
+    if (!profile.value?.id) {
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No se encontró el perfil',
+        life: 3000,
+      });
+      return;
+    }
 
     isLoading.value = true;
     try {
+      // updateProfile usa el profileId (no userId)
       const updated = await ProfileApiService.updateProfile(
-        user.value.id,
+        profile.value.id,
         profileData
       );
+
+      profile.value = updated;
 
       toast.add({
         severity: 'success',
@@ -237,10 +249,6 @@ export function useHostProfile() {
         detail: 'Perfil actualizado correctamente',
         life: 3000,
       });
-
-      profile.value = updated; // 🔥 sin tocar el auth store
-
-
 
     } catch (err) {
       toast.add({
@@ -255,17 +263,17 @@ export function useHostProfile() {
   };
 
   // ----------------------------------------------------
-  //   INITIALS — ahora toman del profile, no del auth
+  //   INITIALS — usa firstName y lastName del backend
   // ----------------------------------------------------
   const userInitials = computed(() => {
-    const name = profile.value?.name;
-    if (!name) return '?';
-    return name
-      .split(' ')
-      .map(w => w[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
+    if (!profile.value) return '?';
+    
+    const firstName = profile.value.firstName || '';
+    const lastName = profile.value.lastName || '';
+    
+    if (!firstName && !lastName) return '?';
+    
+    return `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase();
   });
 
   const recentEvents = computed(() => mockRecentEvents.value);

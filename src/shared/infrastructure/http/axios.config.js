@@ -7,7 +7,7 @@ import axios from 'axios';
 
 // Crear instancia de Axios
 const apiClient = axios.create({
-  baseURL: 'https://gateway.wittycliff-227e13a7.westus2.azurecontainerapps.io',
+  baseURL: 'http://localhost:8080',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -17,20 +17,18 @@ const apiClient = axios.create({
 // Request Interceptor - Para agregar token, logs, etc.
 apiClient.interceptors.request.use(
   (config) => {
-    // TODO: Agregar token de autenticación si es necesario
-     const token = localStorage.getItem('token');
-     if (token) {
-     config.headers.Authorization = `Bearer ${token}`;
-     }
+    // Obtener token de localStorage o sessionStorage
+    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
     console.log(`[API Request] ${config.method.toUpperCase()} ${config.url}`);
-
-    console.log(`[Task API Request] ${config.method.toUpperCase()} ${config.url}`);
     return config;
   },
   (error) => {
     console.error('[API Request Error]', error);
-    console.error('[Task API Request Error]', error);
     return Promise.reject(error);
   }
 );

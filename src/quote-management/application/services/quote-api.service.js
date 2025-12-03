@@ -8,7 +8,8 @@ import { NotificationApiService } from '/src/profile-management/infrastructure/n
 import apiClient from '/src/shared/infrastructure/http/axios.config.js';
 
 export class QuoteApiService {
-  static ENDPOINT = '/quotes';
+  static ENDPOINT = '/api/v1/quotes';
+  static ENDPOINT2 = '/api/v1/organizers/{organizerId}/quotes';
 
   /**
    * Obtener todas las cotizaciones
@@ -16,7 +17,7 @@ export class QuoteApiService {
    */
   static async getAll() {
     try {
-      const response = await apiClient.get(this.ENDPOINT);
+      const response = await apiClient.get(`${this.ENDPOINT2}`);
       return response.data;
     } catch (error) {
       console.error('QuoteApiService.getAll error:', error);
