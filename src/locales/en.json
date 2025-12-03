@@ -451,16 +451,73 @@
     "loadingMessages": "Loading messages..."
   },
   "tasks": {
-    "title": "Tasks",
-    "pending": "Pending",
-    "in_progress": "In progress",
-    "done": "Completed",
+    "board": {
+      "title": "Task Board",
+      "noTasks": "No tasks yet"
+    },
     "status": {
-      "todo": "To Do",
-      "inprogress": "In Progress",
-      "done": "Done",
-      "cancelled": "Cancelled"
+      "pending": "To Do",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "stats": {
+      "total": "Total Tasks",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "form": {
+      "createTitle": "New Task",
+      "editTitle": "Edit Task",
+      "title": "Title",
+      "titlePlaceholder": "Enter task title",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe the task...",
+      "event": "Associated Event",
+      "selectEvent": "Select an event",
+      "dueDate": "Due Date",
+      "selectDate": "Select a date",
+      "dateRange": "Event dates: {start} - {end}",
+      "status": "Status"
+    },
+    "actions": {
+      "newTask": "New Task",
+      "confirmDelete": "Confirm Deletion",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "messages": {
+      "loadError": "Error loading tasks",
+      "saveError": "Error saving task",
+      "saved": "Task saved successfully",
+      "statusUpdated": "Status updated",
+      "statusUpdateError": "Error updating status",
+      "deleted": "Task deleted",
+      "deleteError": "Error deleting task",
+      "deleteConfirm": "Are you sure you want to delete this task?",
+      "accessDenied": "Access Denied",
+      "organizerOnly": "Only organizers can manage tasks",
+      "hostOnly": "Only hosts can view progress",
+      "noActiveEvent": "No active event found",
+      "noEvent": "No event assigned"
+    },
+    "labels": {
+      "overdue": "Overdue"
+    },
+    "progress": {
+      "title": "Event Progress",
+      "overall": "Overall Progress",
+      "of": "of",
+      "completed": "completed",
+      "breakdown": "Progress Breakdown"
     }
+  },
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Update",
+    "refresh": "Refresh"
   },
   "auth": {
     "email": "Email",
@@ -675,6 +732,13 @@
       "birthday": "Birthday",
       "conference": "Conference",
       "other": "Event"
+    }
+  },
+  "datetimeFormats": {
+    "short": {
+      "year": "numeric",
+      "month": "2-digit",
+      "day": "2-digit"
     }
   }
 }

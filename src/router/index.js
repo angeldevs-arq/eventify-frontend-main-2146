@@ -3,15 +3,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import pinia from "@/shared/stores/pinia.js";
 import { useAuthStore } from "@/auth-management/application/services/auth.store.js";
+import { taskRoutes } from '@/task-management/presentation/routes/task.routes.js';
 
 // IMPORTS DE PÁGINAS
 import EventPage from "@/social-event-management/doman/presentation/pages/event-page.component.vue";
 import CreateAndEditEvent from "@/social-event-management/doman/presentation/components/create-and-edit-event.component.vue";
-import TaskPage from "@/task-management/presentation/pages/TaskPage.vue";
-import TaskCreatePage from "@/task-management/presentation/pages/TaskCreatePage.vue";
-import TaskEditPage from "@/task-management/presentation/pages/TaskEditPage.vue";
-import TaskDetailPage from "@/task-management/presentation/pages/TaskDetailPage.vue";
-import QuotePage from "@/quote-management/presentation/pages/QuotePage.vue";
 
 const QuoteCreatePage = () =>
   import("@/quote-management/presentation/pages/QuoteCreatePage.vue");
@@ -88,16 +84,16 @@ const routes = [
       title: 'Mi Perfil',
     },
   },
-   {
-     path: '/host/profile/edit',
-     name: 'host-profile-edit',
-     component: () => import('@/profile-management/presentation/pages/HostProfileEditPage.vue'),
-     meta: {
-       requiresAuth: true,
-       requiresRole: 'HOST',
-       title: 'Editar Perfil',
-     },
-   },
+  {
+    path: '/host/profile/edit',
+    name: 'host-profile-edit',
+    component: () => import('@/profile-management/presentation/pages/HostProfileEditPage.vue'),
+    meta: {
+      requiresAuth: true,
+      requiresRole: 'HOST',
+      title: 'Editar Perfil',
+    },
+  },
 
   // ========================================
   // PERFIL - ORGANIZADOR
@@ -147,42 +143,12 @@ const routes = [
   },
 
   // ========================================
-  // TAREAS (solo organizador)
-  // ========================================
-  {
-    path: '/tasks',
-    name: 'tasks',
-    component: TaskPage,
-    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
-  },
-  {
-    path: '/tasks/create',
-    name: 'task-create',
-    component: TaskCreatePage,
-    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
-  },
-  {
-    path: '/tasks/:id',
-    name: 'task-detail',
-    component: TaskDetailPage,
-    props: true,
-    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
-  },
-  {
-    path: '/tasks/:id/edit',
-    name: 'task-edit',
-    component: TaskEditPage,
-    props: true,
-    meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
-  },
-
-  // ========================================
   // COTIZACIONES
   // ========================================
   {
     path: '/quotes',
     name: 'quotes',
-    component: QuotePage,
+    component: () => import('@/quote-management/presentation/pages/QuotePage.vue'),
     meta: { requiresAuth: true, allowedRoles: ['ORGANIZER', 'HOST'] },
   },
   {
@@ -205,12 +171,12 @@ const routes = [
     props: true,
     meta: { requiresAuth: true, requiresRole: 'ORGANIZER' },
   },
-  // ========================================
-  // FIN RUTAS QUOTE MANAGEMENT
-  // ========================================
 
+  // ========================================
+  // NOTIFICACIONES Y CONFIGURACIÓN
+  // ========================================
   {
-    path: '/Notifications',
+    path: '/notifications',
     name: 'Notifications',
     component: () => import('/src/profile-management/presentation/pages/NotificationsPage.vue'),
     meta: { requiresAuth: true },
@@ -221,13 +187,19 @@ const routes = [
     component: () => import('/src/profile-management/presentation/pages/SettingsPage.vue'),
     meta: { requiresAuth: true },
   },
+
+  // ========================================
+  // TASK ROUTES (Nuevo módulo)
+  // ========================================
+  ...taskRoutes,
+
   // ========================================
   // NOT FOUND
   // ========================================
   {
     path: '/:pathMatch(.*)*',
     component: () => import('@/shared/infrastructure/components/common/PageNotFound.vue'),
-  },
+  }
 ]
 
 // ========================================
@@ -241,11 +213,10 @@ const router = createRouter({
 // ========================================
 // GUARD DE NAVEGACIÓN
 // ========================================
-
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
   const isLogged = auth.isAuthenticated;
-  const role = auth.user?.role; // "HOST" o "ORGANIZER"
+  const role = auth.user?.role;
 
   // Rutas públicas con redirect si ya estás autenticado
   if (to.meta.redirectIfAuth && isLogged) {
@@ -271,64 +242,5 @@ router.beforeEach((to, from, next) => {
 
   next();
 });
-
-/*router.beforeEach(async (to, from, next) => {
-  const auth = useAuthStore(pinia);
-
-  const requiresAuth = to.meta.requiresAuth ?? true;
-  const requiresRole = to.meta.requiresRole;
-  const allowedRoles = to.meta.allowedRoles;
-
-  const resolveDashboardRedirect = () => {
-    if (auth.user?.role === "HOST") return "/host/dashboard";
-    if (auth.user?.role === "ORGANIZER") return "/organizer/dashboard";
-    return "/login";
-  };
-
-  // Intentar restaurar sesión si hay token
-  if (!auth.isAuthenticated) {
-    const persisted =
-      localStorage.getItem("authToken") ||
-      sessionStorage.getItem("authToken");
-
-    if (persisted) {
-      await auth.restoreSession();
-    }
-  }
-
-  // Rutas que no requieren auth
-  if (!requiresAuth) {
-    if (to.meta.redirectIfAuth && auth.isAuthenticated) {
-      return next(resolveDashboardRedirect());
-    }
-    return next();
-  }
-
-  // Si requiere auth y no está logueado
-  if (!auth.isAuthenticated) return next("/login");
-
-  // Si requiere rol
-  const normalizedRoles = [];
-  if (Array.isArray(requiresRole)) {
-    normalizedRoles.push(...requiresRole);
-  } else if (typeof requiresRole === "string" && requiresRole) {
-    normalizedRoles.push(requiresRole);
-  }
-
-  if (Array.isArray(allowedRoles)) {
-    normalizedRoles.push(...allowedRoles);
-  } else if (typeof allowedRoles === "string" && allowedRoles) {
-    normalizedRoles.push(allowedRoles);
-  }
-
-  if (
-    normalizedRoles.length > 0 &&
-    (!auth.user?.role || !normalizedRoles.includes(auth.user.role))
-  ) {
-    return next(resolveDashboardRedirect());
-  }
-
-  next();
-});*/
 
 export default router;

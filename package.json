@@ -18,6 +18,8 @@
     "@ngx-translate/http-loader": "^17.0.0",
     "@primeuix/themes": "^1.2.4",
     "@primevue/themes": "^4.3.9",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "axios": "^1.12.2",
     "firebase": "^12.4.0",
     "json-server": "^0.17.4",
@@ -27,7 +29,8 @@
     "primevue": "^4.3.9",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",

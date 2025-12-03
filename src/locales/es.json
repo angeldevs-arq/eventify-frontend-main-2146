@@ -473,16 +473,73 @@
   },
 
   "tasks": {
-    "title": "Tareas",
-    "pending": "Pendientes",
-    "in_progress": "En progreso",
-    "done": "Completadas",
+    "board": {
+      "title": "Tablero de Tareas",
+      "noTasks": "No hay tareas aún"
+    },
     "status": {
-      "todo": "Por hacer",
-      "inprogress": "En progreso",
-      "done": "Hecho",
-      "cancelled": "Cancelada"
+      "pending": "Por Hacer",
+      "inProgress": "En Proceso",
+      "completed": "Completado"
+    },
+    "stats": {
+      "total": "Total de Tareas",
+      "inProgress": "En Proceso",
+      "completed": "Completadas"
+    },
+    "form": {
+      "createTitle": "Nueva Tarea",
+      "editTitle": "Editar Tarea",
+      "title": "Título",
+      "titlePlaceholder": "Ingrese el título de la tarea",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Describa la tarea...",
+      "event": "Evento Asociado",
+      "selectEvent": "Seleccione un evento",
+      "dueDate": "Fecha de Vencimiento",
+      "selectDate": "Seleccione una fecha",
+      "dateRange": "Fechas del evento: {start} - {end}",
+      "status": "Estado"
+    },
+    "actions": {
+      "newTask": "Nueva Tarea",
+      "confirmDelete": "Confirmar Eliminación",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "messages": {
+      "loadError": "Error al cargar las tareas",
+      "saveError": "Error al guardar la tarea",
+      "saved": "Tarea guardada exitosamente",
+      "statusUpdated": "Estado actualizado",
+      "statusUpdateError": "Error al actualizar el estado",
+      "deleted": "Tarea eliminada",
+      "deleteError": "Error al eliminar la tarea",
+      "deleteConfirm": "¿Está seguro de que desea eliminar esta tarea?",
+      "accessDenied": "Acceso Denegado",
+      "organizerOnly": "Solo los organizadores pueden gestionar tareas",
+      "hostOnly": "Solo los anfitriones pueden ver el progreso",
+      "noActiveEvent": "No se encontró un evento activo",
+      "noEvent": "No hay evento asignado"
+    },
+    "labels": {
+      "overdue": "Vencido"
+    },
+    "progress": {
+      "title": "Progreso del Evento",
+      "overall": "Progreso General",
+      "of": "de",
+      "completed": "completadas",
+      "breakdown": "Desglose del Progreso"
     }
+  },
+  "common": {
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "refresh": "Actualizar"
   },
 
   "auth": {
@@ -702,6 +759,13 @@
       "birthday": "Cumpleaños",
       "conference": "Conferencia",
       "other": "Evento"
+    }
+  },
+  "datetimeFormats": {
+    "short": {
+      "year": "numeric",
+      "month": "2-digit",
+      "day": "2-digit"
     }
   }
 }

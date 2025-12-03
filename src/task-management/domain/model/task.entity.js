@@ -1,153 +1,85 @@
 // src/task-management/domain/model/task.entity.js
 
 /**
- * Entidad Task - Agregado raíz
- * Representa una tarea completa con todos sus atributos
+ * Entidad Task - Adaptada al backend task-event-services
+ * Representa una tarea asociada a un evento
  */
 export class Task {
   constructor({
     id = null,
     title = '',
     description = '',
-    status = 'TODO',
-    priority = 'MEDIUM',
-    assignedTo = null,
+    status = 'PENDING',
     dueDate = null,
-    startDate = null,
-    completedDate = null,
-    estimatedHours = 0,
-    tags = [],
-    attachments = [],
-    relatedEventId = null,
-    createdBy = null,
+    eventId = null,
+    assignedUserId = null,
     createdAt = null,
     updatedAt = null
   }) {
-    this.id = id || this.generateId();
+    this.id = id;
     this.title = title;
     this.description = description;
     this.status = status;
-    this.priority = priority;
-    this.assignedTo = assignedTo;
     this.dueDate = dueDate ? new Date(dueDate) : null;
-    this.startDate = startDate ? new Date(startDate) : null;
-    this.completedDate = completedDate ? new Date(completedDate) : null;
-    this.estimatedHours = estimatedHours;
-    this.tags = tags;
-    this.attachments = attachments;
-    this.relatedEventId = relatedEventId;
-    this.createdBy = createdBy;
-    this.createdAt = createdAt || new Date();
-    this.updatedAt = updatedAt || new Date();
+    this.eventId = eventId;
+    this.assignedUserId = assignedUserId;
+    this.createdAt = createdAt ? new Date(createdAt) : new Date();
+    this.updatedAt = updatedAt ? new Date(updatedAt) : new Date();
   }
 
-  generateId() {
-    return `task_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  // Estados disponibles
+  // Estados disponibles según el backend
   static STATUS = {
-    TODO: 'TODO',
+    PENDING: 'PENDING',
     IN_PROGRESS: 'IN_PROGRESS',
-    DONE: 'DONE',
-    CANCELLED: 'CANCELLED'
-  };
-
-  // Prioridades disponibles
-  static PRIORITY = {
-    LOW: 'LOW',
-    MEDIUM: 'MEDIUM',
-    HIGH: 'HIGH',
-    CRITICAL: 'CRITICAL'
+    COMPLETED: 'COMPLETED'
   };
 
   // Métodos de negocio - Gestión de estado
   canEdit() {
-    return this.status !== Task.STATUS.DONE && this.status !== Task.STATUS.CANCELLED;
+    return this.status !== Task.STATUS.COMPLETED;
   }
 
-  isDone() {
-    return this.status === Task.STATUS.DONE;
-  }
-
-  isCancelled() {
-    return this.status === Task.STATUS.CANCELLED;
+  isCompleted() {
+    return this.status === Task.STATUS.COMPLETED;
   }
 
   isInProgress() {
     return this.status === Task.STATUS.IN_PROGRESS;
   }
 
-  isTodo() {
-    return this.status === Task.STATUS.TODO;
+  isPending() {
+    return this.status === Task.STATUS.PENDING;
   }
 
   startTask() {
-    if (this.isTodo()) {
+    if (this.isPending()) {
       this.status = Task.STATUS.IN_PROGRESS;
-      this.startDate = new Date();
       this.markAsUpdated();
     }
   }
 
   completeTask() {
     if (this.canEdit()) {
-      this.status = Task.STATUS.DONE;
-      this.completedDate = new Date();
-      this.markAsUpdated();
-    }
-  }
-
-  cancelTask() {
-    if (this.canEdit()) {
-      this.status = Task.STATUS.CANCELLED;
+      this.status = Task.STATUS.COMPLETED;
       this.markAsUpdated();
     }
   }
 
   reopenTask() {
-    if (this.isDone() || this.isCancelled()) {
-      this.status = Task.STATUS.TODO;
-      this.completedDate = null;
-      this.markAsUpdated();
-    }
-  }
-
-  // Métodos de negocio - Prioridad
-  isHighPriority() {
-    return this.priority === Task.PRIORITY.HIGH || this.priority === Task.PRIORITY.CRITICAL;
-  }
-
-  isCritical() {
-    return this.priority === Task.PRIORITY.CRITICAL;
-  }
-
-  increasePriority() {
-    const priorities = [Task.PRIORITY.LOW, Task.PRIORITY.MEDIUM, Task.PRIORITY.HIGH, Task.PRIORITY.CRITICAL];
-    const currentIndex = priorities.indexOf(this.priority);
-    if (currentIndex < priorities.length - 1) {
-      this.priority = priorities[currentIndex + 1];
-      this.markAsUpdated();
-    }
-  }
-
-  decreasePriority() {
-    const priorities = [Task.PRIORITY.LOW, Task.PRIORITY.MEDIUM, Task.PRIORITY.HIGH, Task.PRIORITY.CRITICAL];
-    const currentIndex = priorities.indexOf(this.priority);
-    if (currentIndex > 0) {
-      this.priority = priorities[currentIndex - 1];
+    if (this.isCompleted()) {
+      this.status = Task.STATUS.PENDING;
       this.markAsUpdated();
     }
   }
 
   // Métodos de negocio - Fechas
   isOverdue() {
-    if (!this.dueDate || this.isDone() || this.isCancelled()) return false;
+    if (!this.dueDate || this.isCompleted()) return false;
     return new Date() > this.dueDate;
   }
 
   isDueSoon(daysThreshold = 3) {
-    if (!this.dueDate || this.isDone() || this.isCancelled()) return false;
+    if (!this.dueDate || this.isCompleted()) return false;
     const now = new Date();
     const diffTime = this.dueDate - now;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -161,26 +93,6 @@ export class Task {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
-  // Métodos de negocio - Tags
-  addTag(tag) {
-    if (!this.tags.includes(tag)) {
-      this.tags.push(tag);
-      this.markAsUpdated();
-    }
-  }
-
-  removeTag(tag) {
-    const index = this.tags.indexOf(tag);
-    if (index > -1) {
-      this.tags.splice(index, 1);
-      this.markAsUpdated();
-    }
-  }
-
-  hasTag(tag) {
-    return this.tags.includes(tag);
-  }
-
   // Utilidades
   markAsUpdated() {
     this.updatedAt = new Date();
@@ -191,7 +103,7 @@ export class Task {
     return (
       this.title.trim().length > 0 &&
       Object.values(Task.STATUS).includes(this.status) &&
-      Object.values(Task.PRIORITY).includes(this.priority)
+      this.dueDate !== null
     );
   }
 
@@ -204,34 +116,14 @@ export class Task {
     return `${day}/${month}/${year}`;
   }
 
-  getFormattedStartDate() {
-    if (!this.startDate) return '';
-    const day = String(this.startDate.getDate()).padStart(2, '0');
-    const month = String(this.startDate.getMonth() + 1).padStart(2, '0');
-    const year = this.startDate.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-
   // Obtener badge de estado para UI
   getStatusBadge() {
     const badges = {
-      [Task.STATUS.TODO]: { severity: 'info', label: 'To Do' },
-      [Task.STATUS.IN_PROGRESS]: { severity: 'warning', label: 'In Progress' },
-      [Task.STATUS.DONE]: { severity: 'success', label: 'Done' },
-      [Task.STATUS.CANCELLED]: { severity: 'danger', label: 'Cancelled' }
+      [Task.STATUS.PENDING]: { severity: 'info', label: 'Por Hacer', color: '#2196F3' },
+      [Task.STATUS.IN_PROGRESS]: { severity: 'warning', label: 'En Proceso', color: '#FF9800' },
+      [Task.STATUS.COMPLETED]: { severity: 'success', label: 'Completado', color: '#4CAF50' }
     };
-    return badges[this.status] || badges[Task.STATUS.TODO];
-  }
-
-  // Obtener badge de prioridad para UI
-  getPriorityBadge() {
-    const badges = {
-      [Task.PRIORITY.LOW]: { severity: 'success', label: 'Low', color: '#28A745' },
-      [Task.PRIORITY.MEDIUM]: { severity: 'info', label: 'Medium', color: '#17A2B8' },
-      [Task.PRIORITY.HIGH]: { severity: 'warning', label: 'High', color: '#FFC107' },
-      [Task.PRIORITY.CRITICAL]: { severity: 'danger', label: 'Critical', color: '#DC3545' }
-    };
-    return badges[this.priority] || badges[Task.PRIORITY.MEDIUM];
+    return badges[this.status] || badges[Task.STATUS.PENDING];
   }
 
   // Factory method para crear desde JSON
@@ -240,19 +132,12 @@ export class Task {
       id: data.id,
       title: data.title || '',
       description: data.description || '',
-      status: data.status || Task.STATUS.TODO,
-      priority: data.priority || Task.PRIORITY.MEDIUM,
-      assignedTo: data.assignedTo,
+      status: data.status || Task.STATUS.PENDING,
       dueDate: data.dueDate,
-      startDate: data.startDate,
-      completedDate: data.completedDate,
-      estimatedHours: data.estimatedHours || 0,
-      tags: data.tags || [],
-      attachments: data.attachments || [],
-      relatedEventId: data.relatedEventId,
-      createdBy: data.createdBy,
-      createdAt: data.createdAt ? new Date(data.createdAt) : new Date(),
-      updatedAt: data.updatedAt ? new Date(data.updatedAt) : new Date()
+      eventId: data.eventId,
+      assignedUserId: data.assignedUserId,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt
     });
   }
 
@@ -263,16 +148,9 @@ export class Task {
       title: this.title,
       description: this.description,
       status: this.status,
-      priority: this.priority,
-      assignedTo: this.assignedTo,
-      dueDate: this.dueDate ? this.dueDate.toISOString() : null,
-      startDate: this.startDate ? this.startDate.toISOString() : null,
-      completedDate: this.completedDate ? this.completedDate.toISOString() : null,
-      estimatedHours: this.estimatedHours,
-      tags: this.tags,
-      attachments: this.attachments,
-      relatedEventId: this.relatedEventId,
-      createdBy: this.createdBy,
+      dueDate: this.dueDate ? this.dueDate.toISOString().split('T')[0] : null,
+      eventId: this.eventId,
+      assignedUserId: this.assignedUserId,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString()
     };
@@ -285,16 +163,9 @@ export class Task {
       title: this.title,
       description: this.description,
       status: this.status,
-      priority: this.priority,
-      assignedTo: this.assignedTo,
       dueDate: this.dueDate ? new Date(this.dueDate) : null,
-      startDate: this.startDate ? new Date(this.startDate) : null,
-      completedDate: this.completedDate ? new Date(this.completedDate) : null,
-      estimatedHours: this.estimatedHours,
-      tags: [...this.tags],
-      attachments: [...this.attachments],
-      relatedEventId: this.relatedEventId,
-      createdBy: this.createdBy,
+      eventId: this.eventId,
+      assignedUserId: this.assignedUserId,
       createdAt: new Date(this.createdAt),
       updatedAt: new Date(this.updatedAt)
     });

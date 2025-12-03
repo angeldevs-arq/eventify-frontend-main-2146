@@ -13,6 +13,7 @@ import pinia from '@/shared/stores/pinia.js'
 import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import ToastService from 'primevue/toastservice'
+import Tooltip from 'primevue/tooltip'
 
 // ========================================
 // GLOBAL STYLES
@@ -43,6 +44,10 @@ import TabPanel from 'primevue/tabpanel'
 import TabView from 'primevue/tabview'
 import Toast from 'primevue/toast'
 import ToggleButton from 'primevue/togglebutton'
+import Textarea from 'primevue/textarea'
+import Calendar from 'primevue/calendar'
+import ProgressBar from 'primevue/progressbar'
+import ProgressSpinner from 'primevue/progressspinner'
 
 import { useAuthStore } from '@/auth-management/application/services/auth.store.js'
 
@@ -77,7 +82,10 @@ async function bootstrap() {
   app.use(i18n)
   app.use(ToastService)
 
-  // 6. Registrar los componentes globales (los dejé igual)
+  // 6. Registrar directivas
+  app.directive('tooltip', Tooltip)
+
+  // 7. Registrar los componentes globales
   app.component('Avatar', Avatar)
   app.component('Button', Button)
   app.component('Card', Card)
@@ -97,8 +105,12 @@ async function bootstrap() {
   app.component('TabView', TabView)
   app.component('Toast', Toast)
   app.component('ToggleButton', ToggleButton)
+  app.component('Textarea', Textarea)
+  app.component('Calendar', Calendar)
+  app.component('ProgressBar', ProgressBar)
+  app.component('ProgressSpinner', ProgressSpinner)
 
-  // 7. Montar la App SOLO cuando todo está listo
+  // 8. Montar la App SOLO cuando todo está listo
   app.mount('#app')
 }
 
