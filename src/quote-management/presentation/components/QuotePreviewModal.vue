@@ -1,5 +1,3 @@
-<!-- src/bounded-contexts/quote-management/presentation/components/QuotePreviewModal.vue -->
-
 <template>
   <Dialog
     :visible="visible"
@@ -59,12 +57,12 @@
           <Column field="quantity" :header="$t('quotes.services.quantity')" style="width: 100px"></Column>
           <Column field="unitPrice" :header="$t('quotes.services.unitPrice')" style="width: 150px">
             <template #body="{ data }">
-              {{ data.getFormattedUnitPrice() }}
+              {{ formatCurrency(data.unitPrice) }}
             </template>
           </Column>
-          <Column field="total" :header="$t('quotes.services.total')" style="width: 150px">
+          <Column field="totalPrice" :header="$t('quotes.services.total')" style="width: 150px">
             <template #body="{ data }">
-              <span class="service-total">{{ data.getFormattedTotal() }}</span>
+              <span class="service-total">{{ formatCurrency(data.totalPrice) }}</span>
             </template>
           </Column>
         </DataTable>
@@ -74,15 +72,15 @@
       <div class="preview-financial">
         <div class="financial-row">
           <span class="financial-label">{{ $t('quotes.financial.subtotal') }}:</span>
-          <span class="financial-value">{{ quote.getFormattedSubtotal() }}</span>
+          <span class="financial-value">{{ formatCurrency(financialTotals.subtotal) }}</span>
         </div>
         <div class="financial-row">
-          <span class="financial-label">{{ $t('quotes.financial.vat') }} ({{ quote.vatPercentage }}%):</span>
-          <span class="financial-value">{{ quote.getFormattedVAT() }}</span>
+          <span class="financial-label">{{ $t('quotes.financial.vat') }} ({{ vatPercentage * 100 }}%):</span>
+          <span class="financial-value">{{ formatCurrency(financialTotals.vat) }}</span>
         </div>
         <div class="financial-row total-row">
           <span class="financial-label">{{ $t('quotes.financial.total') }}:</span>
-          <span class="financial-value total-value">{{ quote.getFormattedTotal() }}</span>
+          <span class="financial-value total-value">{{ formatCurrency(financialTotals.total) }}</span>
         </div>
       </div>
     </div>
@@ -108,6 +106,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import Dialog from 'primevue/dialog';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -130,7 +129,36 @@ const props = defineProps({
 
 const emit = defineEmits(['update:visible', 'edit', 'save-and-send']);
 
+/* =========================================
+   🔥 COMPUTED FINANCIALS
+========================================= */
+const vatPercentage = 0.18;
+
+const financialTotals = computed(() => {
+  if (!props.quote?.services) {
+    return { subtotal: 0, vat: 0, total: 0 };
+  }
+
+  const subtotal = props.quote.services.reduce((sum, service) => {
+    const serviceTotal = service.totalPrice || (service.quantity * service.unitPrice) || 0;
+    return sum + serviceTotal;
+  }, 0);
+
+  const vat = subtotal * vatPercentage;
+  const total = subtotal + vat;
+
+  return {
+    subtotal: Number(subtotal.toFixed(2)),
+    vat: Number(vat.toFixed(2)),
+    total: Number(total.toFixed(2))
+  };
+});
+
 // Métodos
+const formatCurrency = (amount) => {
+  return `${props.quote.currency || 'S/'} ${Number(amount).toFixed(2)}`;
+};
+
 const formatDate = (date) => {
   if (!date) return '';
   const d = new Date(date);
@@ -237,20 +265,24 @@ const handleSaveAndSend = () => {
   color: #6C757D;
   margin: 0.25rem 0;
 }
+
 .organizer-contact {
   font-size: 0.875rem;
   color: #495057;
   margin: 0.5rem 0 0 0;
   font-weight: 500;
 }
+
 /* Services Table */
 .preview-services {
   margin: 1rem 0;
 }
+
 .services-preview-table {
   border: 1px solid #E9ECEF;
   border-radius: 6px;
 }
+
 .services-preview-table :deep(.p-datatable-thead > tr > th) {
   background-color: #F8F9FA;
   color: #495057;
@@ -258,10 +290,12 @@ const handleSaveAndSend = () => {
   font-size: 0.875rem;
   text-transform: uppercase;
 }
+
 .service-total {
   font-weight: 600;
   color: #28A745;
 }
+
 /* Financial Summary */
 .preview-financial {
   display: flex;
@@ -273,76 +307,92 @@ const handleSaveAndSend = () => {
   margin-left: auto;
   min-width: 350px;
 }
+
 .financial-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
 }
+
 .financial-label {
   font-size: 0.9375rem;
   color: #495057;
   font-weight: 500;
 }
+
 .financial-value {
   font-size: 1rem;
   color: #212529;
   font-weight: 600;
 }
+
 .total-row {
   margin-top: 0.5rem;
   padding-top: 1rem;
   border-top: 2px solid var(--secondary-color, #5BC0BE);
 }
+
 .total-row .financial-label {
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--primary-color, #3A506B);
 }
+
 .total-value {
   font-size: 1.5rem;
   color: var(--secondary-color, #5BC0BE);
   font-weight: 700;
 }
+
 /* Footer */
 .preview-footer {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
 }
+
 .edit-again-btn {
   color: #6C757D;
   border-color: #6C757D;
 }
+
 .edit-again-btn:hover {
   background-color: #6C757D;
   color: #FFFFFF;
 }
+
 .save-send-btn {
   background-color: var(--primary-color, #3A506B);
   border-color: var(--primary-color, #3A506B);
   color: var(--accent-color, #6FFFE9);
 }
+
 .save-send-btn:hover {
   background-color: var(--secondary-color, #5BC0BE);
   border-color: var(--secondary-color, #5BC0BE);
   color: #FFFFFF;
 }
+
 /* Responsive */
 @media (max-width: 768px) {
   .preview-header {
     grid-template-columns: 1fr;
   }
+
   .organizer-info {
     order: -1;
   }
+
   .preview-financial {
     min-width: 100%;
     margin-left: 0;
   }
+
   .preview-footer {
     flex-direction: column;
   }
+
   .edit-again-btn,
   .save-send-btn {
     width: 100%;

@@ -767,5 +767,161 @@
       "month": "2-digit",
       "day": "2-digit"
     }
+  },
+  "quotes": {
+    "request": {
+      "title": "Solicitar Cotización",
+      "subtitle": "Completa los detalles para tu cotización de evento",
+      "submit": "Enviar Solicitud",
+      "servicesNeeded": "Servicios Requeridos",
+      "servicesDescription": "Indica los servicios que necesitas para tu evento. Esto ayudará al organizador a preparar una cotización más precisa.",
+      "serviceDescriptionPlaceholder": "Ej: Catering, DJ, Decoración, Fotografía...",
+      "quantityPlaceholder": "Cantidad",
+      "serviceNotes": "Notas adicionales",
+      "serviceNotesPlaceholder": "Especificaciones, preferencias o detalles adicionales...",
+      "addAnotherService": "Agregar Otro Servicio",
+      "budgetRange": "Rango de Presupuesto (Opcional)",
+      "budgetDescription": "Indica tu rango de presupuesto para ayudar al organizador a ajustar la cotización.",
+      "minBudget": "Presupuesto Mínimo",
+      "maxBudget": "Presupuesto Máximo"
+    },
+    "form": {
+      "title": "Cotización",
+      "createTitle": "Nueva Cotización",
+      "editTitle": "Editar Cotización",
+      "basicInfo": "Información Básica",
+      "customerInfo": "Información del Cliente",
+      "eventInfo": "Información del Evento",
+      "selectOrganizer": "Seleccionar Organizador (Opcional)",
+      "customer": "Cliente",
+      "customerName": "Nombre del Cliente",
+      "customerNamePlaceholder": "Ingresa el nombre completo del cliente",
+      "customerEmail": "Correo Electrónico",
+      "customerEmailPlaceholder": "correo{'@'}ejemplo.com",
+      "customerPhone": "Teléfono",
+      "customerPhonePlaceholder": "+51 999 999 999",
+      "event": "Evento",
+      "eventType": "Tipo de Evento",
+      "selectEventType": "Selecciona el tipo de evento",
+      "eventDate": "Fecha del Evento",
+      "selectDate": "Selecciona una fecha",
+      "numberOfGuests": "Número de Invitados",
+      "numberOfGuestsPlaceholder": "Ej: 100",
+      "location": "Ubicación",
+      "locationPlaceholder": "Lugar del evento",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Describe los detalles de tu evento..."
+    },
+    "validation": {
+      "fillRequired": "Por favor, completa todos los campos requeridos",
+      "customerNameRequired": "El nombre del cliente es requerido",
+      "eventTypeRequired": "El tipo de evento es requerido",
+      "eventDateRequired": "La fecha del evento es requerida",
+      "cannotSend": "No se puede enviar la cotización. Verifica que tenga servicios y un total mayor a 0."
+    },
+    "messages": {
+      "requestSent": "Solicitud de cotización enviada exitosamente",
+      "requestError": "Error al enviar la solicitud de cotización",
+      "createdSuccessfully": "Cotización creada exitosamente",
+      "updatedSuccessfully": "Cotización actualizada exitosamente",
+      "loadedSuccessfully": "Cotización cargada exitosamente",
+      "sentSuccessfully": "Cotización enviada exitosamente",
+      "saveError": "Error al guardar la cotización",
+      "loadError": "Error al cargar la cotización",
+      "sendError": "Error al enviar la cotización",
+      "stateApproved": "Cotización aprobada exitosamente",
+      "stateDeclined": "Cotización rechazada exitosamente",
+      "stateChangeError": "Error al cambiar el estado de la cotización",
+      "forbiddenQuote": "No tienes permiso para ver esta cotización"
+    },
+    "actions": {
+      "send": "Enviar",
+      "approve": "Aprobar",
+      "decline": "Rechazar"
+    },
+    "detail": {
+      "title": "Detalle de Cotización",
+      "status": "Estado",
+      "information": "Información",
+      "metadata": "Metadatos",
+      "createdAt": "Fecha de Creación",
+      "updatedAt": "Última Actualización"
+    },
+    "preview": {
+      "title": "Vista Previa de Cotización",
+      "quotation": "Cotización",
+      "for": "Para",
+      "event": "Evento",
+      "date": "Fecha",
+      "location": "Ubicación",
+      "guests": "Invitados",
+      "organizer": "Organizador",
+      "tel": "Tel",
+      "editAgain": "Editar de Nuevo",
+      "saveAndSend": "Guardar y Enviar"
+    },
+    "services": {
+      "title": "Servicios",
+      "items": "servicios",
+      "description": "Descripción",
+      "quantity": "Cantidad",
+      "unitPrice": "Precio Unitario",
+      "total": "Total",
+      "totalAmount": "Monto Total",
+      "addService": "Agregar Servicio",
+      "editService": "Editar Servicio",
+      "removeService": "Eliminar Servicio",
+      "confirmRemove": "¿Estás seguro de que deseas eliminar este servicio?",
+      "noServices": "No hay servicios agregados",
+      "saveFirst": "Guarda la cotización primero para agregar servicios",
+      "updatedSuccessfully": "Servicio actualizado exitosamente",
+      "addedSuccessfully": "Servicio agregado exitosamente",
+      "removedSuccessfully": "Servicio eliminado exitosamente"
+    },
+    "financial": {
+      "title": "Resumen Financiero",
+      "subtotal": "Subtotal",
+      "vat": "IGV",
+      "total": "Total"
+    },
+    "states": {
+      "DRAFT": "Borrador",
+      "PENDING": "Pendiente",
+      "APPROVED": "Aprobada",
+      "DECLINED": "Rechazada"
+    }
+  },
+  "events": {
+    "types": {
+      "wedding": "Boda",
+      "birthday": "Cumpleaños",
+      "corporate": "Corporativo",
+      "anniversary": "Aniversario",
+      "graduation": "Graduación",
+      "other": "Otro"
+    }
+  },
+  "common": {
+    "back": "Volver",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "loading": "Cargando...",
+    "success": "Éxito",
+    "error": "Error",
+    "warning": "Advertencia",
+    "info": "Información",
+    "yes": "Sí",
+    "no": "No",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "actions": "Acciones"
+  },
+  "roles": {
+    "organizer": "Organizador",
+    "host": "Anfitrión"
   }
 }

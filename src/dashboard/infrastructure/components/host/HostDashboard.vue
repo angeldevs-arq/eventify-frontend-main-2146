@@ -53,7 +53,7 @@
         <!-- Botón de acción -->
         <button
           class="btn-request-quote"
-          @click.stop="requestQuote(organizer)"
+          @click.stop="goToRequestQuote(organizer)"
         >
           <i class="pi pi-file"></i>
           Solicitar Cotización
@@ -74,6 +74,12 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ProfileApiService } from '@/profile-management/infrastructure/services/profile-api.service.js';
 
+const goToRequestQuote = (organizer) => {
+  router.push({
+    name: 'request-quote',          // 👈 mismo name que en el router
+    params: { organizerId: organizer.id } // 👈 AQUÍ PASAS EL ID
+  });
+};
 const router = useRouter();
 
 // Estado reactivo

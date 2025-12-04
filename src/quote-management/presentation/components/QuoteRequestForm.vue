@@ -1,758 +1,645 @@
+<template>
+  <div class="quote-request-form">
+    <div class="form-container">
+      <!-- Header -->
+      <header class="form-header">
+        <div class="header-content">
+          <i class="pi pi-file-edit header-icon"></i>
+          <div>
+            <h1 class="form-title">{{ $t('quotes.request.title') }}</h1>
+            <p class="form-subtitle">{{ $t('quotes.request.subtitle') }}</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Loading State -->
+      <div v-if="isLoading" class="loading-container">
+        <ProgressSpinner />
+        <p class="loading-text">{{ $t('common.loading') }}</p>
+      </div>
+
+      <!-- Form Content -->
+      <form v-else @submit.prevent="submitQuoteRequest" class="quote-form-content">
+        <!-- Customer Information -->
+        <section class="form-section">
+          <h2 class="section-title">
+            <i class="pi pi-user"></i>
+            {{ $t('quotes.form.customerInfo') }}
+          </h2>
+
+          <div class="form-grid">
+            <div class="form-field full-width">
+              <label for="customerName">{{ $t('quotes.form.customerName') }} *</label>
+              <InputText
+                id="customerName"
+                v-model="formData.customerName"
+                :placeholder="$t('quotes.form.customerNamePlaceholder')"
+                :class="{ 'p-invalid': submitted && !formData.customerName }"
+                disabled
+              />
+              <small v-if="submitted && !formData.customerName" class="p-error">
+                {{ $t('quotes.validation.customerNameRequired') }}
+              </small>
+            </div>
+
+            <div class="form-field">
+              <label for="customerEmail">{{ $t('quotes.form.customerEmail') }}</label>
+              <InputText
+                id="customerEmail"
+                v-model="formData.customerEmail"
+                type="email"
+                :placeholder="$t('quotes.form.customerEmailPlaceholder')"
+                disabled
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="customerPhone">{{ $t('quotes.form.customerPhone') }}</label>
+              <InputText
+                id="customerPhone"
+                v-model="formData.customerPhone"
+                :placeholder="$t('quotes.form.customerPhonePlaceholder')"
+                disabled
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- Event Information -->
+        <section class="form-section">
+          <h2 class="section-title">
+            <i class="pi pi-calendar-plus"></i>
+            {{ $t('quotes.form.eventInfo') }}
+          </h2>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="eventType">{{ $t('quotes.form.eventType') }} *</label>
+              <Dropdown
+                id="eventType"
+                v-model="formData.eventType"
+                :options="eventTypeOptions"
+                optionLabel="label"
+                optionValue="value"
+                :placeholder="$t('quotes.form.selectEventType')"
+                :class="{ 'p-invalid': submitted && !formData.eventType }"
+              />
+              <small v-if="submitted && !formData.eventType" class="p-error">
+                {{ $t('quotes.validation.eventTypeRequired') }}
+              </small>
+            </div>
+
+            <div class="form-field">
+              <label for="eventDate">{{ $t('quotes.form.eventDate') }} *</label>
+              <Calendar
+                id="eventDate"
+                v-model="formData.eventDate"
+                dateFormat="dd/mm/yy"
+                :placeholder="$t('quotes.form.selectDate')"
+                :minDate="minDate"
+                :class="{ 'p-invalid': submitted && !formData.eventDate }"
+                showIcon
+              />
+              <small v-if="submitted && !formData.eventDate" class="p-error">
+                {{ $t('quotes.validation.eventDateRequired') }}
+              </small>
+            </div>
+
+            <div class="form-field">
+              <label for="guestQuantity">{{ $t('quotes.form.numberOfGuests') }}</label>
+              <InputNumber
+                id="guestQuantity"
+                v-model="formData.guestQuantity"
+                :min="0"
+                :placeholder="$t('quotes.form.numberOfGuestsPlaceholder')"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="location">{{ $t('quotes.form.location') }}</label>
+              <InputText
+                id="location"
+                v-model="formData.location"
+                :placeholder="$t('quotes.form.locationPlaceholder')"
+              />
+            </div>
+
+            <div class="form-field full-width">
+              <label for="description">{{ $t('quotes.form.description') }}</label>
+              <Textarea
+                id="description"
+                v-model="formData.description"
+                rows="4"
+                :placeholder="$t('quotes.form.descriptionPlaceholder')"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- 🔥 SERVICES REQUEST SECTION -->
+        <section class="form-section">
+          <h2 class="section-title">
+            <i class="pi pi-list"></i>
+            {{ $t('quotes.request.servicesNeeded') }}
+          </h2>
+          <p class="section-description">
+            {{ $t('quotes.request.servicesDescription') }}
+          </p>
+
+          <!-- Service Request Items -->
+          <div class="service-requests-list">
+            <div
+              v-for="(service, index) in requestedServices"
+              :key="index"
+              class="service-request-item"
+            >
+              <div class="service-request-content">
+                <div class="service-field">
+                  <label>{{ $t('quotes.services.description') }} *</label>
+                  <InputText
+                    v-model="service.description"
+                    :placeholder="$t('quotes.request.serviceDescriptionPlaceholder')"
+                    :class="{ 'p-invalid': submitted && !service.description }"
+                  />
+                </div>
+
+                <div class="service-field quantity-field">
+                  <label>{{ $t('quotes.services.quantity') }}</label>
+                  <InputNumber
+                    v-model="service.quantity"
+                    :min="1"
+                    :placeholder="$t('quotes.request.quantityPlaceholder')"
+                  />
+                </div>
+
+                <div class="service-actions">
+                  <Button
+                    type="button"
+                    icon="pi pi-trash"
+                    severity="danger"
+                    text
+                    rounded
+                    @click="removeService(index)"
+                    :disabled="requestedServices.length === 1"
+                    v-tooltip.top="$t('quotes.services.removeService')"
+                  />
+                </div>
+              </div>
+
+              <div class="service-notes">
+                <label>{{ $t('quotes.request.serviceNotes') }}</label>
+                <Textarea
+                  v-model="service.notes"
+                  rows="2"
+                  :placeholder="$t('quotes.request.serviceNotesPlaceholder')"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Service Button -->
+          <div class="add-service-container">
+            <Button
+              type="button"
+              :label="$t('quotes.request.addAnotherService')"
+              icon="pi pi-plus"
+              severity="secondary"
+              outlined
+              @click="addService"
+            />
+          </div>
+        </section>
+
+        <!-- Budget Range (Optional) -->
+        <section class="form-section">
+          <h2 class="section-title">
+            <i class="pi pi-dollar"></i>
+            {{ $t('quotes.request.budgetRange') }}
+          </h2>
+          <p class="section-description">
+            {{ $t('quotes.request.budgetDescription') }}
+          </p>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="minBudget">{{ $t('quotes.request.minBudget') }}</label>
+              <InputNumber
+                id="minBudget"
+                v-model="formData.minBudget"
+                mode="currency"
+                currency="PEN"
+                locale="es-PE"
+                :min="0"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="maxBudget">{{ $t('quotes.request.maxBudget') }}</label>
+              <InputNumber
+                id="maxBudget"
+                v-model="formData.maxBudget"
+                mode="currency"
+                currency="PEN"
+                locale="es-PE"
+                :min="0"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <Button
+            type="button"
+            :label="$t('common.cancel')"
+            icon="pi pi-times"
+            severity="secondary"
+            outlined
+            @click="handleCancel"
+            :disabled="isSubmitting"
+          />
+          <Button
+            type="submit"
+            :label="$t('quotes.request.submit')"
+            icon="pi pi-send"
+            :loading="isSubmitting"
+            :disabled="isSubmitting"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'primevue/usetoast';
-import { useAuth } from '@/auth-management/infrastructure/composables/useAuth.js';
-import { QuoteApiService } from '@/quote-management/infrastructure/services/quote-api.service.js';
-import { ServiceItemApiService } from '@/quote-management/infrastructure/services/service-item-api.service.js';
-import { ProfileApiService } from '@/profile-management/infrastructure/services/profile-api.service.js';
-import { Quote } from '@/quote-management/domain/model/quote.entity.js';
-import { ServiceItem } from '@/quote-management/domain/model/service-item.entity.js';
 import InputText from 'primevue/inputtext';
-import Calendar from 'primevue/calendar';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
+import Calendar from 'primevue/calendar';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
-import Card from 'primevue/card';
-import Checkbox from 'primevue/checkbox';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Dialog from 'primevue/dialog';
+import ProgressSpinner from 'primevue/progressspinner';
+import Tooltip from 'primevue/tooltip';
 
+import { QuoteApiService } from '../../infrastructure/services/quote-api.service.js';
+import { ProfileApiService } from '@/profile-management/infrastructure/services/profile-api.service.js';
+import { useAuth } from '@/auth-management/infrastructure/composables/useAuth.js';
+
+/* =========================================
+   COMPOSABLES
+========================================= */
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 const toast = useToast();
-const { user } = useAuth();
+const { user, restoreSession } = useAuth();
 
-// Props del organizador
-const organizerId = ref(route.params.organizerId);
-const organizerProfile = ref(null);
-const hostProfile = ref(null); // Perfil del Host (usuario actual)
-const loading = ref(false);
-const submitting = ref(false);
+/* =========================================
+   STATE
+========================================= */
+const isLoading = ref(true);
+const isSubmitting = ref(false);
+const submitted = ref(false);
 
-// Formulario
-const form = ref({
-  title: '',
+const formData = ref({
+  customerName: '',
+  customerEmail: '',
+  customerPhone: '',
   eventType: '',
   eventDate: null,
-  guestQuantity: 50,
+  guestQuantity: 0,
   location: '',
-  additionalNotes: ''
-});
-
-// Servicios solicitados
-const requestedServices = ref([]);
-const showServiceDialog = ref(false);
-const newService = ref({
   description: '',
-  quantity: 1
+  minBudget: null,
+  maxBudget: null
 });
 
-// Validación
-const errors = ref({});
-
-// Tipos de eventos
-const eventTypes = computed(() => {
-  // Valores en inglés que probablemente acepte el backend
-  return [
-    { label: 'Boda', value: 'WEDDING' },
-    { label: 'Cumpleaños', value: 'BIRTHDAY' },
-    { label: 'Evento Corporativo', value: 'CORPORATE' },
-    { label: 'Conferencia', value: 'CONFERENCE' },
-    { label: 'Graduación', value: 'GRADUATION' },
-    { label: 'Aniversario', value: 'ANNIVERSARY' },
-    { label: 'Bautizo', value: 'BAPTISM' },
-    { label: 'Primera Comunión', value: 'COMMUNION' },
-    { label: 'Baby Shower', value: 'BABY_SHOWER' },
-    { label: 'Compromiso', value: 'ENGAGEMENT' },
-    { label: 'Jubilación', value: 'RETIREMENT' },
-    { label: 'Reunión', value: 'REUNION' },
-    { label: 'Gala', value: 'GALA' },
-    { label: 'Seminario', value: 'SEMINAR' },
-    { label: 'Taller', value: 'WORKSHOP' },
-    { label: 'Fiesta', value: 'PARTY' },
-    { label: 'Otro', value: 'OTHER' }
-  ];
-});
-
-// Categorías de servicios comunes
-const serviceCategories = computed(() => {
-  return ServiceItem.getCommonServiceCategories().map(cat => ({
-    label: cat,
-    value: cat
-  }));
-});
-
-// Fecha mínima (hoy)
-const minDate = computed(() => new Date());
-
-// Validar formulario
-const validateForm = () => {
-  errors.value = {};
-
-  if (!form.value.title?.trim()) {
-    errors.value.title = 'El título es obligatorio';
-  }
-
-  if (!form.value.eventType) {
-    errors.value.eventType = 'Selecciona un tipo de evento';
-  }
-
-  if (!form.value.eventDate) {
-    errors.value.eventDate = 'La fecha del evento es obligatoria';
-  } else if (new Date(form.value.eventDate) < new Date()) {
-    errors.value.eventDate = 'La fecha debe ser futura';
-  }
-
-  if (!form.value.guestQuantity || form.value.guestQuantity < 1) {
-    errors.value.guestQuantity = 'La cantidad de invitados debe ser mayor a 0';
-  }
-
-  if (!form.value.location?.trim()) {
-    errors.value.location = 'La ubicación es obligatoria';
-  }
-
-  if (requestedServices.value.length === 0) {
-    errors.value.services = 'Debes solicitar al menos un servicio';
-  }
-
-  return Object.keys(errors.value).length === 0;
-};
-
-// Cargar perfil del organizador
-const loadOrganizerProfile = async () => {
-  loading.value = true;
-  try {
-    organizerProfile.value = await ProfileApiService.getProfileById(organizerId.value);
-  } catch (error) {
-    console.error('Error loading organizer profile:', error);
-    toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'No se pudo cargar el perfil del organizador',
-      life: 5000
-    });
-    router.push({ name: 'host-dashboard' });
-  } finally {
-    loading.value = false;
-  }
-};
-
-// Cargar perfil del Host (usuario actual)
-const loadHostProfile = async () => {
-  try {
-    // Intentar obtener el profileId desde diferentes fuentes
-    let profileId = user.value?.profileId || user.value?.id;
-
-    if (!profileId) {
-      // Si no existe, buscar por userId o email
-      console.log('🔍 Buscando perfil del usuario:', user.value);
-
-      // Opción 1: Si tienes un endpoint para buscar por userId
-      // const profile = await ProfileApiService.getProfileByUserId(user.value.id);
-
-      // Opción 2: Si tienes un endpoint para obtener el perfil actual
-      // const profile = await ProfileApiService.getCurrentUserProfile();
-
-      // Opción 3: Buscar todos los perfiles y filtrar por email (último recurso)
-      const allProfiles = await ProfileApiService.getAllProfiles();
-      const profile = allProfiles.find(p =>
-        p.email === user.value?.email ||
-        p.userId === user.value?.id
-      );
-
-      if (!profile) {
-        throw new Error('No se encontró el perfil del usuario');
-      }
-
-      hostProfile.value = profile;
-      console.log('✅ Perfil del Host cargado:', hostProfile.value);
-    } else {
-      // Si existe profileId, cargarlo directamente
-      hostProfile.value = await ProfileApiService.getProfileById(profileId);
-      console.log('✅ Perfil del Host cargado:', hostProfile.value);
-    }
-  } catch (error) {
-    console.error('❌ Error loading host profile:', error);
-    toast.add({
-      severity: 'error',
-      summary: 'Error de autenticación',
-      detail: 'No se pudo cargar tu perfil. Por favor, verifica que tengas un perfil creado.',
-      life: 5000
-    });
-    router.push({ name: 'host-dashboard' });
-  }
-};
-
-// Manejar servicios
-const handleAddService = () => {
-  newService.value = {
+// 🔥 REQUESTED SERVICES
+const requestedServices = ref([
+  {
     description: '',
-    quantity: 1
-  };
-  showServiceDialog.value = true;
-};
-
-const confirmAddService = () => {
-  if (!newService.value.description?.trim()) {
-    toast.add({
-      severity: 'warn',
-      summary: 'Advertencia',
-      detail: 'Selecciona o escribe un servicio',
-      life: 3000
-    });
-    return;
+    quantity: 1,
+    notes: ''
   }
+]);
 
+/* =========================================
+   COMPUTED
+========================================= */
+const minDate = computed(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+});
+
+const eventTypeOptions = computed(() => [
+  { label: t('events.types.wedding'), value: 'WEDDING' },
+  { label: t('events.types.birthday'), value: 'BIRTHDAY' },
+  { label: t('events.types.corporate'), value: 'CORPORATE' },
+  { label: t('events.types.anniversary'), value: 'ANNIVERSARY' },
+  { label: t('events.types.graduation'), value: 'GRADUATION' },
+  { label: t('events.types.other'), value: 'OTHER' }
+]);
+
+const isFormValid = computed(() => {
+  const hasBasicInfo =
+    formData.value.customerName?.trim().length > 0 &&
+    formData.value.eventType &&
+    formData.value.eventDate instanceof Date;
+
+  const hasValidServices = requestedServices.value.some(
+    service => service.description?.trim().length > 0
+  );
+
+  return hasBasicInfo && hasValidServices;
+});
+
+/* =========================================
+   🔥 SERVICES MANAGEMENT
+========================================= */
+const addService = () => {
   requestedServices.value.push({
-    description: newService.value.description,
-    quantity: newService.value.quantity,
-    unitPrice: 0,
-    totalPrice: 0
-  });
-
-  showServiceDialog.value = false;
-
-  toast.add({
-    severity: 'success',
-    summary: 'Servicio agregado',
-    detail: `${newService.value.description} agregado a tu solicitud`,
-    life: 2000
+    description: '',
+    quantity: 1,
+    notes: ''
   });
 };
 
-const removeService = (index) => {
-  requestedServices.value.splice(index, 1);
-};
-
-// Enviar solicitud de cotización
-const submitQuoteRequest = async () => {
-  // Verificar que tenemos el perfil del host
-  if (!hostProfile.value?.id) {
-    toast.add({
-      severity: 'error',
-      summary: 'Error de autenticación',
-      detail: 'No se pudo identificar tu perfil. Por favor, recarga la página.',
-      life: 5000
-    });
-    return;
+const removeService = index => {
+  if (requestedServices.value.length > 1) {
+    requestedServices.value.splice(index, 1);
   }
+};
 
-  if (!validateForm()) {
+/* =========================================
+   🔥 LOAD USER DATA
+========================================= */
+const loadUserData = async () => {
+  try {
+    console.log('👤 Loading user data...');
+
+    if (!user.value) {
+      await restoreSession();
+    }
+
+    const profile = await ProfileApiService.getProfileById(user.value.id);
+
+    const fullName = `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
+
+    formData.value.customerName =
+      fullName ||
+      profile.username ||
+      user.value.username ||
+      '';
+
+    formData.value.customerEmail = profile.email || user.value.email || '';
+    formData.value.customerPhone = profile.phone || user.value.phone || '';
+
+    console.log('✅ User data loaded:', {
+      name: formData.value.customerName,
+      email: formData.value.customerEmail
+    });
+  } catch (error) {
+    console.error('Error loading user data:', error);
+
+    if (user.value) {
+      formData.value.customerName = user.value.username || 'Invitado';
+      formData.value.customerEmail = user.value.email || '';
+    }
+  }
+};
+
+/* =========================================
+   🔥 SUBMIT QUOTE REQUEST
+========================================= */
+const submitQuoteRequest = async () => {
+  submitted.value = true;
+
+  if (!isFormValid.value) {
     toast.add({
       severity: 'warn',
-      summary: 'Formulario incompleto',
-      detail: 'Por favor completa todos los campos requeridos',
+      summary: t('common.warning'),
+      detail: t('quotes.validation.fillRequired'),
       life: 3000
     });
     return;
   }
 
-  submitting.value = true;
-  try {
-    console.log('📤 Creando cotización:', {
-      organizerId: parseInt(organizerId.value),
-      hostId: hostProfile.value.id,
-      title: form.value.title
-    });
+  isSubmitting.value = true;
 
-    // 1. Crear la cotización
-    const quoteData = {
-      title: form.value.title,
-      eventType: form.value.eventType,
-      guestQuantity: form.value.guestQuantity,
-      location: form.value.location,
-      totalPrice: 0.01, // Mínimo válido, se actualizará cuando el organizador agregue precios
-      state: 'PENDING',
-      eventDate: new Date(form.value.eventDate).toISOString(),
-      organizerId: parseInt(organizerId.value),
-      hostId: hostProfile.value.id
+  try {
+    const organizerIdParam = route.params.organizerId || route.query.organizerId;
+    const organizerId = organizerIdParam ? Number(organizerIdParam) : null;
+
+    if (!organizerId || Number.isNaN(organizerId)) {
+      console.error('organizerId no encontrado o inválido en la ruta', organizerIdParam);
+      toast.add({
+        severity: 'error',
+        summary: t('common.error'),
+        detail: 'No se encontró el organizador al que enviar la cotización.',
+        life: 4000
+      });
+      isSubmitting.value = false;
+      return;
+    }
+
+    // Para evitar el error "Total price cannot be negative" del backend,
+    // enviamos un totalPrice mínimo fijo (luego el organizador lo ajustará).
+    const payload = {
+      title: `${formData.value.eventType} - ${formData.value.customerName}`,
+      customerName: formData.value.customerName.trim(),
+      eventType: formData.value.eventType,
+      guestQuantity: formData.value.guestQuantity || 0,
+      location: formData.value.location || '',
+      totalPrice: 1,                 // 👈 mínimo válido (> 0)
+      state: 'PENDING',              // 👈 requerido por CreateQuoteResource
+      eventDate: formData.value.eventDate.toISOString(),
+      organizerId,
+      hostId: user.value.id
     };
 
-    const createdQuote = await QuoteApiService.createQuote(quoteData);
+    console.log('📤 Creando cotización con servicios solicitados:', {
+      ...payload,
+      requestedServices: requestedServices.value,
+      servicesCount: requestedServices.value.filter(s => s.description?.trim()).length
+    });
 
-    // 2. Crear los service items solicitados (sin precio real)
-    for (const service of requestedServices.value) {
-      await ServiceItemApiService.createServiceItem(createdQuote.quoteId, {
-        description: service.description,
-        quantity: service.quantity,
-        unitPrice: 0.01, // Precio mínimo temporal - El organizador lo actualizará
-        totalPrice: 0.01 * service.quantity,
-        quoteId: createdQuote.quoteId
-      });
-    }
+    const response = await QuoteApiService.createQuote(payload);
+
+    console.log('✅ Quote creado exitosamente:', response);
 
     toast.add({
       severity: 'success',
-      summary: '¡Cotización solicitada!',
-      detail: `Tu solicitud ha sido enviada a ${organizerProfile.value.firstName}. Te notificaremos cuando agregue los precios.`,
-      life: 5000
+      summary: t('common.success'),
+      detail: t('quotes.messages.requestSent'),
+      life: 3000
     });
 
-    // Navegar a la vista de cotizaciones del host
-    router.push({
-      name: 'quote-detail',
-      params: { id: createdQuote.quoteId }
-    });
+    setTimeout(() => {
+      router.push({
+        name: 'quote-detail',
+        params: { id: response.quoteId || response.id }
+      });
+    }, 1000);
   } catch (error) {
     console.error('Error creating quote:', error);
+
     toast.add({
       severity: 'error',
-      summary: 'Error',
-      detail: 'No se pudo crear la cotización. Intenta de nuevo.',
+      summary: t('common.error'),
+      detail: error.message || t('quotes.messages.requestError'),
       life: 5000
     });
   } finally {
-    submitting.value = false;
+    isSubmitting.value = false;
   }
 };
 
+/* =========================================
+   CANCEL HANDLER
+========================================= */
 const handleCancel = () => {
-  router.push({ name: 'host-dashboard' });
+  router.push({ name: 'quotes' });
 };
 
-// Lifecycle
+/* =========================================
+   LIFECYCLE
+========================================= */
 onMounted(async () => {
-  if (!organizerId.value) {
-    toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'No se especificó el organizador',
-      life: 3000
-    });
-    router.push({ name: 'host-dashboard' });
-    return;
+  isLoading.value = true;
+
+  try {
+    await loadUserData();
+  } catch (error) {
+    console.error('Error initializing form:', error);
+  } finally {
+    isLoading.value = false;
   }
-
-  loading.value = true;
-
-  // Cargar perfiles en paralelo
-  await Promise.all([
-    loadOrganizerProfile(),
-    loadHostProfile()
-  ]);
-
-  loading.value = false;
 });
 </script>
 
-<template>
-  <div class="quote-request-page">
-    <div class="page-container">
-      <!-- Header -->
-      <header class="page-header">
-        <Button
-          icon="pi pi-arrow-left"
-          label="Volver"
-          text
-          @click="handleCancel"
-          class="back-button"
-        />
-        <h1 class="page-title">Solicitar Cotización</h1>
-      </header>
-
-      <!-- Loading -->
-      <div v-if="loading" class="loading-state">
-        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-        <p>Cargando...</p>
-      </div>
-
-      <!-- Formulario -->
-      <div v-else class="form-content">
-        <!-- Info del organizador -->
-        <Card class="organizer-card">
-          <template #header>
-            <div class="organizer-header">
-              <div class="organizer-avatar">
-                <img
-                  v-if="organizerProfile?.profileImageUrl"
-                  :src="organizerProfile.profileImageUrl"
-                  :alt="organizerProfile.firstName"
-                />
-                <div v-else class="avatar-placeholder">
-                  {{ organizerProfile?.firstName?.charAt(0) }}{{ organizerProfile?.lastName?.charAt(0) }}
-                </div>
-              </div>
-              <div class="organizer-info">
-                <h3>{{ organizerProfile?.firstName }} {{ organizerProfile?.lastName }}</h3>
-                <p>
-                  <i class="pi pi-map-marker"></i>
-                  {{ organizerProfile?.city }}, {{ organizerProfile?.country }}
-                </p>
-                <p>
-                  <i class="pi pi-envelope"></i>
-                  {{ organizerProfile?.email }}
-                </p>
-              </div>
-            </div>
-          </template>
-          <template #content>
-            <p class="organizer-description">
-              Estás solicitando una cotización a este organizador.
-              Completa los detalles de tu evento y selecciona los servicios que necesitas.
-            </p>
-          </template>
-        </Card>
-
-        <!-- Formulario de solicitud -->
-        <Card class="request-form-card">
-          <template #title>Detalles del Evento</template>
-          <template #content>
-            <form @submit.prevent="submitQuoteRequest" class="quote-form">
-              <!-- Título -->
-              <div class="form-field">
-                <label for="title">
-                  Título del Evento <span class="required">*</span>
-                </label>
-                <InputText
-                  id="title"
-                  v-model="form.title"
-                  placeholder="Ej: Boda de María y Juan"
-                  :class="{ 'p-invalid': errors.title }"
-                  class="w-full"
-                />
-                <small v-if="errors.title" class="p-error">{{ errors.title }}</small>
-              </div>
-
-              <!-- Tipo de Evento -->
-              <div class="form-field">
-                <label for="eventType">
-                  Tipo de Evento <span class="required">*</span>
-                </label>
-                <Dropdown
-                  id="eventType"
-                  v-model="form.eventType"
-                  :options="eventTypes"
-                  optionLabel="label"
-                  optionValue="value"
-                  placeholder="Selecciona el tipo de evento"
-                  :class="{ 'p-invalid': errors.eventType }"
-                  class="w-full"
-                />
-                <small v-if="errors.eventType" class="p-error">{{ errors.eventType }}</small>
-              </div>
-
-              <!-- Fecha y Cantidad de Invitados -->
-              <div class="form-row">
-                <div class="form-field">
-                  <label for="eventDate">
-                    Fecha del Evento <span class="required">*</span>
-                  </label>
-                  <Calendar
-                    id="eventDate"
-                    v-model="form.eventDate"
-                    :minDate="minDate"
-                    showIcon
-                    showTime
-                    hourFormat="24"
-                    dateFormat="dd/mm/yy"
-                    placeholder="Selecciona fecha y hora"
-                    :class="{ 'p-invalid': errors.eventDate }"
-                    class="w-full"
-                  />
-                  <small v-if="errors.eventDate" class="p-error">{{ errors.eventDate }}</small>
-                </div>
-
-                <div class="form-field">
-                  <label for="guestQuantity">
-                    Cantidad de Invitados <span class="required">*</span>
-                  </label>
-                  <InputNumber
-                    id="guestQuantity"
-                    v-model="form.guestQuantity"
-                    :min="1"
-                    :max="10000"
-                    showButtons
-                    :class="{ 'p-invalid': errors.guestQuantity }"
-                    class="w-full"
-                  />
-                  <small v-if="errors.guestQuantity" class="p-error">{{ errors.guestQuantity }}</small>
-                </div>
-              </div>
-
-              <!-- Ubicación -->
-              <div class="form-field">
-                <label for="location">
-                  Ubicación <span class="required">*</span>
-                </label>
-                <InputText
-                  id="location"
-                  v-model="form.location"
-                  placeholder="Ej: Hotel Los Delfines, Lima"
-                  :class="{ 'p-invalid': errors.location }"
-                  class="w-full"
-                />
-                <small v-if="errors.location" class="p-error">{{ errors.location }}</small>
-              </div>
-
-              <!-- Servicios Solicitados -->
-              <div class="form-field">
-                <div class="services-header">
-                  <label>
-                    Servicios que Necesitas <span class="required">*</span>
-                  </label>
-                  <Button
-                    label="Agregar Servicio"
-                    icon="pi pi-plus"
-                    @click="handleAddService"
-                    size="small"
-                    outlined
-                  />
-                </div>
-                <small v-if="errors.services" class="p-error">{{ errors.services }}</small>
-
-                <!-- Lista de servicios -->
-                <DataTable
-                  v-if="requestedServices.length > 0"
-                  :value="requestedServices"
-                  class="services-table"
-                  :showGridlines="false"
-                  stripedRows
-                >
-                  <Column field="description" header="Servicio" style="width: 60%">
-                    <template #body="{ data }">
-                      <span class="service-name">{{ data.description }}</span>
-                    </template>
-                  </Column>
-
-                  <Column field="quantity" header="Cantidad" style="width: 30%">
-                    <template #body="{ data }">
-                      <span>{{ data.quantity }}</span>
-                    </template>
-                  </Column>
-
-                  <Column style="width: 10%">
-                    <template #body="{ index }">
-                      <Button
-                        icon="pi pi-times"
-                        severity="danger"
-                        text
-                        rounded
-                        @click="removeService(index)"
-                        size="small"
-                      />
-                    </template>
-                  </Column>
-                </DataTable>
-
-                <div v-else class="empty-services">
-                  <i class="pi pi-shopping-cart"></i>
-                  <p>No has agregado servicios aún</p>
-                  <small>El organizador te cotizará los servicios que selecciones</small>
-                </div>
-              </div>
-
-              <!-- Notas adicionales -->
-              <div class="form-field">
-                <label for="notes">Notas Adicionales</label>
-                <Textarea
-                  id="notes"
-                  v-model="form.additionalNotes"
-                  rows="4"
-                  placeholder="Describe cualquier detalle especial o requerimiento para tu evento..."
-                  class="w-full"
-                />
-              </div>
-
-              <!-- Botones -->
-              <div class="form-actions">
-                <Button
-                  label="Cancelar"
-                  icon="pi pi-times"
-                  severity="secondary"
-                  outlined
-                  @click="handleCancel"
-                  :disabled="submitting"
-                />
-                <Button
-                  label="Solicitar Cotización"
-                  icon="pi pi-send"
-                  type="submit"
-                  :loading="submitting"
-                />
-              </div>
-            </form>
-          </template>
-        </Card>
-      </div>
-    </div>
-
-    <!-- Dialog para agregar servicio -->
-    <Dialog
-      v-model:visible="showServiceDialog"
-      header="Agregar Servicio"
-      :modal="true"
-      :closable="true"
-      :style="{ width: '500px' }"
-    >
-      <div class="service-dialog">
-        <div class="form-field">
-          <label for="serviceType">Tipo de Servicio</label>
-          <Dropdown
-            id="serviceType"
-            v-model="newService.description"
-            :options="serviceCategories"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Selecciona un servicio"
-            class="w-full"
-            editable
-          />
-          <small class="help-text">Puedes seleccionar de la lista o escribir tu propio servicio</small>
-        </div>
-
-        <div class="form-field">
-          <label for="serviceQuantity">Cantidad</label>
-          <InputNumber
-            id="serviceQuantity"
-            v-model="newService.quantity"
-            :min="1"
-            showButtons
-            class="w-full"
-          />
-          <small class="help-text">Cantidad de este servicio que necesitas</small>
-        </div>
-
-        <div class="info-box">
-          <i class="pi pi-info-circle"></i>
-          <p>El organizador agregará los precios después de revisar tu solicitud</p>
-        </div>
-      </div>
-
-      <template #footer>
-        <Button
-          label="Cancelar"
-          icon="pi pi-times"
-          @click="showServiceDialog = false"
-          text
-        />
-        <Button
-          label="Agregar"
-          icon="pi pi-check"
-          @click="confirmAddService"
-        />
-      </template>
-    </Dialog>
-  </div>
-</template>
-
 <style scoped>
-.quote-request-page {
+.quote-request-form {
   min-height: 100vh;
-  background: #F8F9FA;
+  background-color: #F8F9FA;
   padding: 2rem;
 }
 
-.page-container {
+.form-container {
   max-width: 900px;
   margin: 0 auto;
 }
 
-.page-header {
-  margin-bottom: 2rem;
-}
+/* ================================================================
+   HEADER
+   ================================================================ */
 
-.back-button {
-  margin-bottom: 1rem;
-}
-
-.page-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1a202c;
-  margin: 0;
-}
-
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem;
-  color: #718096;
-}
-
-.form-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-/* Organizer Card */
-.organizer-card {
-  background: white;
-  border-radius: 12px;
+.form-header {
+  background: linear-gradient(135deg, var(--primary-color, #3A506B) 0%, var(--secondary-color, #5BC0BE) 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px 12px 0 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.organizer-header {
+.header-content {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  padding: 1rem;
 }
 
-.organizer-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #e2e8f0;
-  flex-shrink: 0;
+.header-icon {
+  font-size: 3rem;
+  opacity: 0.9;
 }
 
-.organizer-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.avatar-placeholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.organizer-info h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d3748;
+.form-title {
+  font-size: 1.75rem;
+  font-weight: 700;
   margin: 0 0 0.5rem 0;
 }
 
-.organizer-info p {
-  margin: 0.25rem 0;
-  color: #718096;
+.form-subtitle {
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* ================================================================
+   LOADING
+   ================================================================ */
+
+.loading-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.organizer-description {
-  color: #718096;
-  line-height: 1.6;
-}
-
-/* Form Card */
-.request-form-card {
+  justify-content: center;
+  padding: 4rem 2rem;
   background: white;
-  border-radius: 12px;
+  border-radius: 0 0 12px 12px;
+  gap: 1rem;
+}
+
+.loading-text {
+  font-size: 1rem;
+  color: #6C757D;
+  margin: 0;
+}
+
+/* ================================================================
+   FORM CONTENT
+   ================================================================ */
+
+.quote-form-content {
+  background: white;
+  border-radius: 0 0 12px 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.quote-form {
+.form-section {
+  padding: 2rem;
+  border-bottom: 1px solid #E9ECEF;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.section-title {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color, #3A506B);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--secondary-color, #5BC0BE);
+}
+
+.section-title i {
+  font-size: 1.5rem;
+  color: var(--secondary-color, #5BC0BE);
+}
+
+.section-description {
+  font-size: 0.9375rem;
+  color: #6C757D;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+/* ================================================================
+   FORM GRID
+   ================================================================ */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
@@ -762,168 +649,189 @@ onMounted(async () => {
   gap: 0.5rem;
 }
 
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
 .form-field label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.875rem;
-}
-
-.required {
-  color: #DC2626;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-
-/* Services Section */
-.services-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.services-table {
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.service-name {
   font-weight: 500;
-  color: #374151;
+  color: #495057;
+  font-size: 0.9375rem;
 }
 
-.empty-services {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  border: 2px dashed #D1D5DB;
-  border-radius: 8px;
-  color: #9CA3AF;
-  text-align: center;
-}
-
-.empty-services i {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.empty-services p {
-  margin: 0.5rem 0;
-  font-weight: 500;
-}
-
-.empty-services small {
+.form-field .p-error {
   font-size: 0.875rem;
-}
-
-/* Service Dialog */
-.service-dialog {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem 0;
-}
-
-.help-text {
-  color: #6B7280;
-  font-size: 0.875rem;
-  display: block;
   margin-top: 0.25rem;
 }
 
-.info-box {
+/* ================================================================
+   🔥 SERVICE REQUESTS LIST
+   ================================================================ */
+
+.service-requests-list {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: #EFF6FF;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.service-request-item {
+  background: #F8F9FA;
+  border: 2px solid #E9ECEF;
   border-radius: 8px;
-  border-left: 4px solid #3B82F6;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
 }
 
-.info-box i {
-  color: #3B82F6;
-  font-size: 1.25rem;
+.service-request-item:hover {
+  border-color: var(--secondary-color, #5BC0BE);
+  box-shadow: 0 2px 8px rgba(91, 192, 190, 0.15);
 }
 
-.info-box p {
-  margin: 0;
-  color: #1E40AF;
+.service-request-content {
+  display: grid;
+  grid-template-columns: 1fr auto 50px;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.service-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.service-field label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.9375rem;
+}
+
+.quantity-field {
+  width: 120px;
+}
+
+.service-actions {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0.25rem;
+}
+
+.service-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.service-notes label {
+  font-weight: 500;
+  color: #495057;
   font-size: 0.875rem;
 }
+
+.add-service-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+/* ================================================================
+   FORM ACTIONS
+   ================================================================ */
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #E5E7EB;
+  padding: 1.5rem 2rem;
+  background: #F8F9FA;
+  border-radius: 0 0 12px 12px;
 }
 
-/* PrimeVue Overrides */
-:deep(.p-card-title) {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d3748;
-}
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
 
-:deep(.p-inputtext),
-:deep(.p-dropdown),
-:deep(.p-calendar),
-:deep(.p-inputnumber),
-:deep(.p-textarea) {
-  width: 100%;
-}
-
-:deep(.p-invalid) {
-  border-color: #DC2626;
-}
-
-.p-error {
-  color: #DC2626;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-  .quote-request-page {
+  .quote-request-form {
     padding: 1rem;
   }
 
-  .page-title {
-    font-size: 1.5rem;
+  .form-header {
+    padding: 1.5rem;
+    border-radius: 8px 8px 0 0;
   }
 
-  .organizer-header {
+  .header-content {
     flex-direction: column;
     text-align: center;
   }
 
-  .form-row {
-    grid-template-columns: 1fr;
+  .form-title {
+    font-size: 1.5rem;
   }
 
-  .services-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
+  .form-section {
+    padding: 1.5rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-request-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .quantity-field {
+    width: 100%;
+  }
+
+  .service-actions {
+    justify-content: flex-end;
+    padding-bottom: 0;
   }
 
   .form-actions {
     flex-direction: column-reverse;
+    padding: 1rem;
   }
 
   .form-actions button {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .quote-request-form {
+    padding: 0.5rem;
+  }
+
+  .form-header {
+    padding: 1rem;
+  }
+
+  .header-icon {
+    font-size: 2rem;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .form-section {
+    padding: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.125rem;
   }
 }
 </style>

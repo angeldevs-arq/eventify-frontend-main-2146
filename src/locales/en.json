@@ -740,5 +740,161 @@
       "month": "2-digit",
       "day": "2-digit"
     }
+  },
+  "quotes": {
+    "request": {
+      "title": "Request Quote",
+      "subtitle": "Fill in the details for your event quote",
+      "submit": "Submit Request",
+      "servicesNeeded": "Services Needed",
+      "servicesDescription": "Indicate the services you need for your event. This will help the organizer prepare a more accurate quote.",
+      "serviceDescriptionPlaceholder": "Ex: Catering, DJ, Decoration, Photography...",
+      "quantityPlaceholder": "Quantity",
+      "serviceNotes": "Additional notes",
+      "serviceNotesPlaceholder": "Specifications, preferences or additional details...",
+      "addAnotherService": "Add Another Service",
+      "budgetRange": "Budget Range (Optional)",
+      "budgetDescription": "Indicate your budget range to help the organizer adjust the quote.",
+      "minBudget": "Minimum Budget",
+      "maxBudget": "Maximum Budget"
+    },
+    "form": {
+      "title": "Quote",
+      "createTitle": "New Quote",
+      "editTitle": "Edit Quote",
+      "basicInfo": "Basic Information",
+      "customerInfo": "Customer Information",
+      "eventInfo": "Event Information",
+      "selectOrganizer": "Select Organizer (Optional)",
+      "customer": "Customer",
+      "customerName": "Customer Name",
+      "customerNamePlaceholder": "Enter customer full name",
+      "customerEmail": "Email Address",
+      "customerEmailPlaceholder": "example@email.com",
+      "customerPhone": "Phone Number",
+      "customerPhonePlaceholder": "+1 999 999 9999",
+      "event": "Event",
+      "eventType": "Event Type",
+      "selectEventType": "Select event type",
+      "eventDate": "Event Date",
+      "selectDate": "Select a date",
+      "numberOfGuests": "Number of Guests",
+      "numberOfGuestsPlaceholder": "Ex: 100",
+      "location": "Location",
+      "locationPlaceholder": "Event venue",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe your event details..."
+    },
+    "validation": {
+      "fillRequired": "Please fill in all required fields",
+      "customerNameRequired": "Customer name is required",
+      "eventTypeRequired": "Event type is required",
+      "eventDateRequired": "Event date is required",
+      "cannotSend": "Cannot send quote. Make sure it has services and a total greater than 0."
+    },
+    "messages": {
+      "requestSent": "Quote request sent successfully",
+      "requestError": "Error sending quote request",
+      "createdSuccessfully": "Quote created successfully",
+      "updatedSuccessfully": "Quote updated successfully",
+      "loadedSuccessfully": "Quote loaded successfully",
+      "sentSuccessfully": "Quote sent successfully",
+      "saveError": "Error saving quote",
+      "loadError": "Error loading quote",
+      "sendError": "Error sending quote",
+      "stateApproved": "Quote approved successfully",
+      "stateDeclined": "Quote declined successfully",
+      "stateChangeError": "Error changing quote state",
+      "forbiddenQuote": "You don't have permission to view this quote"
+    },
+    "actions": {
+      "send": "Send",
+      "approve": "Approve",
+      "decline": "Decline"
+    },
+    "detail": {
+      "title": "Quote Details",
+      "status": "Status",
+      "information": "Information",
+      "metadata": "Metadata",
+      "createdAt": "Created At",
+      "updatedAt": "Last Updated"
+    },
+    "preview": {
+      "title": "Quote Preview",
+      "quotation": "Quotation",
+      "for": "For",
+      "event": "Event",
+      "date": "Date",
+      "location": "Location",
+      "guests": "Guests",
+      "organizer": "Organizer",
+      "tel": "Tel",
+      "editAgain": "Edit Again",
+      "saveAndSend": "Save and Send"
+    },
+    "services": {
+      "title": "Services",
+      "items": "items",
+      "description": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "total": "Total",
+      "totalAmount": "Total Amount",
+      "addService": "Add Service",
+      "editService": "Edit Service",
+      "removeService": "Remove Service",
+      "confirmRemove": "Are you sure you want to remove this service?",
+      "noServices": "No services added",
+      "saveFirst": "Save the quote first to add services",
+      "updatedSuccessfully": "Service updated successfully",
+      "addedSuccessfully": "Service added successfully",
+      "removedSuccessfully": "Service removed successfully"
+    },
+    "financial": {
+      "title": "Financial Summary",
+      "subtotal": "Subtotal",
+      "vat": "VAT",
+      "total": "Total"
+    },
+    "states": {
+      "DRAFT": "Draft",
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "DECLINED": "Declined"
+    }
+  },
+  "events": {
+    "types": {
+      "wedding": "Wedding",
+      "birthday": "Birthday",
+      "corporate": "Corporate",
+      "anniversary": "Anniversary",
+      "graduation": "Graduation",
+      "other": "Other"
+    }
+  },
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions"
+  },
+  "roles": {
+    "organizer": "Organizer",
+    "host": "Host"
   }
 }

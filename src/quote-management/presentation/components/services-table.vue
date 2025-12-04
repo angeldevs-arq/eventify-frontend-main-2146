@@ -26,7 +26,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['items-updated', 'total-changed']);
+const emit = defineEmits(['update:services', 'service-added', 'service-removed']);
 
 const { t } = useI18n();
 const toast = useToast();
@@ -48,11 +48,6 @@ const total = computed(() => {
   }, 0);
 });
 
-// Watch total para emitir cambios
-watch(total, (newTotal) => {
-  emit('total-changed', newTotal);
-});
-
 // Métodos
 const formatCurrency = (amount) => {
   return `${props.currency} ${Number(amount).toFixed(2)}`;
@@ -69,7 +64,7 @@ const loadServices = async () => {
   try {
     const data = await ServiceItemApiService.getServiceItemsByQuote(props.quoteId);
     services.value = data.map(item => ServiceItem.fromBackend(item));
-    emit('items-updated', services.value);
+    emit('update:services', services.value);
   } catch (error) {
     console.error('Error loading services:', error);
     toast.add({
@@ -123,7 +118,8 @@ const confirmAddService = async () => {
       newService.value.unitPrice
     );
 
-    services.value.push(ServiceItem.fromBackend(createdItem));
+    const newServiceItem = ServiceItem.fromBackend(createdItem);
+    services.value.push(newServiceItem);
 
     toast.add({
       severity: 'success',
@@ -133,7 +129,8 @@ const confirmAddService = async () => {
     });
 
     showAddDialog.value = false;
-    emit('items-updated', services.value);
+    emit('update:services', services.value);
+    emit('service-added', newServiceItem);
   } catch (error) {
     console.error('Error adding service:', error);
     toast.add({
@@ -151,7 +148,6 @@ const handleServiceUpdate = async (index) => {
   const service = services.value[index];
 
   if (!service.id) {
-    // Nuevo servicio local, no hacer nada aún
     return;
   }
 
@@ -177,7 +173,7 @@ const handleServiceUpdate = async (index) => {
       life: 2000
     });
 
-    emit('items-updated', services.value);
+    emit('update:services', services.value);
   } catch (error) {
     console.error('Error updating service:', error);
     toast.add({
@@ -187,7 +183,6 @@ const handleServiceUpdate = async (index) => {
       life: 5000
     });
 
-    // Recargar para restaurar valores correctos
     await loadServices();
   } finally {
     loading.value = false;
@@ -198,9 +193,8 @@ const handleRemoveService = async (index) => {
   const service = services.value[index];
 
   if (!service.id) {
-    // Servicio local sin guardar
     services.value.splice(index, 1);
-    emit('items-updated', services.value);
+    emit('update:services', services.value);
     return;
   }
 
@@ -217,7 +211,8 @@ const handleRemoveService = async (index) => {
       life: 3000
     });
 
-    emit('items-updated', services.value);
+    emit('update:services', services.value);
+    emit('service-removed', service.id);
   } catch (error) {
     console.error('Error removing service:', error);
     toast.add({

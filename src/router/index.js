@@ -173,9 +173,13 @@ const routes = [
   },
   {
     path: '/host/request-quote/:organizerId',
-    name: 'RequestQuote',
-    component: () => import('/src/quote-management/presentation/components/QuoteRequestForm.vue'),
-    meta: { requiresAuth: true, role: 'HOST' }
+    name: 'request-quote',   // 👈 mismo nombre que usas en router.push
+    component: () =>
+      import('@/quote-management/presentation/components/QuoteRequestForm.vue'),
+    meta: {
+      requiresAuth: true,
+      requiresRole: 'HOST'   // 👈 usa el mismo campo que el guard beforeEach
+    }
   },
   // ========================================
   // NOTIFICACIONES Y CONFIGURACIÓN

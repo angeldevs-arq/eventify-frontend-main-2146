@@ -218,7 +218,16 @@ export class QuoteOrder {
       ownerId: data.ownerId ?? data.organizerId ?? data.customerId ?? data.hostId ?? null
     });
   }
-
+  toUpdatePayload() {
+    return {
+      title: this.event?.description || this.event?.type || 'Cotización',
+      eventType: this.event?.type,
+      guestQuantity: this.event?.numberOfGuests,
+      location: this.event?.location,
+      totalPrice: this.total,
+      eventDate: this.event?.date
+    };
+  }
   // Serialización para API fake
   toJSON() {
     return {
