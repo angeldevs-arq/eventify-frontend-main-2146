@@ -7,7 +7,7 @@ import axios from 'axios';
 
 // Crear instancia de Axios
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://gateway.wittycliff-227e13a7.westus2.azurecontainerapps.io',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
